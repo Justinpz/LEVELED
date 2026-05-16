@@ -1,0 +1,62 @@
+// LEVELED Phase 1 schema
+//
+// Tables:
+//   users              — placeholder until real auth lands in Phase 2
+//   whoop_connections  — encrypted WHOOP tokens (AES-256-GCM, separate IV per token)
+//   exercises          — 873-row library imported from data/exercises_leveled.json
+//
+// SECURITY NOTE: access_token and refresh_token use SEPARATE IVs.
+// Reusing a GCM IV across two plaintexts under the same key breaks AES-GCM.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String           @id @default(uuid()) @db.Uuid
+  email           String           @unique
+  createdAt       DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  whoopConnection WhoopConnection?
+
+  @@map("users")
+}
+
+model WhoopConnection {
+  userId         String   @id @map("user_id") @db.Uuid
+  accessToken    Bytes    @map("access_token")
+  accessTokenIv  Bytes    @map("access_token_iv")
+  refreshToken   Bytes    @map("refresh_token")
+  refreshTokenIv Bytes    @map("refresh_token_iv")
+  expiresAt      DateTime @map("expires_at") @db.Timestamptz(6)
+  scopes         String
+  whoopUserId    Int      @map("whoop_user_id")
+  connectedAt    DateTime @default(now()) @map("connected_at") @db.Timestamptz(6)
+  lastSyncedAt   DateTime? @map("last_synced_at") @db.Timestamptz(6)
+
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("whoop_connections")
+}
+
+model Exercise {
+  id             String   @id
+  name           String
+  level          String?
+  force          String?
+  mechanic       String?
+  equipment      String?
+  category       String?
+  primaryMuscles String[] @map("primary_muscles")
+  bodyParts      String[] @map("body_parts")
+  instructions   String[]
+  images         String[]
+
+  @@index([bodyParts], type: Gin)
+  @@map("exercises")
+}

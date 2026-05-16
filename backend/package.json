@@ -1,0 +1,36 @@
+{
+  "name": "leveled-backend",
+  "version": "0.1.0",
+  "description": "LEVELED — fitness RPG backend (WHOOP OAuth, exercises, Phase 1)",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:seed": "node src/db/seed.js",
+    "keys:generate": "node -e \"const c=require('crypto');console.log('TOKEN_ENCRYPTION_KEY='+c.randomBytes(32).toString('hex'));console.log('SESSION_SECRET='+c.randomBytes(32).toString('hex'));\""
+  },
+  "prisma": {
+    "schema": "src/db/prisma/schema.prisma",
+    "seed": "node src/db/seed.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "express": "^5.0.1",
+    "express-rate-limit": "^7.4.1",
+    "express-session": "^1.18.1",
+    "helmet": "^8.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7",
+    "prisma": "^5.22.0"
+  }
+}
