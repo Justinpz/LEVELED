@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🇬🇷 Greece & North Macedonia Countdown 🇲🇰</title>
+<style>
+  :root {
+    --aegean: #0a4d8c;
+    --aegean-deep: #052e54;
+    --sun: #ffd23f;
+    --whitewash: #f7f9fb;
+    --olive: #6b8e23;
+    --terracotta: #e07a5f;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body { height: 100%; }
+
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    color: var(--whitewash);
+    background: linear-gradient(180deg, #87ceeb 0%, #4a9fd4 30%, var(--aegean) 70%, var(--aegean-deep) 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    position: relative;
+    text-align: center;
+    padding: 24px;
+  }
+
+  /* sun */
+  .sun {
+    position: fixed;
+    top: 6%;
+    right: 10%;
+    width: 90px;
+    height: 90px;
+    background: radial-gradient(circle, #fff6c2 0%, var(--sun) 60%, #ffb703 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 60px 20px rgba(255, 210, 63, 0.6);
+    animation: pulse 4s ease-in-out infinite;
+    z-index: 0;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+
+  /* drifting clouds */
+  .cloud {
+    position: fixed;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 50px;
+    filter: blur(1px);
+    z-index: 0;
+    animation: drift linear infinite;
+  }
+  .cloud::before, .cloud::after {
+    content: "";
+    position: absolute;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 50%;
+  }
+  .cloud.c1 { width: 120px; height: 34px; top: 18%; left: -160px; animation-duration: 45s; }
+  .cloud.c1::before { width: 50px; height: 50px; top: -22px; left: 18px; }
+  .cloud.c1::after  { width: 36px; height: 36px; top: -14px; left: 64px; }
+  .cloud.c2 { width: 90px; height: 26px; top: 32%; left: -140px; animation-duration: 62s; animation-delay: -20s; opacity: .7; }
+  .cloud.c2::before { width: 38px; height: 38px; top: -16px; left: 14px; }
+  .cloud.c2::after  { width: 28px; height: 28px; top: -10px; left: 48px; }
+  @keyframes drift {
+    from { transform: translateX(0); }
+    to   { transform: translateX(115vw); }
+  }
+
+  .content { position: relative; z-index: 2; max-width: 900px; }
+
+  .flags { font-size: clamp(2rem, 8vw, 3.5rem); letter-spacing: .2em; }
+
+  h1 {
+    font-size: clamp(1.6rem, 5vw, 2.8rem);
+    margin: 8px 0 4px;
+    text-shadow: 0 2px 14px rgba(0,0,0,.35);
+    font-weight: 800;
+  }
+
+  .subtitle {
+    font-size: clamp(.9rem, 2.5vw, 1.15rem);
+    opacity: .92;
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+
+  .countdown {
+    display: flex;
+    gap: clamp(10px, 3vw, 26px);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 10px 0 26px;
+  }
+
+  .unit {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 18px;
+    padding: clamp(14px, 3vw, 24px) clamp(12px, 3vw, 26px);
+    min-width: clamp(74px, 18vw, 120px);
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  }
+
+  .num {
+    font-size: clamp(2.2rem, 9vw, 4.2rem);
+    font-weight: 800;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--sun);
+    text-shadow: 0 2px 10px rgba(0,0,0,.4);
+    transition: transform .25s ease;
+  }
+  .num.tick { transform: scale(1.18); }
+
+  .label {
+    margin-top: 8px;
+    font-size: clamp(.7rem, 2vw, .95rem);
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    opacity: .85;
+  }
+
+  .target {
+    font-size: clamp(.85rem, 2.2vw, 1.05rem);
+    opacity: .9;
+    margin-bottom: 18px;
+  }
+
+  .fun-line {
+    font-size: clamp(.95rem, 2.4vw, 1.2rem);
+    background: rgba(0,0,0,.18);
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 999px;
+    margin-top: 4px;
+    min-height: 1.4em;
+  }
+
+  /* the celebratory state */
+  .arrived h1 { animation: party 1s ease infinite; }
+  @keyframes party {
+    0%,100% { transform: rotate(-2deg); }
+    50% { transform: rotate(2deg); }
+  }
+
+  /* sea / waves at bottom */
+  .sea {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 90px;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .sea svg { width: 200%; height: 100%; display: block; animation: wave 8s linear infinite; }
+  @keyframes wave { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  .boat {
+    position: fixed;
+    bottom: 46px;
+    font-size: 2.4rem;
+    z-index: 1;
+    animation: sail 24s linear infinite, bob 3s ease-in-out infinite;
+  }
+  @keyframes sail { from { left: -60px; } to { left: 105vw; } }
+  @keyframes bob { 0%,100% { transform: translateY(0) rotate(-2deg);} 50% { transform: translateY(-6px) rotate(2deg);} }
+
+  footer {
+    position: relative; z-index: 2;
+    margin-top: 22px;
+    font-size: .8rem;
+    opacity: .7;
+  }
+</style>
+</head>
+<body>
+  <div class="sun"></div>
+  <div class="cloud c1"></div>
+  <div class="cloud c2"></div>
+
+  <div class="content" id="content">
+    <div class="flags">🇬🇷 ✈️ 🇲🇰</div>
+    <h1 id="headline">The Great Balkan Adventure</h1>
+    <p class="subtitle">Greece &amp; North Macedonia — wheels up soon! 🫒🏛️🏖️</p>
+
+    <div class="countdown" id="countdown">
+      <div class="unit"><div class="num" id="days">--</div><div class="label">Days</div></div>
+      <div class="unit"><div class="num" id="hours">--</div><div class="label">Hours</div></div>
+      <div class="unit"><div class="num" id="minutes">--</div><div class="label">Minutes</div></div>
+      <div class="unit"><div class="num" id="seconds">--</div><div class="label">Seconds</div></div>
+    </div>
+
+    <div class="target" id="target"></div>
+    <div class="fun-line" id="funline">Loading the vibes...</div>
+  </div>
+
+  <div class="boat">⛵</div>
+  <div class="sea">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#052e54" d="M0,40 C180,80 360,0 720,40 C1080,80 1260,0 1440,40 L1440,90 L0,90 Z"></path>
+    </svg>
+  </div>
+
+  <footer>Kalí sas méra! · Дoбредojдовте! · See you in 04:00, June 26 🌅</footer>
+
+<script>
+  // ---- Target: June 26, 2026 at 04:00 (local time) ----
+  const target = new Date(2026, 5, 26, 4, 0, 0); // month is 0-indexed: 5 = June
+
+  document.getElementById("target").textContent =
+    "🎯 Departure: " + target.toLocaleString(undefined, {
+      weekday: "long", year: "numeric", month: "long",
+      day: "numeric", hour: "2-digit", minute: "2-digit"
+    });
+
+  const funLines = [
+    "Time to practice saying 'Yassou!' 👋",
+    "Start dreaming about that fresh Greek salad 🥗",
+    "Souvlaki is calling your name 🍢",
+    "Ohrid Lake is impossibly blue, you'll see 🌊",
+    "Pack the sunscreen — that Aegean sun is no joke ☀️",
+    "Frappé on a sunny terrace, here we come ☕",
+    "Ancient ruins + crystal beaches = peak trip 🏛️🏖️",
+    "Skopje's old bazaar awaits 🛍️",
+    "Get ready for the BEST feta of your life 🧀",
+    "Olive groves as far as the eye can see 🫒",
+    "Sunset over the Aegean is on the itinerary 🌅",
+    "Tavernas, terraces, and zero alarms... wait, 4am flight 😅"
+  ];
+
+  const elDays = document.getElementById("days");
+  const elHours = document.getElementById("hours");
+  const elMinutes = document.getElementById("minutes");
+  const elSeconds = document.getElementById("seconds");
+  const elFun = document.getElementById("funline");
+  const elContent = document.getElementById("content");
+  const elHeadline = document.getElementById("headline");
+
+  let lastSecond = -1;
+  let funIndex = -1;
+
+  function pad(n) { return String(n).padStart(2, "0"); }
+
+  function flash(el) {
+    el.classList.add("tick");
+    setTimeout(() => el.classList.remove("tick"), 200);
+  }
+
+  function rotateFunLine() {
+    let next;
+    do { next = Math.floor(Math.random() * funLines.length); }
+    while (next === funIndex && funLines.length > 1);
+    funIndex = next;
+    elFun.textContent = funLines[funIndex];
+  }
+
+  function tick() {
+    const now = new Date();
+    let diff = target - now;
+
+    if (diff <= 0) {
+      arrived();
+      return;
+    }
+
+    const days = Math.floor(diff / 86400000); diff -= days * 86400000;
+    const hours = Math.floor(diff / 3600000); diff -= hours * 3600000;
+    const minutes = Math.floor(diff / 60000); diff -= minutes * 60000;
+    const seconds = Math.floor(diff / 1000);
+
+    elDays.textContent = days;
+    elHours.textContent = pad(hours);
+    elMinutes.textContent = pad(minutes);
+
+    if (seconds !== lastSecond) {
+      elSeconds.textContent = pad(seconds);
+      flash(elSeconds);
+      lastSecond = seconds;
+    }
+  }
+
+  function arrived() {
+    elContent.classList.add("arrived");
+    elHeadline.textContent = "✈️ IT'S TRIP DAY! Kaló taxídi! 🎉";
+    document.getElementById("countdown").innerHTML =
+      '<div class="unit" style="min-width:auto;padding:24px 36px;">' +
+      '<div class="num" style="font-size:clamp(2rem,7vw,3.2rem)">🥳🍢🏖️🏛️🫒</div>' +
+      '<div class="label">Opa! Let\'s go!</div></div>';
+    elFun.textContent = "Grab your passport — the Balkans await! 🇬🇷🇲🇰";
+    document.getElementById("target").textContent = "Adventure has officially begun!";
+    clearInterval(timer);
+    clearInterval(funTimer);
+  }
+
+  rotateFunLine();
+  tick();
+  const timer = setInterval(tick, 250);
+  const funTimer = setInterval(rotateFunLine, 5000);
+</script>
+</body>
+</html>
