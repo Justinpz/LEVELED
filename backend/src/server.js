@@ -25,6 +25,9 @@ const session = require('express-session');
 const healthRoutes = require('./routes/health');
 const authRoutes = require('./routes/auth');
 const webhookRoutes = require('./routes/webhooks');
+const gameRoutes = require('./routes/game');
+const programRoutes = require('./routes/programs');
+const challengeRoutes = require('./routes/challenges');
 
 const app = express();
 
@@ -85,6 +88,9 @@ app.use(
 // 5) Application routes
 app.use('/health', healthRoutes);
 app.use('/auth', authRoutes);
+app.use('/game', gameRoutes);
+app.use('/programs', programRoutes);
+app.use('/challenges', challengeRoutes);
 
 // 404
 app.use((req, res) => {
