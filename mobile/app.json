@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "LEVELED",
+    "slug": "leveled",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#0e0a14",
+    "splash": {
+      "backgroundColor": "#0e0a14",
+      "resizeMode": "contain"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": { "supportsTablet": true },
+    "android": {
+      "adaptiveIcon": { "backgroundColor": "#0e0a14" }
+    },
+    "web": { "bundler": "metro" }
+  }
+}
