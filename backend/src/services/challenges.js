@@ -44,6 +44,21 @@ async function complete(userId, challengeId) {
   if (!user) throw Object.assign(new Error('No user'), { status: 404 });
   if (!challenge) throw Object.assign(new Error('Unknown challenge'), { status: 404 });
 
+  // One reward per serving period. The pool rotates deterministically, so the same
+  // challenge can legitimately recur in a later day/week — but re-completing it
+  // within the same period must not pay out again.
+  const existing = await prisma.userChallenge.findUnique({
+    where: { userId_challengeId: { userId, challengeId } },
+  });
+  if (existing && existing.completedAt) {
+    const samePeriod = challenge.kind === 'daily'
+      ? dayKey(existing.completedAt) === dayKey()
+      : weekKey(existing.completedAt) === weekKey();
+    if (samePeriod) {
+      throw Object.assign(new Error('Challenge already completed'), { status: 409 });
+    }
+  }
+
   const targets = challenge.bodyPartTargets.length
     ? challenge.bodyPartTargets
     : xp.CATEGORY_ORDER; // "all body parts" challenges

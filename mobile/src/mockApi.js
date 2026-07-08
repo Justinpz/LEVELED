@@ -78,12 +78,15 @@ export const mockApi = {
     const levelBySlot = Object.fromEntries(
       xp.CATEGORY_ORDER.map((bp) => [bp.toLowerCase(), xp.levelForXp(progress[bp].lifetimeXp)])
     );
+    const pointsBySlot = Object.fromEntries(
+      xp.CATEGORY_ORDER.map((bp) => [bp.toLowerCase(), progress[bp].spendablePoints])
+    );
     const items = GEAR.map((it) => {
       const gate = TIER_GATE[it.tier] ?? it.levelGate ?? 1;
       const rec = owned[it.id];
       return { ...it, levelGate: gate, locked: levelBySlot[it.slot] < gate, owned: !!(rec && rec.owned), equipped: !!(rec && rec.equipped) };
     });
-    return delay({ levelBySlot, items });
+    return delay({ levelBySlot, pointsBySlot, items });
   },
 
   buyGear: (id) => {
@@ -126,6 +129,7 @@ export const mockApi = {
     return delay({ week: dayKey().slice(0, 7), challenge: c ? { ...c, id: c.title } : null });
   },
   completeChallenge: (id) => {
+    if (completedChallenges.has(id)) return Promise.reject(new Error('Already completed'));
     const c = CHALLENGES.find((x, i) => `c${i}` === id) || CHALLENGES.find((x) => x.title === id);
     const ch = c || { rewardPts: 100, bodyPartTargets: [] };
     const targets = (ch.bodyPartTargets && ch.bodyPartTargets.length) ? ch.bodyPartTargets : xp.CATEGORY_ORDER;

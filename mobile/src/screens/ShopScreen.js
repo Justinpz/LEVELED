@@ -43,7 +43,9 @@ export default function ShopScreen() {
       {error ? <Text style={styles.err}>{error}</Text> : null}
       {Object.entries(bySlot).map(([slot, items]) => (
         <Panel key={slot}>
-          <SectionTitle>{slot}</SectionTitle>
+          <SectionTitle>
+            {slot} · Lv {shop.levelBySlot?.[slot] ?? '?'} · {shop.pointsBySlot?.[slot] ?? 0} pts
+          </SectionTitle>
           {items.map((it) => (
             <View key={it.id} style={styles.item}>
               <View style={[styles.thumb, { borderColor: tierColors[it.tier] || colors.border }]}>

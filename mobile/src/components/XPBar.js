@@ -1,11 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors, radius } from '../theme';
+import { xpForLevel } from '../xp';
 
 // XP progress toward the next level for one body part.
 export default function XPBar({ label, level, lifetimeXp, nextLevelXp, color }) {
-  // Approximate fill within the current level band.
-  const prevLevelXp = nextLevelXp ? Math.max(0, nextLevelXp - 30000) : lifetimeXp;
+  // Fill within the current level band, using the real curved thresholds
+  // (30k/45k/60k/90k per level depending on band).
+  const prevLevelXp = xpForLevel(level);
   const span = nextLevelXp ? Math.max(1, nextLevelXp - prevLevelXp) : 1;
   const pct = nextLevelXp ? Math.min(1, Math.max(0, (lifetimeXp - prevLevelXp) / span)) : 1;
   return (

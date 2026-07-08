@@ -145,11 +145,18 @@ router.post('/workouts/log', async (req, res, next) => {
           });
         }
       }
-      // Streak bookkeeping (date-based; bonus multipliers applied by challenge svc).
-      await tx.user.update({
-        where: { id: user.id },
-        data: { lastWorkoutDate: new Date(), currentStreak: { increment: 1 } },
-      });
+      // Streak bookkeeping: at most one increment per calendar day; consecutive
+      // days extend the streak, a missed day resets it to 1.
+      const today = new Date().toISOString().slice(0, 10);
+      const last = user.lastWorkoutDate ? user.lastWorkoutDate.toISOString().slice(0, 10) : null;
+      if (last !== today) {
+        const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+        const nextStreak = last === yesterday ? user.currentStreak + 1 : 1;
+        await tx.user.update({
+          where: { id: user.id },
+          data: { lastWorkoutDate: new Date(), currentStreak: nextStreak },
+        });
+      }
     });
 
     res.json({ tally: totals, perExercise, levelUps });
@@ -194,6 +201,13 @@ router.get('/shop', async (req, res, next) => {
       back: xp.levelForXp(progress.Back.lifetimeXp),
       core: xp.levelForXp(progress.Core.lifetimeXp),
     };
+    const pointsBySlot = {
+      arms: progress.Arms.spendablePoints,
+      legs: progress.Legs.spendablePoints,
+      chest: progress.Chest.spendablePoints,
+      back: progress.Back.spendablePoints,
+      core: progress.Core.spendablePoints,
+    };
     const owned = new Set(
       (await prisma.userGear.findMany({ where: { userId: user.id } })).map((g) => g.gearItemId)
     );
@@ -207,7 +221,7 @@ router.get('/shop', async (req, res, next) => {
         owned: owned.has(it.id),
       };
     });
-    res.json({ levelBySlot, items: shaped });
+    res.json({ levelBySlot, pointsBySlot, items: shaped });
   } catch (err) {
     next(err);
   }
