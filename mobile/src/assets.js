@@ -42,7 +42,13 @@ const GEAR = {
   ascendant_back: require('../assets/gear/ascendant_back.png'),
   ascendant_core: require('../assets/gear/ascendant_core.png'),
 };
-const UI = {};
+// Moment / effect art (level-up ritual, onboarding splash, streak, quest seal).
+const UI = {
+  levelUp: require('../assets/moments/level_up.png'),
+  onboarding: require('../assets/moments/onboarding.png'),
+  streak: require('../assets/moments/streak.png'),
+  questSeal: require('../assets/moments/quest_seal.png'),
+};
 
 // Screen background plates, keyed by screen name.
 const BG = {

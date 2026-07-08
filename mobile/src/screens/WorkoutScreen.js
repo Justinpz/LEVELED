@@ -4,6 +4,7 @@ import { api } from '../api';
 import { colors, spacing, fonts } from '../theme';
 import { Panel, SectionTitle, PixelButton } from '../components/ui';
 import ScreenBackground from '../components/ScreenBackground';
+import LevelUpModal from '../components/LevelUpModal';
 
 // Log a workout -> POST /game/workouts/log -> XP tally + level-ups.
 export default function WorkoutScreen() {
@@ -12,6 +13,7 @@ export default function WorkoutScreen() {
   const [picked, setPicked] = useState([]); // [{ id, name, sets:[{weight,reps}] }]
   const [searching, setSearching] = useState(false);
   const [result, setResult] = useState(null);
+  const [celebrate, setCelebrate] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
@@ -64,6 +66,7 @@ export default function WorkoutScreen() {
       };
       const res = await api.logWorkout(payload);
       setResult(res);
+      if (res.levelUps && res.levelUps.length) setCelebrate(res.levelUps);
       setPicked([]);
     } catch (e) { setError(e.message); } finally { setSubmitting(false); }
   };
@@ -131,6 +134,7 @@ export default function WorkoutScreen() {
         </Panel>
       ) : null}
     </ScrollView>
+    <LevelUpModal levelUps={celebrate} onClose={() => setCelebrate(null)} />
     </ScreenBackground>
   );
 }
