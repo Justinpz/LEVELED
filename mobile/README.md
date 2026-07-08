@@ -4,15 +4,25 @@ The 8-bit dark-fantasy fitness RPG client. Talks to the backend API in `../backe
 
 ## Run
 
+**Instant playable demo (no backend needed):**
 ```bash
 cd mobile
 npm install
-# point at your backend (Railway URL or local):
-EXPO_PUBLIC_API_URL=http://localhost:3000 npm start
+npm start
 ```
+With no `EXPO_PUBLIC_API_URL` set, the app runs in **offline mock mode** — a full
+in-memory backend (`src/mockApi.js`) with a seeded mid-game Warrior, the real 124-item
+gear catalog, an exercise sample, and challenges. The whole loop works: log a workout →
+gain XP → level up (ritual fires) → buy/equip gear → complete challenges. State resets on reload.
+(The AI coach is the only feature that needs the real backend.)
 
-Optionally set `EXPO_PUBLIC_USER_ID` to a real user UUID; otherwise the backend
-uses the first user row (auth is not built yet).
+**Against the live backend:**
+```bash
+EXPO_PUBLIC_API_URL=https://your-backend npm start
+```
+Setting the URL switches off mock mode automatically. Optionally set `EXPO_PUBLIC_USER_ID`
+to a real user UUID; otherwise the backend uses the first user row (auth is not built yet).
+Force mock even with a URL via `EXPO_PUBLIC_MOCK=1`.
 
 ## Structure
 

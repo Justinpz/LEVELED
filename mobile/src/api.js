@@ -5,8 +5,12 @@
 // Auth is not built yet — the backend resolves the acting user from x-user-id
 // (falls back to the first user row), so we send a dev id header.
 
-const BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3000';
+import { mockApi } from './mockApi';
+
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL || '';
 const DEV_USER_ID = process.env.EXPO_PUBLIC_USER_ID || '';
+// No backend URL (or EXPO_PUBLIC_MOCK=1) → run the fully-playable offline demo.
+const USE_MOCK = process.env.EXPO_PUBLIC_MOCK === '1' || !BASE_URL;
 
 async function request(path, { method = 'GET', body } = {}) {
   const headers = { 'Content-Type': 'application/json' };
@@ -26,7 +30,7 @@ async function request(path, { method = 'GET', body } = {}) {
   return data;
 }
 
-export const api = {
+const liveApi = {
   // Progress + core loop
   getProgress: () => request('/game/progress'),
   logWorkout: (payload) => request('/game/workouts/log', { method: 'POST', body: payload }),
@@ -46,4 +50,5 @@ export const api = {
   completeChallenge: (id) => request(`/challenges/${id}/complete`, { method: 'POST' }),
 };
 
-export { BASE_URL };
+export const api = USE_MOCK ? mockApi : liveApi;
+export { BASE_URL, USE_MOCK };
