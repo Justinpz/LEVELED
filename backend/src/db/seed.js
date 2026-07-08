@@ -34,6 +34,11 @@ async function main() {
     equipment: e.equipment ?? null,
     category: e.category ?? null,
     primaryMuscles: Array.isArray(e.primaryMuscles) ? e.primaryMuscles : [],
+    secondaryMuscles: Array.isArray(e.secondaryMuscles) ? e.secondaryMuscles : [],
+    // Primary-70/Secondary-30 split — the XP engine reads these; without them
+    // every exercise awards zero XP.
+    primaryBodyParts: Array.isArray(e.primaryBodyParts) ? e.primaryBodyParts : [],
+    secondaryBodyParts: Array.isArray(e.secondaryBodyParts) ? e.secondaryBodyParts : [],
     bodyParts: Array.isArray(e.bodyParts) ? e.bodyParts : [],
     instructions: Array.isArray(e.instructions) ? e.instructions : [],
     images: Array.isArray(e.images) ? e.images : [],

@@ -10,10 +10,18 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
+    "test": "node --test",
+    "postinstall": "prisma generate",
+    "deploy:start": "prisma migrate deploy && node src/server.js",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
     "db:seed": "node src/db/seed.js",
+    "db:seed:gear": "node src/db/seed_gear.js",
+    "db:seed:challenges": "node src/db/seed_challenges.js",
+    "db:seed:all": "node src/db/seed.js && node src/db/seed_gear.js && node src/db/seed_challenges.js",
+    "data:transform": "python3 ../scripts/transform_exercises.py",
+    "ai:starters": "node src/scripts/generate_starter_programs.js",
     "keys:generate": "node -e \"const c=require('crypto');console.log('TOKEN_ENCRYPTION_KEY='+c.randomBytes(32).toString('hex'));console.log('SESSION_SECRET='+c.randomBytes(32).toString('hex'));\""
   },
   "prisma": {
@@ -21,16 +29,17 @@
     "seed": "node src/db/seed.js"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.70.0",
     "@prisma/client": "^5.22.0",
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
     "express": "^5.0.1",
     "express-rate-limit": "^7.4.1",
     "express-session": "^1.18.1",
-    "helmet": "^8.0.0"
+    "helmet": "^8.0.0",
+    "prisma": "^5.22.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7",
-    "prisma": "^5.22.0"
+    "nodemon": "^3.1.7"
   }
 }

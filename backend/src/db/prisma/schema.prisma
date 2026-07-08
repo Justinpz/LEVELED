@@ -22,7 +22,20 @@ model User {
   email           String           @unique
   createdAt       DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
 
+  // Game systems (Phase 2). Single-class MVP: defaults to warrior, field kept for
+  // future 3-class expansion.
+  charClass       CharClass        @default(warrior) @map("char_class")
+  currentStreak   Int              @default(0) @map("current_streak")
+  lastWorkoutDate DateTime?        @map("last_workout_date") @db.Date
+
   whoopConnection WhoopConnection?
+  bodyPartProgress BodyPartProgress[]
+  gear            UserGear[]
+  programs        Program[]
+  sessions        WorkoutSession[]
+  challenges      UserChallenge[]
+  titles          UserTitle[]
+  vehicles        UserVehicle[]
 
   @@map("users")
 }
@@ -45,18 +58,292 @@ model WhoopConnection {
 }
 
 model Exercise {
-  id             String   @id
-  name           String
-  level          String?
-  force          String?
-  mechanic       String?
-  equipment      String?
-  category       String?
-  primaryMuscles String[] @map("primary_muscles")
-  bodyParts      String[] @map("body_parts")
-  instructions   String[]
-  images         String[]
+  id                 String   @id
+  name               String
+  level              String?  // difficulty: beginner | intermediate | expert
+  force              String?
+  mechanic           String?  // compound | isolation
+  equipment          String?
+  category           String?
+  movementPattern    String?  @map("movement_pattern")
+  primaryMuscles     String[] @map("primary_muscles")
+  secondaryMuscles   String[] @map("secondary_muscles")
+  // Primary 70 / Secondary 30 XP split lives here (derived in transform_exercises.py).
+  primaryBodyParts   String[] @map("primary_body_parts")
+  secondaryBodyParts String[] @map("secondary_body_parts")
+  bodyParts          String[] @map("body_parts") // union, kept for the GIN index
+  instructions       String[]
+  images             String[]
+
+  programExercises ProgramExercise[]
+  loggedSets       LoggedSet[]
 
   @@index([bodyParts], type: Gin)
   @@map("exercises")
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Phase 2 — game systems (Warrior-only MVP). See plan + master doc Parts 2–18.
+// ──────────────────────────────────────────────────────────────────────────
+
+enum CharClass {
+  warrior
+  mage
+  beast
+}
+
+enum BodyPart {
+  Arms
+  Legs
+  Chest
+  Back
+  Core
+}
+
+enum GearTier {
+  iron
+  mythic
+  celestial
+  abyssal
+  ascendant
+}
+
+enum GearSlot {
+  arms
+  legs
+  chest
+  back
+  core
+}
+
+enum ChallengeKind {
+  daily
+  weekly
+}
+
+enum ChallengeDifficulty {
+  easy
+  medium
+  hard
+}
+
+// Five independent body-part tracks per user (master doc Part 2).
+// `lifetimeXp` drives `level` via curved thresholds; `spendablePoints` is the
+// fluid currency (spending never lowers level — "points are points").
+model BodyPartProgress {
+  id              String   @id @default(uuid()) @db.Uuid
+  userId          String   @map("user_id") @db.Uuid
+  bodyPart        BodyPart @map("body_part")
+  level           Int      @default(1)
+  lifetimeXp      Int      @default(0) @map("lifetime_xp")
+  spendablePoints Int      @default(0) @map("spendable_points")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, bodyPart])
+  @@map("body_part_progress")
+}
+
+// Mirror of gear_database.json (Warrior-filtered). Seeded by scripts/seed_gear.js.
+model GearItem {
+  id                 String   @id // item_id, e.g. iron_warrior_arms_001
+  name               String
+  tier               GearTier
+  slot               GearSlot
+  classCompatibility String   @map("class_compatibility") // all | warrior
+  costPts            Int      @map("cost_pts")
+  levelGate          Int      @default(1) @map("level_gate")
+  description        String
+  flavorText         String   @map("flavor_text")
+  visualNotes        String?  @map("visual_notes")
+  glowColor          String?  @map("glow_color")
+  particles          String?
+  imageAssetPath     String?  @map("image_asset_path")
+  imageSourceSheet   String?  @map("image_source_sheet")
+
+  userGear UserGear[]
+
+  @@index([tier, slot])
+  @@map("gear_items")
+}
+
+model UserGear {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  gearItemId String   @map("gear_item_id")
+  owned      Boolean  @default(true)
+  equipped   Boolean  @default(false)
+  acquiredAt DateTime @default(now()) @map("acquired_at") @db.Timestamptz(6)
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  gearItem GearItem @relation(fields: [gearItemId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, gearItemId])
+  @@map("user_gear")
+}
+
+// Suggested (isStarter) + custom (owner-built / AI-generated) workout programs.
+model Program {
+  id            String   @id @default(uuid()) @db.Uuid
+  name          String
+  description   String?
+  durationWeeks Int      @map("duration_weeks")
+  daysPerWeek   Int      @map("days_per_week")
+  coverImage    String?  @map("cover_image")
+  designedBy    String?  @map("designed_by")
+  isStarter     Boolean  @default(false) @map("is_starter")
+  isPublic      Boolean  @default(false) @map("is_public")
+  ownerId       String?  @map("owner_id") @db.Uuid
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  owner User?        @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  days  ProgramDay[]
+
+  @@map("programs")
+}
+
+model ProgramDay {
+  id        String   @id @default(uuid()) @db.Uuid
+  programId String   @map("program_id") @db.Uuid
+  dayNumber Int      @map("day_number")
+  name      String
+  isRest    Boolean  @default(false) @map("is_rest")
+  bodyParts String[] @map("body_parts")
+
+  program   Program           @relation(fields: [programId], references: [id], onDelete: Cascade)
+  exercises ProgramExercise[]
+
+  @@unique([programId, dayNumber])
+  @@map("program_days")
+}
+
+model ProgramExercise {
+  id            String  @id @default(uuid()) @db.Uuid
+  programDayId  String  @map("program_day_id") @db.Uuid
+  exerciseId    String  @map("exercise_id")
+  series        String  // "A", "B", "C" ...
+  orderInSeries Int     @map("order_in_series")
+  sets          Int
+  reps          String  // "8-12" or "5"
+  restSeconds   Int     @map("rest_seconds")
+  rpe           Float?
+  supersetGroup String? @map("superset_group")
+  notes         String?
+
+  programDay ProgramDay @relation(fields: [programDayId], references: [id], onDelete: Cascade)
+  exercise   Exercise   @relation(fields: [exerciseId], references: [id])
+
+  @@map("program_exercises")
+}
+
+model WorkoutSession {
+  id              String    @id @default(uuid()) @db.Uuid
+  userId          String    @map("user_id") @db.Uuid
+  programDayId    String?   @map("program_day_id") @db.Uuid
+  startedAt       DateTime  @default(now()) @map("started_at") @db.Timestamptz(6)
+  completedAt     DateTime? @map("completed_at") @db.Timestamptz(6)
+  durationSeconds Int?      @map("duration_seconds")
+
+  user User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sets LoggedSet[]
+
+  @@map("workout_sessions")
+}
+
+model LoggedSet {
+  id         String   @id @default(uuid()) @db.Uuid
+  sessionId  String   @map("session_id") @db.Uuid
+  exerciseId String   @map("exercise_id")
+  weight     Float?
+  reps       Int?
+  rpe        Float?
+  notes      String?
+  xpAwarded  Json?    @map("xp_awarded") // {"Back":70,"Legs":30}
+  loggedAt   DateTime @default(now()) @map("logged_at") @db.Timestamptz(6)
+
+  session  WorkoutSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  exercise Exercise       @relation(fields: [exerciseId], references: [id])
+
+  @@map("logged_sets")
+}
+
+// Special tasks (master doc Part 8).
+model Challenge {
+  id              String              @id @default(uuid()) @db.Uuid
+  kind            ChallengeKind
+  difficulty      ChallengeDifficulty
+  title           String
+  description     String?
+  rewardPts       Int                 @map("reward_pts")
+  bodyPartTargets String[]            @map("body_part_targets")
+  criteria        Json?
+  activeOn        DateTime?           @map("active_on") @db.Date
+
+  userChallenges UserChallenge[]
+
+  @@map("challenges")
+}
+
+model UserChallenge {
+  id          String    @id @default(uuid()) @db.Uuid
+  userId      String    @map("user_id") @db.Uuid
+  challengeId String    @map("challenge_id") @db.Uuid
+  status      String    @default("active") // active | completed | expired
+  completedAt DateTime? @map("completed_at") @db.Timestamptz(6)
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenge Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, challengeId])
+  @@map("user_challenges")
+}
+
+model Title {
+  id          String @id
+  name        String
+  description String?
+
+  userTitles UserTitle[]
+
+  @@map("titles")
+}
+
+model UserTitle {
+  id       String   @id @default(uuid()) @db.Uuid
+  userId   String   @map("user_id") @db.Uuid
+  titleId  String   @map("title_id")
+  earnedAt DateTime @default(now()) @map("earned_at") @db.Timestamptz(6)
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title Title @relation(fields: [titleId], references: [id])
+
+  @@unique([userId, titleId])
+  @@map("user_titles")
+}
+
+// Cardio-minute mounts (master doc Part 7). Schema present; MVP-gated.
+model Vehicle {
+  id                    String @id
+  name                  String
+  tier                  Int
+  cardioMinutesRequired Int    @map("cardio_minutes_required")
+  theme                 String?
+
+  userVehicles UserVehicle[]
+
+  @@map("vehicles")
+}
+
+model UserVehicle {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  vehicleId  String   @map("vehicle_id")
+  equipped   Boolean  @default(false)
+  acquiredAt DateTime @default(now()) @map("acquired_at") @db.Timestamptz(6)
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, vehicleId])
+  @@map("user_vehicles")
 }

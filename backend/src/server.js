@@ -25,6 +25,9 @@ const session = require('express-session');
 const healthRoutes = require('./routes/health');
 const authRoutes = require('./routes/auth');
 const webhookRoutes = require('./routes/webhooks');
+const gameRoutes = require('./routes/game');
+const programRoutes = require('./routes/programs');
+const challengeRoutes = require('./routes/challenges');
 
 const app = express();
 
@@ -50,6 +53,16 @@ if (process.env.NODE_ENV !== 'production') {
 
 // 1) Security headers
 app.use(helmet());
+
+// CORS — native mobile fetch ignores CORS, but Expo web / browser clients need it.
+// Lock down with CORS_ORIGIN in production once the client origin is known.
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', process.env.CORS_ORIGIN || '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-user-id');
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
 
 // 2) Webhooks BEFORE json — raw body required for HMAC verification.
 app.use('/webhooks', webhookRoutes);
@@ -85,6 +98,9 @@ app.use(
 // 5) Application routes
 app.use('/health', healthRoutes);
 app.use('/auth', authRoutes);
+app.use('/game', gameRoutes);
+app.use('/programs', programRoutes);
+app.use('/challenges', challengeRoutes);
 
 // 404
 app.use((req, res) => {
