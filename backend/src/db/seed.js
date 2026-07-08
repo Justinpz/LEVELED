@@ -16,7 +16,7 @@ const prisma = require('./prisma');
 
 const DATA_PATH = path.resolve(__dirname, '../../../data/exercises_leveled.json');
 
-async function main() {
+async function run() {
   if (!fs.existsSync(DATA_PATH)) {
     throw new Error(`Exercise data file not found at ${DATA_PATH}`);
   }
@@ -65,13 +65,21 @@ async function main() {
       `[seed] WARNING: row count (${count}) differs from JSON length (${raw.length})`
     );
   }
+
+  return { count };
 }
 
-main()
-  .catch((err) => {
-    console.error('[seed] Failed:', err.message);
-    process.exitCode = 1;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+module.exports = { run };
+
+// CLI entrypoint: `node src/db/seed.js`. Not executed when imported (e.g. by the
+// admin seed route), so the shared Prisma client stays connected for the server.
+if (require.main === module) {
+  run()
+    .catch((err) => {
+      console.error('[seed] Failed:', err.message);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
+}

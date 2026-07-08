@@ -26,7 +26,7 @@ function resolveDbPath() {
   return candidates.find((p) => fs.existsSync(p));
 }
 
-async function main() {
+async function run() {
   const dbPath = resolveDbPath();
   if (!dbPath) throw new Error('gear_database.json not found; set GEAR_DB=/path/to/gear_database.json');
   const items = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
@@ -55,13 +55,18 @@ async function main() {
   }
   const count = await prisma.gearItem.count();
   console.log(`Seeded ${count} gear items`);
+  return { count };
 }
 
-main()
-  .catch((err) => {
-    console.error('[seed_gear] Failed:', err.message);
-    process.exitCode = 1;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+module.exports = { run };
+
+if (require.main === module) {
+  run()
+    .catch((err) => {
+      console.error('[seed_gear] Failed:', err.message);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
+}

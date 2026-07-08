@@ -28,6 +28,7 @@ const webhookRoutes = require('./routes/webhooks');
 const gameRoutes = require('./routes/game');
 const programRoutes = require('./routes/programs');
 const challengeRoutes = require('./routes/challenges');
+const adminRoutes = require('./routes/admin');
 
 const app = express();
 
@@ -101,6 +102,7 @@ app.use('/auth', authRoutes);
 app.use('/game', gameRoutes);
 app.use('/programs', programRoutes);
 app.use('/challenges', challengeRoutes);
+app.use('/admin', adminRoutes);
 
 // 404
 app.use((req, res) => {
