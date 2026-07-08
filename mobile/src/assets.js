@@ -13,7 +13,35 @@ const AVATARS = {
   4: require('../assets/avatar/t4_abyssal.png'),
   5: require('../assets/avatar/t5_ascendant.png'),
 };
-const GEAR = {};
+// Gear icons keyed by `${tier}_${slot}` — one icon per tier×slot covers all 124
+// catalog items with tier-and-slot-appropriate art.
+const GEAR = {
+  iron_arms: require('../assets/gear/iron_arms.png'),
+  iron_legs: require('../assets/gear/iron_legs.png'),
+  iron_chest: require('../assets/gear/iron_chest.png'),
+  iron_back: require('../assets/gear/iron_back.png'),
+  iron_core: require('../assets/gear/iron_core.png'),
+  mythic_arms: require('../assets/gear/mythic_arms.png'),
+  mythic_legs: require('../assets/gear/mythic_legs.png'),
+  mythic_chest: require('../assets/gear/mythic_chest.png'),
+  mythic_back: require('../assets/gear/mythic_back.png'),
+  mythic_core: require('../assets/gear/mythic_core.png'),
+  celestial_arms: require('../assets/gear/celestial_arms.png'),
+  celestial_legs: require('../assets/gear/celestial_legs.png'),
+  celestial_chest: require('../assets/gear/celestial_chest.png'),
+  celestial_back: require('../assets/gear/celestial_back.png'),
+  celestial_core: require('../assets/gear/celestial_core.png'),
+  abyssal_arms: require('../assets/gear/abyssal_arms.png'),
+  abyssal_legs: require('../assets/gear/abyssal_legs.png'),
+  abyssal_chest: require('../assets/gear/abyssal_chest.png'),
+  abyssal_back: require('../assets/gear/abyssal_back.png'),
+  abyssal_core: require('../assets/gear/abyssal_core.png'),
+  ascendant_arms: require('../assets/gear/ascendant_arms.png'),
+  ascendant_legs: require('../assets/gear/ascendant_legs.png'),
+  ascendant_chest: require('../assets/gear/ascendant_chest.png'),
+  ascendant_back: require('../assets/gear/ascendant_back.png'),
+  ascendant_core: require('../assets/gear/ascendant_core.png'),
+};
 const UI = {};
 
 // Screen background plates, keyed by screen name.
@@ -34,9 +62,9 @@ export function avatarForLevel(level) {
   return AVATARS[tier] || null;
 }
 
-// Gear item art by item_id (falls back to null -> tier-colored placeholder).
-export function gearImage(itemId) {
-  return GEAR[itemId] || null;
+// Gear art by tier + slot (falls back to null -> tier-colored placeholder).
+export function gearImage(tier, slot) {
+  return GEAR[`${tier}_${slot}`] || null;
 }
 
 export function uiImage(key) {

@@ -47,8 +47,8 @@ export default function ShopScreen() {
           {items.map((it) => (
             <View key={it.id} style={styles.item}>
               <View style={[styles.thumb, { borderColor: tierColors[it.tier] || colors.border }]}>
-                {gearImage(it.id) ? (
-                  <Image source={gearImage(it.id)} style={styles.thumbImg} resizeMode="contain" />
+                {gearImage(it.tier, it.slot) ? (
+                  <Image source={gearImage(it.tier, it.slot)} style={styles.thumbImg} resizeMode="contain" />
                 ) : (
                   <Text style={[styles.thumbTier, { color: tierColors[it.tier] }]}>{it.tier[0].toUpperCase()}</Text>
                 )}
