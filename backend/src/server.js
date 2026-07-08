@@ -54,6 +54,16 @@ if (process.env.NODE_ENV !== 'production') {
 // 1) Security headers
 app.use(helmet());
 
+// CORS — native mobile fetch ignores CORS, but Expo web / browser clients need it.
+// Lock down with CORS_ORIGIN in production once the client origin is known.
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', process.env.CORS_ORIGIN || '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-user-id');
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
+
 // 2) Webhooks BEFORE json — raw body required for HMAC verification.
 app.use('/webhooks', webhookRoutes);
 
