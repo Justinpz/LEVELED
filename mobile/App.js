@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
@@ -9,6 +9,7 @@ import WorkoutScreen from './src/screens/WorkoutScreen';
 import ShopScreen from './src/screens/ShopScreen';
 import ProgramsScreen from './src/screens/ProgramsScreen';
 import QuestsScreen from './src/screens/QuestsScreen';
+import OnboardingSplash from './src/components/OnboardingSplash';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,6 +30,8 @@ const navTheme = {
 const ICONS = { Home: '⚔', Workout: '🏋', Programs: '📜', Shop: '🛡', Quests: '★' };
 
 export default function App() {
+  const [started, setStarted] = useState(false);
+  if (!started) return <OnboardingSplash onBegin={() => setStarted(true)} />;
   return (
     <NavigationContainer theme={navTheme}>
       <StatusBar style="light" />
