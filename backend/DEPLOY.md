@@ -39,15 +39,33 @@ Push/merge → Railway builds → `migrate deploy` applies `phase2_game_systems`
 server boots → healthcheck `/health` goes green.
 
 ### 4. One-time seed (after first Phase 2 boot)
-From your machine with the Railway CLI (or any shell with the prod `DATABASE_URL`):
 
+**No CLI / no laptop needed — from the Railway app or any browser/HTTP client:**
+1. Railway → service → **Variables** → add `ADMIN_SEED_KEY` = any random string.
+   Saving triggers a redeploy (needed so the server picks up the new var).
+2. Once that redeploy is green, call:
+   ```
+   POST https://<your-service>.up.railway.app/admin/seed
+   Header: x-admin-key: <the value you just set>
+   ```
+   From a phone with no terminal, ask whoever has shell/API access (e.g. this
+   session) to run the `curl` below with the key — no Railway CLI required on
+   your end, just the one variable:
+   ```bash
+   curl -X POST https://<your-service>.up.railway.app/admin/seed \
+     -H "x-admin-key: <the value you set>"
+   ```
+   Response: `{"ok":true,"exercises":{"count":873},"gear":{"count":124},"challenges":{"count":12,...}}`
+3. Optional: unset `ADMIN_SEED_KEY` afterward (or rotate it) to close the endpoint again.
+   All three seeds are idempotent upserts — safe to call more than once regardless.
+
+**With Railway CLI access instead:**
 ```bash
 railway run --service <backend-service> npm run db:seed:all
 # equivalently: DATABASE_URL=<prod-url> npm run db:seed:all
 ```
 
-Seeds: 873 exercises (with the 70/30 XP fields), 124 gear items, 12 challenges.
-All seeds are idempotent — safe to re-run.
+Either path seeds: 873 exercises (with the 70/30 XP fields), 124 gear items, 12 challenges.
 
 Optional AI starter library (needs the Anthropic vars):
 ```bash
