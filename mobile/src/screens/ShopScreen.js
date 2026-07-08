@@ -4,6 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { api } from '../api';
 import { colors, spacing, fonts, tierColors } from '../theme';
 import { Panel, SectionTitle } from '../components/ui';
+import ScreenBackground from '../components/ScreenBackground';
 import { gearImage } from '../assets';
 
 // Shop — gear by slot/tier with locked (level-gated) and owned state.
@@ -36,6 +37,7 @@ export default function ShopScreen() {
   for (const it of shop.items) (bySlot[it.slot] = bySlot[it.slot] || []).push(it);
 
   return (
+    <ScreenBackground name="Shop">
     <ScrollView style={styles.container} contentContainerStyle={{ padding: spacing.md }}
       refreshControl={<RefreshControl refreshing={false} onRefresh={load} tintColor={colors.accent} />}>
       {error ? <Text style={styles.err}>{error}</Text> : null}
@@ -69,13 +71,14 @@ export default function ShopScreen() {
         </Panel>
       ))}
     </ScrollView>
+    </ScreenBackground>
   );
 }
 
 function Centered({ children }) { return <View style={styles.centered}>{children}</View>; }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.bg },
+  container: { flex: 1, backgroundColor: 'transparent' },
   centered: { flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center', padding: spacing.lg },
   err: { color: colors.danger, fontFamily: fonts.body, marginBottom: 8, textAlign: 'center' },
   item: { flexDirection: 'row', alignItems: 'center', paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: colors.border },

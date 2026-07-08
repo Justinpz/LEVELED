@@ -5,6 +5,7 @@ import { api } from '../api';
 import { colors, spacing, fonts } from '../theme';
 import { Panel, SectionTitle } from '../components/ui';
 import XPBar from '../components/XPBar';
+import ScreenBackground from '../components/ScreenBackground';
 import { avatarForLevel } from '../assets';
 
 // Home hub — the character and their five progression tracks + today's quests.
@@ -42,6 +43,7 @@ export default function HomeScreen() {
   const avatar = avatarForLevel(overall);
 
   return (
+    <ScreenBackground name="Home">
     <ScrollView
       style={styles.container}
       contentContainerStyle={{ padding: spacing.md }}
@@ -79,6 +81,7 @@ export default function HomeScreen() {
         <QuestLine kind="Weekly" challenge={weekly && weekly.challenge} />
       </Panel>
     </ScrollView>
+    </ScreenBackground>
   );
 }
 
@@ -97,13 +100,15 @@ function Centered({ children }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.bg },
+  container: { flex: 1, backgroundColor: 'transparent' },
   centered: { flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center', padding: spacing.lg },
   err: { color: colors.danger, fontFamily: fonts.body, textAlign: 'center' },
   hero: { alignItems: 'center' },
   avatarBox: {
-    width: 160, height: 200, alignItems: 'center', justifyContent: 'center',
-    backgroundColor: colors.bgPanelAlt, borderRadius: 8, marginBottom: spacing.sm,
+    width: 180, height: 240, alignItems: 'center', justifyContent: 'center',
+    // Matches the avatar art's near-black background for seamless compositing.
+    backgroundColor: '#0b0a10', borderRadius: 8, marginBottom: spacing.sm,
+    borderWidth: 2, borderColor: colors.border, overflow: 'hidden',
   },
   avatar: { width: '100%', height: '100%' },
   avatarPlaceholder: { fontSize: 72, color: colors.textDim },

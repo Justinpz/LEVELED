@@ -4,6 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { api } from '../api';
 import { colors, spacing, fonts } from '../theme';
 import { Panel, SectionTitle, PixelButton } from '../components/ui';
+import ScreenBackground from '../components/ScreenBackground';
 
 // Special tasks — daily & weekly challenges; completing routes XP to body parts.
 export default function QuestsScreen() {
@@ -37,6 +38,7 @@ export default function QuestsScreen() {
   if (loading) return <View style={styles.centered}><ActivityIndicator color={colors.accent} /></View>;
 
   return (
+    <ScreenBackground name="Quests">
     <ScrollView style={styles.container} contentContainerStyle={{ padding: spacing.md }}
       refreshControl={<RefreshControl refreshing={false} onRefresh={load} tintColor={colors.accent} />}>
       {error ? <Text style={styles.err}>{error}</Text> : null}
@@ -44,6 +46,7 @@ export default function QuestsScreen() {
       <ChallengeCard title="Daily Challenge" challenge={daily && daily.challenge} onComplete={complete} busy={busy} />
       <ChallengeCard title="Weekly Challenge" challenge={weekly && weekly.challenge} onComplete={complete} busy={busy} />
     </ScrollView>
+    </ScreenBackground>
   );
 }
 
@@ -70,7 +73,7 @@ function ChallengeCard({ title, challenge, onComplete, busy }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.bg },
+  container: { flex: 1, backgroundColor: 'transparent' },
   centered: { flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center' },
   err: { color: colors.danger, fontFamily: fonts.body, marginBottom: 8, textAlign: 'center' },
   msg: { color: colors.success, fontFamily: fonts.body, marginBottom: 8, textAlign: 'center' },

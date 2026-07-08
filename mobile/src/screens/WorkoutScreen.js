@@ -3,6 +3,7 @@ import { View, Text, TextInput, ScrollView, FlatList, StyleSheet, ActivityIndica
 import { api } from '../api';
 import { colors, spacing, fonts } from '../theme';
 import { Panel, SectionTitle, PixelButton } from '../components/ui';
+import ScreenBackground from '../components/ScreenBackground';
 
 // Log a workout -> POST /game/workouts/log -> XP tally + level-ups.
 export default function WorkoutScreen() {
@@ -68,6 +69,7 @@ export default function WorkoutScreen() {
   };
 
   return (
+    <ScreenBackground name="Workout">
     <ScrollView style={styles.container} contentContainerStyle={{ padding: spacing.md }}>
       <Panel>
         <SectionTitle>Add Exercise</SectionTitle>
@@ -129,11 +131,12 @@ export default function WorkoutScreen() {
         </Panel>
       ) : null}
     </ScrollView>
+    </ScreenBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.bg },
+  container: { flex: 1, backgroundColor: 'transparent' },
   input: {
     backgroundColor: colors.bgPanelAlt, color: colors.text, fontFamily: fonts.body,
     borderRadius: 6, borderWidth: 2, borderColor: colors.border, paddingHorizontal: 10, paddingVertical: 8,
