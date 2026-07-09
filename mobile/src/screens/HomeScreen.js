@@ -6,7 +6,8 @@ import { colors, spacing, fonts, tierColors } from '../theme';
 import { Panel, SectionTitle } from '../components/ui';
 import XPBar from '../components/XPBar';
 import ScreenBackground from '../components/ScreenBackground';
-import { avatarIdleForLevel, gearImage } from '../assets';
+import { gearImage } from '../assets';
+import WarriorFigure from '../components/WarriorFigure';
 import { barkFor } from '../barks';
 
 const SLOT_ORDER_LEFT = ['arms', 'chest'];
@@ -58,8 +59,8 @@ export default function HomeScreen() {
 
   const overall = progress ? Math.round(progress.progress.reduce((s, p) => s + p.level, 0) / progress.progress.length) : 1;
   const tier = Math.min(5, Math.max(1, Math.ceil(overall / 20)));
-  const avatar = avatarIdleForLevel(overall);
   const streak = (progress && progress.currentStreak) || 0;
+  const equippedSlots = Object.keys(equipped);
 
   const pokeAvatar = () => {
     // Flex bounce: quick squash-and-jump, like he's hitting a rep.
@@ -101,11 +102,7 @@ export default function HomeScreen() {
           </View>
           <Pressable onPress={pokeAvatar} hitSlop={8}>
             <Animated.View style={[styles.avatarBox, { transform: [{ translateY }, { scaleX }] }]}>
-              {avatar ? (
-                <Image source={avatar} style={styles.avatar} resizeMode="contain" />
-              ) : (
-                <Text style={styles.avatarPlaceholder}>⚔</Text>
-              )}
+              <WarriorFigure tier={tier} equippedSlots={equippedSlots} width={176} height={236} />
             </Animated.View>
           </Pressable>
           <View style={styles.slotColumn}>
