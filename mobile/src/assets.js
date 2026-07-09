@@ -5,6 +5,8 @@
 // the app runs before the full art library lands. When assets are added, wire the
 // require() calls here (static requires are required by the Metro bundler).
 
+import { GEAR_ITEMS } from './gearItemImages';
+
 // Warrior avatar progression by tier (1 = Iron/novice … 5 = Ascendant/god-tier).
 const AVATARS = {
   1: require('../assets/avatar/t1_iron.png'),
@@ -68,8 +70,10 @@ export function avatarForLevel(level) {
   return AVATARS[tier] || null;
 }
 
-// Gear art by tier + slot (falls back to null -> tier-colored placeholder).
-export function gearImage(tier, slot) {
+// Gear art: dedicated per-item image first (113 unique pieces), then the
+// generic tier+slot icon, then null -> tier-colored placeholder.
+export function gearImage(tier, slot, itemId) {
+  if (itemId && GEAR_ITEMS[itemId]) return GEAR_ITEMS[itemId];
   return GEAR[`${tier}_${slot}`] || null;
 }
 

@@ -29,7 +29,8 @@ export function PixelButton({ label, onPress, disabled, tone = 'accent' }) {
 
 const styles = StyleSheet.create({
   panel: {
-    backgroundColor: colors.bgPanel,
+    // Semi-transparent so the screen's background art shows through the panels.
+    backgroundColor: 'rgba(26, 20, 32, 0.72)',
     borderColor: colors.border,
     borderWidth: 2,
     borderRadius: radius.md,

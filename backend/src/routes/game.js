@@ -57,7 +57,12 @@ router.get('/progress', async (req, res, next) => {
         band: xp.levelBandLabel(level),
       };
     });
-    res.json({ userId: user.id, charClass: user.charClass, progress: out });
+    res.json({
+      userId: user.id,
+      charClass: user.charClass,
+      currentStreak: user.currentStreak,
+      progress: out,
+    });
   } catch (err) {
     next(err);
   }
@@ -208,21 +213,28 @@ router.get('/shop', async (req, res, next) => {
       back: progress.Back.spendablePoints,
       core: progress.Core.spendablePoints,
     };
+    const totalPoints = Object.values(pointsBySlot).reduce((a, b) => a + b, 0);
     const userGear = await prisma.userGear.findMany({ where: { userId: user.id } });
     const gearState = new Map(userGear.map((g) => [g.gearItemId, g]));
     const items = await prisma.gearItem.findMany({ orderBy: [{ slot: 'asc' }, { costPts: 'asc' }] });
-    const shaped = items.map((it) => {
-      const gate = TIER_LEVEL_GATE[it.tier] ?? it.levelGate ?? 1;
-      const rec = gearState.get(it.id);
-      return {
-        ...it,
-        levelGate: gate,
-        locked: levelBySlot[it.slot] < gate,
-        owned: !!(rec && rec.owned),
-        equipped: !!(rec && rec.equipped),
-      };
-    });
-    res.json({ levelBySlot, pointsBySlot, items: shaped });
+    // Horizon rule: show what's buyable now plus what unlocks within the next
+    // 10 levels of that slot — far tiers stay hidden until you approach them.
+    // Owned items always show regardless of gate.
+    const SHOP_LEVEL_HORIZON = 10;
+    const shaped = items
+      .map((it) => {
+        const gate = TIER_LEVEL_GATE[it.tier] ?? it.levelGate ?? 1;
+        const rec = gearState.get(it.id);
+        return {
+          ...it,
+          levelGate: gate,
+          locked: levelBySlot[it.slot] < gate,
+          owned: !!(rec && rec.owned),
+          equipped: !!(rec && rec.equipped),
+        };
+      })
+      .filter((it) => it.owned || it.levelGate <= levelBySlot[it.slot] + SHOP_LEVEL_HORIZON);
+    res.json({ levelBySlot, pointsBySlot, totalPoints, items: shaped });
   } catch (err) {
     next(err);
   }

@@ -19,6 +19,7 @@ const prisma = require('./prisma');
 const seedExercises = require('./seed');
 const seedGear = require('./seed_gear');
 const seedChallenges = require('./seed_challenges');
+const seedPrograms = require('./seed_programs');
 
 async function needsSeed() {
   const [exerciseCount, backfilled, gearCount, challengeCount] = await Promise.all([
@@ -63,6 +64,15 @@ async function ensureSeeded() {
     } catch (err) {
       console.error('[seed] auto-seed failed (server still running):', err.message);
     }
+  }
+
+  // Starter programs seed independently (added after the original sentinel; a
+  // fully-seeded production DB still needs these on first deploy of this code).
+  try {
+    const programCount = await prisma.program.count({ where: { isStarter: true } });
+    if (programCount === 0) await seedPrograms.run();
+  } catch (err) {
+    console.error('[seed] starter-programs check failed (server still running):', err.message);
   }
 
   // Independent of reference data: every /game/* endpoint resolves an acting user

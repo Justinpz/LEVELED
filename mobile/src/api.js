@@ -42,12 +42,22 @@ const liveApi = {
   // Programs
   getPrograms: () => request('/programs'),
   getProgram: (id) => request(`/programs/${id}`),
+  getActiveProgram: () => request('/programs/active'),
+  selectProgram: (id) => request(`/programs/${id}/select`, { method: 'POST' }),
+  clearProgram: () => request('/programs/clear', { method: 'POST' }),
+  createProgram: (program) => request('/programs', { method: 'POST', body: program }),
   aiGenerateProgram: (goals) => request('/programs/ai-generate', { method: 'POST', body: goals }),
   aiValidateWorkout: (workout) => request('/programs/ai-validate', { method: 'POST', body: workout }),
   // Challenges (special tasks)
   getDailyChallenge: () => request('/challenges/daily'),
   getWeeklyChallenge: () => request('/challenges/weekly'),
+  getWarriorChallenge: () => request('/challenges/warrior'),
   completeChallenge: (id) => request(`/challenges/${id}/complete`, { method: 'POST' }),
+  // Food tracker
+  getFoodToday: () => request('/food/today'),
+  logFood: (item) => request('/food/log', { method: 'POST', body: item }),
+  deleteFood: (id) => request(`/food/${id}`, { method: 'DELETE' }),
+  setFoodGoals: (goals) => request('/food/goals', { method: 'POST', body: goals }),
 };
 
 export const api = USE_MOCK ? mockApi : liveApi;

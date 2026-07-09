@@ -28,6 +28,7 @@ const webhookRoutes = require('./routes/webhooks');
 const gameRoutes = require('./routes/game');
 const programRoutes = require('./routes/programs');
 const challengeRoutes = require('./routes/challenges');
+const foodRoutes = require('./routes/food');
 const adminRoutes = require('./routes/admin');
 
 const app = express();
@@ -102,6 +103,7 @@ app.use('/auth', authRoutes);
 app.use('/game', gameRoutes);
 app.use('/programs', programRoutes);
 app.use('/challenges', challengeRoutes);
+app.use('/food', foodRoutes);
 app.use('/admin', adminRoutes);
 
 // 6) Static web client — the Expo web export lives in ./public and is served at the
@@ -113,7 +115,7 @@ if (hasWebClient) {
   app.use(express.static(publicDir));
   // SPA fallback: any non-API GET returns index.html so the app boots on any path.
   // Written as a path-less middleware — Express 5's router rejects a bare '*' route.
-  const API_PREFIXES = /^\/(health|auth|game|programs|challenges|admin|webhooks)(\/|$)/;
+  const API_PREFIXES = /^\/(health|auth|game|programs|challenges|food|admin|webhooks)(\/|$)/;
   app.use((req, res, next) => {
     if (req.method !== 'GET' || API_PREFIXES.test(req.path)) return next();
     res.sendFile(path.join(publicDir, 'index.html'));

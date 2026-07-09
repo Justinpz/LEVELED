@@ -43,8 +43,24 @@ function dailyPick(pool, key) {
 }
 const dayKey = () => new Date().toISOString().slice(0, 10);
 
+// Offline food log (demo).
+const foodItems = [];
+let foodGoals = { calories: 2200, protein: 150 };
+function foodToday() {
+  const totals = foodItems.reduce(
+    (a, it) => ({ calories: a.calories + it.calories, protein: a.protein + it.protein }),
+    { calories: 0, protein: 0 }
+  );
+  const calRatio = totals.calories / foodGoals.calories;
+  const calScore = calRatio <= 1 ? calRatio * 100 : Math.max(0, 100 - (calRatio - 1) * 200);
+  const proteinScore = Math.min(1, totals.protein / foodGoals.protein) * 100;
+  const score = Math.round(0.6 * calScore + 0.4 * proteinScore);
+  const label = calRatio > 1.15 ? 'Overfed' : score >= 90 ? 'Forged' : score >= 75 ? 'Battle-Ready' : score >= 50 ? 'Nourished' : score >= 25 ? 'Underfed' : 'Starving';
+  return { date: dayKey(), goals: foodGoals, totals, health: { score, label }, items: foodItems.slice() };
+}
+
 export const mockApi = {
-  getProgress: () => delay({ userId: 'demo', charClass: 'warrior', progress: progressList() }),
+  getProgress: () => delay({ userId: 'demo', charClass: 'warrior', currentStreak: streak, progress: progressList() }),
 
   getExercises: (query = '') => {
     const m = /search=([^&]*)/.exec(query);
@@ -86,7 +102,10 @@ export const mockApi = {
       const rec = owned[it.id];
       return { ...it, levelGate: gate, locked: levelBySlot[it.slot] < gate, owned: !!(rec && rec.owned), equipped: !!(rec && rec.equipped) };
     });
-    return delay({ levelBySlot, pointsBySlot, items });
+    const totalPoints = Object.values(pointsBySlot).reduce((a, b) => a + b, 0);
+    const HORIZON = 10;
+    const visible = items.filter((it) => it.owned || it.levelGate <= levelBySlot[it.slot] + HORIZON);
+    return delay({ levelBySlot, pointsBySlot, totalPoints, items: visible });
   },
 
   buyGear: (id) => {
@@ -117,16 +136,49 @@ export const mockApi = {
     { id: 'p3', name: 'Ascendant Push/Pull/Legs', description: 'High volume', daysPerWeek: 6, durationWeeks: 8, isStarter: true, days: [] },
   ] }),
   getProgram: (id) => delay({ program: { id, name: 'Program', days: [] } }),
+  getActiveProgram: () => delay({ program: null, suggestedDay: null }),
+  selectProgram: (id) => delay({ selected: id }),
+  clearProgram: () => delay({ selected: null }),
+  createProgram: (p) => delay({ program: { ...p, id: `custom_${Date.now()}` } }),
   aiGenerateProgram: () => Promise.reject(Object.assign(new Error('AI coach needs a live backend + API key'), { status: 503 })),
   aiValidateWorkout: () => Promise.reject(Object.assign(new Error('AI coach needs a live backend + API key'), { status: 503 })),
 
   getDailyChallenge: () => {
-    const c = dailyPick(CHALLENGES.filter((x) => x.kind === 'daily'), `daily:${dayKey()}`);
-    return delay({ date: dayKey(), challenge: c ? { ...c, id: c.title } : null });
+    const pool = CHALLENGES.filter((x) => x.kind === 'daily');
+    const picks = pool.slice(0, 3).map((c) => ({ ...c, id: c.title, completed: completedChallenges.has(c.title) }));
+    return delay({ date: dayKey(), challenges: picks, challenge: picks[0] || null });
   },
   getWeeklyChallenge: () => {
-    const c = dailyPick(CHALLENGES.filter((x) => x.kind === 'weekly'), 'weekly');
-    return delay({ week: dayKey().slice(0, 7), challenge: c ? { ...c, id: c.title } : null });
+    const pool = CHALLENGES.filter((x) => x.kind === 'weekly');
+    const picks = pool.slice(0, 3).map((c) => ({ ...c, id: c.title, completed: completedChallenges.has(c.title) }));
+    return delay({ week: dayKey().slice(0, 7), challenges: picks, challenge: picks[0] || null });
+  },
+  getWarriorChallenge: () =>
+    delay({
+      date: dayKey(),
+      bookDay: 1,
+      quote: "If it's important, do it every day.",
+      author: 'Dan Gable',
+      originalSession: 'Work to a heavy single deadlift, then 5x5 at 70%.',
+      homeEdition: ['100 air squats', '50 push-ups', '3x30s plank'],
+      rewardPts: 150,
+      challengeId: 'warrior-demo',
+      completed: completedChallenges.has('warrior-demo'),
+    }),
+  getFoodToday: () => delay(foodToday()),
+  logFood: (item) => {
+    foodItems.push({ id: `f${Date.now()}`, name: item.name, calories: Number(item.calories) || 0, protein: Number(item.protein) || 0 });
+    return delay(foodToday());
+  },
+  deleteFood: (id) => {
+    const i = foodItems.findIndex((f) => f.id === id);
+    if (i >= 0) foodItems.splice(i, 1);
+    return delay(foodToday());
+  },
+  setFoodGoals: (g) => {
+    if (g.calorieGoal) foodGoals.calories = Number(g.calorieGoal);
+    if (g.proteinGoal) foodGoals.protein = Number(g.proteinGoal);
+    return delay(foodToday());
   },
   completeChallenge: (id) => {
     if (completedChallenges.has(id)) return Promise.reject(new Error('Already completed'));
