@@ -20,6 +20,8 @@ const TIER_GATE = { iron: 1, mythic: 21, celestial: 41, abyssal: 61, ascendant: 
 function resolveDbPath() {
   if (process.env.GEAR_DB) return process.env.GEAR_DB;
   const candidates = [
+    // backend/data ships in the deployed container (Railway root dir = /backend)
+    path.resolve(__dirname, '../../data/gear_database.json'),
     path.resolve(__dirname, '../../../data/gear_database.json'),
     path.resolve(__dirname, '../../../../LEVELED_Images/gear_database.json'),
   ];
