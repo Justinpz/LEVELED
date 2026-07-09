@@ -1,0 +1,70 @@
+'use strict';
+
+/**
+ * Auto-seed reference data on server boot when the database isn't fully populated.
+ *
+ * Runs after the HTTP server is already listening (non-blocking) so the health
+ * check passes immediately and a slow/failed seed can never take the service down.
+ * All three seeds are idempotent upserts, so re-running is safe — but we gate on a
+ * cheap sentinel check so normal boots skip straight past it.
+ *
+ * The exercise sentinel matters: Phase 1 left 873 exercise rows WITHOUT the
+ * primary/secondary body-part fields the XP engine needs. "Rows exist" is not
+ * enough — we re-seed until at least one row has been backfilled with the 70/30 data.
+ *
+ * Disable with AUTO_SEED=false (e.g. if you prefer to seed manually).
+ */
+
+const prisma = require('./prisma');
+const seedExercises = require('./seed');
+const seedGear = require('./seed_gear');
+const seedChallenges = require('./seed_challenges');
+
+async function needsSeed() {
+  const [exerciseCount, backfilled, gearCount, challengeCount] = await Promise.all([
+    prisma.exercise.count(),
+    prisma.exercise.findFirst({
+      where: { primaryBodyParts: { isEmpty: false } },
+      select: { id: true },
+    }),
+    prisma.gearItem.count(),
+    prisma.challenge.count(),
+  ]);
+  const exercisesNeedSeed = exerciseCount === 0 || !backfilled; // missing, or not yet backfilled
+  return exercisesNeedSeed || gearCount === 0 || challengeCount === 0;
+}
+
+async function ensureSeeded() {
+  if (process.env.AUTO_SEED === 'false') {
+    console.log('[seed] auto-seed disabled (AUTO_SEED=false)');
+    return;
+  }
+
+  let need;
+  try {
+    need = await needsSeed();
+  } catch (err) {
+    // DB not reachable yet / migrations mid-flight — don't crash the server.
+    console.error('[seed] auto-seed sentinel check failed, skipping:', err.message);
+    return;
+  }
+
+  if (!need) {
+    console.log('[seed] reference data already present; skipping auto-seed');
+    return;
+  }
+
+  console.log('[seed] database not fully seeded — auto-seeding reference data...');
+  try {
+    const ex = await seedExercises.run();
+    const gear = await seedGear.run();
+    const ch = await seedChallenges.run();
+    console.log(
+      `[seed] auto-seed complete: ${ex.count} exercises, ${gear.count} gear, ${ch.count} challenges`
+    );
+  } catch (err) {
+    console.error('[seed] auto-seed failed (server still running):', err.message);
+  }
+}
+
+module.exports = { ensureSeeded, needsSeed };

@@ -122,6 +122,14 @@ app.use((err, req, res, next) => {
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
 
+// Kick off the idempotent auto-seed once we're listening. Non-blocking so the
+// health check passes immediately; a slow or failing seed never blocks boot.
+function bootTasks() {
+  require('./db/ensureSeeded')
+    .ensureSeeded()
+    .catch((err) => console.error('[seed] auto-seed crashed (server still up):', err.message));
+}
+
 function listenHttp() {
   app.listen(PORT, () => {
     console.log(`[leveled] HTTP listening on http://localhost:${PORT}`);
@@ -130,6 +138,7 @@ function listenHttp() {
         '[leveled] (HTTPS disabled — set TLS_CERT_PATH and TLS_KEY_PATH for HTTPS, see README)'
       );
     }
+    bootTasks();
   });
 }
 
@@ -138,6 +147,7 @@ function listenHttps() {
   const key = fs.readFileSync(path.resolve(process.env.TLS_KEY_PATH));
   https.createServer({ cert, key }, app).listen(PORT, () => {
     console.log(`[leveled] HTTPS listening on https://localhost:${PORT}`);
+    bootTasks();
   });
 }
 
