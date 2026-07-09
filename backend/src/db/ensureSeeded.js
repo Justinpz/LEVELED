@@ -51,20 +51,37 @@ async function ensureSeeded() {
 
   if (!need) {
     console.log('[seed] reference data already present; skipping auto-seed');
-    return;
+  } else {
+    console.log('[seed] database not fully seeded — auto-seeding reference data...');
+    try {
+      const ex = await seedExercises.run();
+      const gear = await seedGear.run();
+      const ch = await seedChallenges.run();
+      console.log(
+        `[seed] auto-seed complete: ${ex.count} exercises, ${gear.count} gear, ${ch.count} challenges`
+      );
+    } catch (err) {
+      console.error('[seed] auto-seed failed (server still running):', err.message);
+    }
   }
 
-  console.log('[seed] database not fully seeded — auto-seeding reference data...');
+  // Independent of reference data: every /game/* endpoint resolves an acting user
+  // (auth stub = first user row), so an empty users table makes the whole API 404.
+  // Guarantee one starter player exists until real auth lands.
   try {
-    const ex = await seedExercises.run();
-    const gear = await seedGear.run();
-    const ch = await seedChallenges.run();
-    console.log(
-      `[seed] auto-seed complete: ${ex.count} exercises, ${gear.count} gear, ${ch.count} challenges`
-    );
+    await ensureStarterUser();
   } catch (err) {
-    console.error('[seed] auto-seed failed (server still running):', err.message);
+    console.error('[seed] starter-user check failed (server still running):', err.message);
   }
 }
 
-module.exports = { ensureSeeded, needsSeed };
+async function ensureStarterUser() {
+  const userCount = await prisma.user.count();
+  if (userCount > 0) return;
+  const user = await prisma.user.create({
+    data: { email: 'player1@leveled.local' },
+  });
+  console.log(`[seed] users table was empty — created starter player ${user.id}`);
+}
+
+module.exports = { ensureSeeded, needsSeed, ensureStarterUser };
