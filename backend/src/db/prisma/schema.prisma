@@ -39,6 +39,10 @@ model User {
   carbGoal        Int              @default(250) @map("carb_goal")
   fatGoal         Int              @default(70) @map("fat_goal")
 
+  // App preferences (units, toggles, display name, ...) — schemaless so new
+  // settings don't need migrations; defaults live in routes/settings.js.
+  settings        Json?
+
   whoopConnection WhoopConnection?
   foodLogs        FoodLog[]
   bodyPartProgress BodyPartProgress[]

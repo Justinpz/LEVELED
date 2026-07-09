@@ -5,14 +5,16 @@ import { api } from '../api';
 import { colors, spacing, fonts } from '../theme';
 import { Panel, SectionTitle, PixelButton } from '../components/ui';
 import ScreenBackground from '../components/ScreenBackground';
+import { useSettings } from '../settingsStore';
 
 // Special tasks — 3 daily + 3 weekly challenges, plus The Daily Warrior:
 // a full book session drawn (randomized) from 365 days of real training.
 export default function QuestsScreen() {
+  const settings = useSettings();
   const [daily, setDaily] = useState(null);
   const [weekly, setWeekly] = useState(null);
   const [warrior, setWarrior] = useState(null);
-  const [showOriginal, setShowOriginal] = useState(false);
+  const [showOriginal, setShowOriginal] = useState(settings.warriorShowOriginal);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [msg, setMsg] = useState(null);

@@ -29,6 +29,7 @@ const gameRoutes = require('./routes/game');
 const programRoutes = require('./routes/programs');
 const challengeRoutes = require('./routes/challenges');
 const foodRoutes = require('./routes/food');
+const settingsRoutes = require('./routes/settings');
 const adminRoutes = require('./routes/admin');
 
 const app = express();
@@ -104,6 +105,7 @@ app.use('/game', gameRoutes);
 app.use('/programs', programRoutes);
 app.use('/challenges', challengeRoutes);
 app.use('/food', foodRoutes);
+app.use('/game/settings', settingsRoutes);
 app.use('/admin', adminRoutes);
 
 // 6) Static web client — the Expo web export lives in ./public and is served at the

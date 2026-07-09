@@ -184,3 +184,19 @@ test('starter_programs.json ships 10 programs with valid exercise ids', () => {
     }
   }
 });
+
+// ---- settings sanitize ---------------------------------------------------
+
+test('settings: sanitize accepts valid keys, rejects junk', () => {
+  const { sanitize, DEFAULTS } = require('../src/routes/settings');
+  const clean = sanitize({
+    units: 'kg', barks: false, restSeconds: 120, displayName: 'Justin',
+    evil: 'payload', restTimer: 'yes', animations: true, levelUpModal: false,
+  });
+  assert.deepStrictEqual(clean, {
+    displayName: 'Justin', units: 'kg', barks: false, animations: true,
+    levelUpModal: false, restSeconds: 120,
+  });
+  assert.deepStrictEqual(sanitize({ units: 'stone', restSeconds: 5 }), {});
+  assert.strictEqual(DEFAULTS.units, 'lbs');
+});
