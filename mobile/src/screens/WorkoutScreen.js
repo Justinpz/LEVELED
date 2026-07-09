@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, ScrollView, FlatList, StyleSheet, ActivityIndicator, Pressable } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, TextInput, ScrollView, StyleSheet, ActivityIndicator, Pressable } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { api } from '../api';
 import { colors, spacing, fonts } from '../theme';
 import { Panel, SectionTitle, PixelButton } from '../components/ui';
@@ -7,16 +8,44 @@ import ScreenBackground from '../components/ScreenBackground';
 import LevelUpModal from '../components/LevelUpModal';
 
 // Log a workout -> POST /game/workouts/log -> XP tally + level-ups.
+//
+// Two modes:
+//  - PROGRAM: an active program is selected (Programs tab) — the workout IS
+//    that program: pick a day, its exercises are pre-loaded, log your sets.
+//  - FREE: no program selected — search the full 873-exercise library.
 export default function WorkoutScreen() {
+  const [active, setActive] = useState(null); // { program, suggestedDay }
+  const [dayNumber, setDayNumber] = useState(null);
+  const [loadingProgram, setLoadingProgram] = useState(true);
+
   const [search, setSearch] = useState('');
   const [results, setResults] = useState([]);
-  const [picked, setPicked] = useState([]); // [{ id, name, sets:[{weight,reps}] }]
+  const [picked, setPicked] = useState([]); // [{ id, name, sets:[{weight,reps}], programDayId? }]
   const [searching, setSearching] = useState(false);
   const [result, setResult] = useState(null);
   const [celebrate, setCelebrate] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
+  // Load the active program each time the tab gains focus (it can change in Programs).
+  useFocusEffect(useCallback(() => {
+    let live = true;
+    (async () => {
+      try {
+        const data = await api.getActiveProgram();
+        if (!live) return;
+        setActive(data && data.program ? data : null);
+        if (data && data.program && data.suggestedDay != null) setDayNumber(data.suggestedDay);
+      } catch {
+        if (live) setActive(null);
+      } finally {
+        if (live) setLoadingProgram(false);
+      }
+    })();
+    return () => { live = false; };
+  }, []));
+
+  // Free-mode library search.
   useEffect(() => {
     const t = setTimeout(async () => {
       if (search.trim().length < 2) { setResults([]); return; }
@@ -28,6 +57,24 @@ export default function WorkoutScreen() {
     }, 300);
     return () => clearTimeout(t);
   }, [search]);
+
+  const program = active && active.program;
+  const day = program ? program.days.find((d) => d.dayNumber === dayNumber) : null;
+
+  // Pre-load the chosen program day's exercises as the workout.
+  useEffect(() => {
+    if (!day || day.isRest) { if (program) setPicked([]); return; }
+    setPicked(
+      day.exercises.map((pe) => ({
+        id: pe.exerciseId,
+        name: (pe.exercise && pe.exercise.name) || pe.exerciseId.replace(/_/g, ' '),
+        prescription: `${pe.sets} × ${pe.reps}`,
+        sets: Array.from({ length: pe.sets }, () => ({ weight: '', reps: '' })),
+        programDayId: day.id,
+      }))
+    );
+    setResult(null);
+  }, [program && program.id, dayNumber]);
 
   const addExercise = (ex) => {
     if (picked.find((p) => p.id === ex.id)) return;
@@ -56,6 +103,7 @@ export default function WorkoutScreen() {
     setResult(null);
     try {
       const payload = {
+        programDayId: day ? day.id : undefined,
         exercises: picked.map((p) => ({
           exerciseId: p.id,
           sets: p.sets.map((s) => ({
@@ -71,31 +119,61 @@ export default function WorkoutScreen() {
     } catch (e) { setError(e.message); } finally { setSubmitting(false); }
   };
 
+  if (loadingProgram) {
+    return (
+      <ScreenBackground name="Workout">
+        <View style={styles.centered}><ActivityIndicator color={colors.accent} /></View>
+      </ScreenBackground>
+    );
+  }
+
   return (
     <ScreenBackground name="Workout">
     <ScrollView style={styles.container} contentContainerStyle={{ padding: spacing.md }}>
-      <Panel>
-        <SectionTitle>Add Exercise</SectionTitle>
-        <TextInput
-          style={styles.input}
-          placeholder="Search 873 exercises…"
-          placeholderTextColor={colors.textDim}
-          value={search}
-          onChangeText={setSearch}
-        />
-        {searching ? <ActivityIndicator color={colors.accent} style={{ marginTop: 8 }} /> : null}
-        {results.map((ex) => (
-          <Pressable key={ex.id} onPress={() => addExercise(ex)} style={styles.resultRow}>
-            <Text style={styles.resultName}>{ex.name}</Text>
-            <Text style={styles.resultParts}>{(ex.bodyParts || []).join(' · ')}</Text>
-          </Pressable>
-        ))}
-      </Panel>
+      {program ? (
+        <Panel>
+          <SectionTitle>{program.name}</SectionTitle>
+          <Text style={styles.programHint}>
+            Your selected program drives today's battle. Change or clear it in the Programs tab.
+          </Text>
+          <View style={styles.dayRow}>
+            {program.days.map((d) => (
+              <Pressable key={d.id} onPress={() => setDayNumber(d.dayNumber)}
+                style={[styles.dayChip, d.dayNumber === dayNumber && styles.dayChipActive]}>
+                <Text style={[styles.dayChipText, d.dayNumber === dayNumber && styles.dayChipTextActive]}>
+                  {d.dayNumber}{active.suggestedDay === d.dayNumber ? ' ★' : ''}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+          {day ? <Text style={styles.dayName}>{day.name}{day.isRest ? ' — rest day' : ''}</Text> : null}
+        </Panel>
+      ) : (
+        <Panel>
+          <SectionTitle>Add Exercise</SectionTitle>
+          <Text style={styles.programHint}>Free battle — or select a program in the Programs tab.</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Search 873 exercises…"
+            placeholderTextColor={colors.textDim}
+            value={search}
+            onChangeText={setSearch}
+          />
+          {searching ? <ActivityIndicator color={colors.accent} style={{ marginTop: 8 }} /> : null}
+          {results.map((ex) => (
+            <Pressable key={ex.id} onPress={() => addExercise(ex)} style={styles.resultRow}>
+              <Text style={styles.resultName}>{ex.name}</Text>
+              <Text style={styles.resultParts}>{(ex.bodyParts || []).join(' · ')}</Text>
+            </Pressable>
+          ))}
+        </Panel>
+      )}
 
       {picked.map((p, i) => (
         <Panel key={p.id}>
           <View style={styles.exHeader}>
             <Text style={styles.exName}>{p.name}</Text>
+            {p.prescription ? <Text style={styles.prescription}>{p.prescription}</Text> : null}
             <Pressable onPress={() => removeExercise(i)}><Text style={styles.remove}>✕</Text></Pressable>
           </View>
           {p.sets.map((s, j) => (
@@ -141,6 +219,17 @@ export default function WorkoutScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: 'transparent' },
+  centered: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  programHint: { fontFamily: fonts.body, color: colors.textDim, fontSize: 11, marginBottom: 8 },
+  dayRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  dayChip: {
+    minWidth: 40, alignItems: 'center', paddingVertical: 6, paddingHorizontal: 10,
+    backgroundColor: colors.bgPanelAlt, borderRadius: 6, borderWidth: 2, borderColor: colors.border,
+  },
+  dayChipActive: { borderColor: colors.accent, backgroundColor: '#2c2138' },
+  dayChipText: { fontFamily: fonts.body, color: colors.textDim, fontWeight: '700' },
+  dayChipTextActive: { color: colors.accent },
+  dayName: { fontFamily: fonts.body, color: colors.text, marginTop: 8, fontWeight: '700' },
   input: {
     backgroundColor: colors.bgPanelAlt, color: colors.text, fontFamily: fonts.body,
     borderRadius: 6, borderWidth: 2, borderColor: colors.border, paddingHorizontal: 10, paddingVertical: 8,
@@ -150,6 +239,7 @@ const styles = StyleSheet.create({
   resultParts: { fontFamily: fonts.body, color: colors.textDim, fontSize: 11 },
   exHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 },
   exName: { fontFamily: fonts.body, color: colors.text, fontWeight: '700', flex: 1 },
+  prescription: { fontFamily: fonts.body, color: colors.accent, fontSize: 11, marginRight: 8 },
   remove: { color: colors.danger, fontSize: 18, paddingLeft: 12 },
   setRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 6 },
   setNum: { width: 20, color: colors.textDim, fontFamily: fonts.body },

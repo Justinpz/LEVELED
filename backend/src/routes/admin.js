@@ -16,6 +16,7 @@ const express = require('express');
 const seedExercises = require('../db/seed');
 const seedGear = require('../db/seed_gear');
 const seedChallenges = require('../db/seed_challenges');
+const seedPrograms = require('../db/seed_programs');
 
 const router = express.Router();
 
@@ -34,7 +35,8 @@ router.post('/seed', requireAdminKey, async (req, res, next) => {
     const exercises = await seedExercises.run();
     const gear = await seedGear.run();
     const challenges = await seedChallenges.run();
-    res.json({ ok: true, exercises, gear, challenges });
+    const programs = await seedPrograms.run();
+    res.json({ ok: true, exercises, gear, challenges, programs });
   } catch (err) {
     console.error('[admin/seed] Failed:', err.message);
     res.status(500).json({ ok: false, error: err.message });

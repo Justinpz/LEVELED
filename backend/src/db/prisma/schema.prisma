@@ -28,7 +28,17 @@ model User {
   currentStreak   Int              @default(0) @map("current_streak")
   lastWorkoutDate DateTime?        @map("last_workout_date") @db.Date
 
+  // Selected training program — when set, the Workout screen serves this
+  // program's days instead of the open exercise library.
+  activeProgramId String?          @map("active_program_id") @db.Uuid
+  activeProgram   Program?         @relation("ActiveProgram", fields: [activeProgramId], references: [id], onDelete: SetNull)
+
+  // Food tracker goals (health meter compares intake against these).
+  calorieGoal     Int              @default(2200) @map("calorie_goal")
+  proteinGoal     Int              @default(150) @map("protein_goal")
+
   whoopConnection WhoopConnection?
+  foodLogs        FoodLog[]
   bodyPartProgress BodyPartProgress[]
   gear            UserGear[]
   programs        Program[]
@@ -119,6 +129,7 @@ enum GearSlot {
 enum ChallengeKind {
   daily
   weekly
+  warrior // The Daily Warrior book workout-of-the-day
 }
 
 enum ChallengeDifficulty {
@@ -196,8 +207,9 @@ model Program {
   ownerId       String?  @map("owner_id") @db.Uuid
   createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
-  owner User?        @relation(fields: [ownerId], references: [id], onDelete: SetNull)
-  days  ProgramDay[]
+  owner     User?        @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  days      ProgramDay[]
+  activeFor User[]       @relation("ActiveProgram")
 
   @@map("programs")
 }
@@ -296,6 +308,23 @@ model UserChallenge {
 
   @@unique([userId, challengeId])
   @@map("user_challenges")
+}
+
+// Food tracker (health meter). One row per logged food item; the day's rows
+// roll up against the user's calorie/protein goals.
+model FoodLog {
+  id       String   @id @default(uuid()) @db.Uuid
+  userId   String   @map("user_id") @db.Uuid
+  name     String
+  calories Int
+  protein  Int      @default(0)
+  loggedAt DateTime @default(now()) @map("logged_at") @db.Timestamptz(6)
+  date     DateTime @db.Date // day bucket (UTC) for fast daily rollups
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+  @@map("food_logs")
 }
 
 model Title {
