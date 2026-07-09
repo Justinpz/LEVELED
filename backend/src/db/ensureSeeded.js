@@ -66,6 +66,18 @@ async function ensureSeeded() {
     }
   }
 
+  // Price/metadata sync: the gear sentinel only checks "rows exist", so catalog
+  // repricing (e.g. rebalancing an item's costPts) would never reach an
+  // already-seeded DB. Detect drift cheaply and re-run the idempotent gear seed.
+  try {
+    if (await gearPricesDrifted()) {
+      console.log('[seed] gear catalog drift detected — re-syncing gear items');
+      await seedGear.run();
+    }
+  } catch (err) {
+    console.error('[seed] gear price sync failed (server still running):', err.message);
+  }
+
   // Starter programs seed independently (added after the original sentinel; a
   // fully-seeded production DB still needs these on first deploy of this code).
   try {
@@ -83,6 +95,22 @@ async function ensureSeeded() {
   } catch (err) {
     console.error('[seed] starter-user check failed (server still running):', err.message);
   }
+}
+
+// Compare catalog costPts against the DB rows; true if any item differs.
+async function gearPricesDrifted() {
+  const fs = require('fs');
+  const path = require('path');
+  const candidates = [
+    path.resolve(__dirname, '../../data/gear_database.json'),
+    path.resolve(__dirname, '../../../data/gear_database.json'),
+  ];
+  const p = candidates.find((c) => fs.existsSync(c));
+  if (!p) return false;
+  const catalog = JSON.parse(fs.readFileSync(p, 'utf8'));
+  const rows = await prisma.gearItem.findMany({ select: { id: true, costPts: true } });
+  const byId = new Map(rows.map((r) => [r.id, r.costPts]));
+  return catalog.some((it) => byId.has(it.item_id) && byId.get(it.item_id) !== it.cost_pts);
 }
 
 async function ensureStarterUser() {

@@ -1,0 +1,8 @@
+-- AlterTable
+ALTER TABLE "users" ADD COLUMN     "carb_goal" INTEGER NOT NULL DEFAULT 250,
+ADD COLUMN     "fat_goal" INTEGER NOT NULL DEFAULT 70;
+
+-- AlterTable
+ALTER TABLE "food_logs" ADD COLUMN     "carbs" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "fat" INTEGER NOT NULL DEFAULT 0;
+

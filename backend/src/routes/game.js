@@ -274,6 +274,22 @@ router.post('/gear/:id/buy', async (req, res, next) => {
   }
 });
 
+// POST /game/gear/:id/unequip — take an equipped item off.
+router.post('/gear/:id/unequip', async (req, res, next) => {
+  try {
+    const user = await resolveUser(req);
+    if (!user) return res.status(404).json({ error: 'No user' });
+    const rec = await prisma.userGear.findUnique({
+      where: { userId_gearItemId: { userId: user.id, gearItemId: req.params.id } },
+    });
+    if (!rec || !rec.owned) return res.status(403).json({ error: 'Not owned' });
+    await prisma.userGear.update({ where: { id: rec.id }, data: { equipped: false } });
+    res.json({ unequipped: req.params.id });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // POST /game/gear/:id/equip — equip an owned item (one per slot).
 router.post('/gear/:id/equip', async (req, res, next) => {
   try {

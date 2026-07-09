@@ -43,20 +43,46 @@ function dailyPick(pool, key) {
 }
 const dayKey = () => new Date().toISOString().slice(0, 10);
 
-// Offline food log (demo).
+// Offline food log (demo) — mirrors the live 4-macro meter.
 const foodItems = [];
-let foodGoals = { calories: 2200, protein: 150 };
+let foodGoals = { calories: 2200, protein: 150, carbs: 250, fat: 70 };
 function foodToday() {
   const totals = foodItems.reduce(
-    (a, it) => ({ calories: a.calories + it.calories, protein: a.protein + it.protein }),
-    { calories: 0, protein: 0 }
+    (a, it) => ({
+      calories: a.calories + it.calories,
+      protein: a.protein + it.protein,
+      carbs: a.carbs + (it.carbs || 0),
+      fat: a.fat + (it.fat || 0),
+    }),
+    { calories: 0, protein: 0, carbs: 0, fat: 0 }
   );
+  const part = (have, goal, pen, from = 1) => {
+    if (!goal) return 100;
+    const r = have / goal;
+    return r <= 1 ? r * 100 : !pen || r <= from ? 100 : Math.max(0, 100 - (r - from) * pen);
+  };
   const calRatio = totals.calories / foodGoals.calories;
-  const calScore = calRatio <= 1 ? calRatio * 100 : Math.max(0, 100 - (calRatio - 1) * 200);
-  const proteinScore = Math.min(1, totals.protein / foodGoals.protein) * 100;
-  const score = Math.round(0.6 * calScore + 0.4 * proteinScore);
+  const score = Math.round(
+    0.4 * part(totals.calories, foodGoals.calories, 200) +
+    0.25 * part(totals.protein, foodGoals.protein, 0) +
+    0.175 * part(totals.carbs, foodGoals.carbs, 100, 1.3) +
+    0.175 * part(totals.fat, foodGoals.fat, 100, 1.3)
+  );
   const label = calRatio > 1.15 ? 'Overfed' : score >= 90 ? 'Forged' : score >= 75 ? 'Battle-Ready' : score >= 50 ? 'Nourished' : score >= 25 ? 'Underfed' : 'Starving';
-  return { date: dayKey(), goals: foodGoals, totals, health: { score, label }, items: foodItems.slice() };
+  const met = (h, g) => g > 0 && h >= g * 0.9;
+  return {
+    date: dayKey(),
+    goals: foodGoals,
+    totals,
+    health: { score, label },
+    goalsMet: {
+      calories: met(totals.calories, foodGoals.calories) && totals.calories <= foodGoals.calories * 1.15,
+      protein: met(totals.protein, foodGoals.protein),
+      carbs: met(totals.carbs, foodGoals.carbs) && totals.carbs <= foodGoals.carbs * 1.3,
+      fat: met(totals.fat, foodGoals.fat) && totals.fat <= foodGoals.fat * 1.3,
+    },
+    items: foodItems.slice(),
+  };
 }
 
 export const mockApi = {
@@ -130,6 +156,11 @@ export const mockApi = {
     return delay({ equipped: id, slot: it.slot });
   },
 
+  unequipGear: (id) => {
+    if (owned[id]) owned[id].equipped = false;
+    return delay({ unequipped: id });
+  },
+
   getPrograms: () => delay({ programs: [
     { id: 'p1', name: 'Warrior Foundation', description: 'Full-body strength base', daysPerWeek: 3, durationWeeks: 8, isStarter: true, days: [] },
     { id: 'p2', name: 'Iron Back & Arms', description: 'The Warrior path', daysPerWeek: 4, durationWeeks: 6, isStarter: true, days: [] },
@@ -166,8 +197,17 @@ export const mockApi = {
       completed: completedChallenges.has('warrior-demo'),
     }),
   getFoodToday: () => delay(foodToday()),
+  getFoodCalendar: () => delay({ month: dayKey().slice(0, 7), goals: foodGoals, days: [] }),
+  getFoodDay: (date) => delay({ date, goals: foodGoals, totals: { calories: 0, protein: 0, carbs: 0, fat: 0 }, health: null, items: [], workouts: [], challenges: [] }),
   logFood: (item) => {
-    foodItems.push({ id: `f${Date.now()}`, name: item.name, calories: Number(item.calories) || 0, protein: Number(item.protein) || 0 });
+    foodItems.push({
+      id: `f${Date.now()}`,
+      name: item.name,
+      calories: Number(item.calories) || 0,
+      protein: Number(item.protein) || 0,
+      carbs: Number(item.carbs) || 0,
+      fat: Number(item.fat) || 0,
+    });
     return delay(foodToday());
   },
   deleteFood: (id) => {
@@ -178,6 +218,8 @@ export const mockApi = {
   setFoodGoals: (g) => {
     if (g.calorieGoal) foodGoals.calories = Number(g.calorieGoal);
     if (g.proteinGoal) foodGoals.protein = Number(g.proteinGoal);
+    if (g.carbGoal) foodGoals.carbs = Number(g.carbGoal);
+    if (g.fatGoal) foodGoals.fat = Number(g.fatGoal);
     return delay(foodToday());
   },
   completeChallenge: (id) => {
