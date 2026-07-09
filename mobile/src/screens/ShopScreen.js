@@ -3,7 +3,7 @@ import { View, Text, ScrollView, StyleSheet, ActivityIndicator, Image, Pressable
 import { useFocusEffect } from '@react-navigation/native';
 import { api } from '../api';
 import { colors, spacing, fonts, tierColors } from '../theme';
-import { Panel, SectionTitle } from '../components/ui';
+import { Panel, SectionTitle, PixelToggle } from '../components/ui';
 import ScreenBackground from '../components/ScreenBackground';
 import { gearImage } from '../assets';
 
@@ -30,6 +30,29 @@ export default function ShopScreen() {
     finally { setBusy(null); }
   };
 
+  // Wear toggle: flip instantly (one worn per slot), then confirm with the
+  // server — revert by reloading if the call fails.
+  const toggleWear = async (item) => {
+    const wasOn = item.equipped;
+    setBusy(item.id);
+    setShop((prev) => ({
+      ...prev,
+      items: prev.items.map((it) => {
+        if (it.id === item.id) return { ...it, equipped: !wasOn };
+        if (!wasOn && it.slot === item.slot) return { ...it, equipped: false };
+        return it;
+      }),
+    }));
+    try {
+      await (wasOn ? api.unequipGear(item.id) : api.equipGear(item.id));
+    } catch (e) {
+      setError(e.message);
+      await load();
+    } finally {
+      setBusy(null);
+    }
+  };
+
   if (loading) return <Centered><ActivityIndicator color={colors.accent} /></Centered>;
   if (error && !shop) return <Centered><Text style={styles.err}>{error}</Text></Centered>;
 
@@ -46,6 +69,29 @@ export default function ShopScreen() {
         <Text style={styles.walletHint}>
           points are earned and spent PER BODY PART — each section shows its own pool
         </Text>
+      </Panel>
+      <Panel>
+        <SectionTitle>Wearing Now</SectionTitle>
+        <View style={styles.wornRow}>
+          {['arms', 'chest', 'back', 'legs', 'core'].map((slot) => {
+            const worn = shop.items.find((it) => it.slot === slot && it.equipped);
+            const img = worn ? gearImage(worn.tier, worn.slot, worn.id) : null;
+            return (
+              <Pressable key={slot} disabled={!worn || busy === (worn && worn.id)}
+                onPress={() => worn && toggleWear(worn)} style={styles.wornSlot}>
+                <View style={[styles.wornThumb, worn && { borderColor: tierColors[worn.tier] || colors.border }]}>
+                  {img ? (
+                    <Image source={img} style={styles.thumbImg} resizeMode="contain" />
+                  ) : (
+                    <Text style={styles.wornEmpty}>—</Text>
+                  )}
+                </View>
+                <Text style={styles.wornLabel}>{slot}</Text>
+              </Pressable>
+            );
+          })}
+        </View>
+        <Text style={styles.walletHint}>tap a worn piece to take it off · flip toggles below to dress</Text>
       </Panel>
       {Object.entries(bySlot).map(([slot, items]) => (
         <Panel key={slot}>
@@ -72,14 +118,8 @@ export default function ShopScreen() {
                   <Text style={styles.needMore}>need {short} more {it.slot} pts</Text>
                 ) : null}
               </View>
-              {it.equipped ? (
-                <Pressable disabled={busy === it.id} onPress={() => act(api.unequipGear, it.id)}>
-                  <Text style={styles.equipped}>★ Worn</Text>
-                </Pressable>
-              ) : it.owned ? (
-                <Pressable disabled={busy === it.id} onPress={() => act(api.equipGear, it.id)}>
-                  <Text style={styles.equip}>Equip</Text>
-                </Pressable>
+              {it.owned ? (
+                <PixelToggle value={it.equipped} disabled={busy === it.id} onToggle={() => toggleWear(it)} />
               ) : (
                 <Pressable disabled={!affordable || busy === it.id} onPress={() => act(api.buyGear, it.id)}>
                   <Text style={[styles.buy, !affordable && styles.disabled]}>{busy === it.id ? '…' : 'Buy'}</Text>
@@ -102,6 +142,14 @@ const styles = StyleSheet.create({
   centered: { flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center', padding: spacing.lg },
   err: { color: colors.danger, fontFamily: fonts.body, marginBottom: 8, textAlign: 'center' },
   walletPanel: { alignItems: 'center', paddingVertical: 10 },
+  wornRow: { flexDirection: 'row', justifyContent: 'space-between' },
+  wornSlot: { alignItems: 'center', flex: 1 },
+  wornThumb: {
+    width: 48, height: 48, borderRadius: 6, borderWidth: 2, borderColor: colors.border,
+    backgroundColor: colors.bgPanelAlt, alignItems: 'center', justifyContent: 'center',
+  },
+  wornEmpty: { color: colors.textDim, opacity: 0.5 },
+  wornLabel: { fontFamily: fonts.body, color: colors.textDim, fontSize: 9, marginTop: 2 },
   wallet: { fontFamily: fonts.heading, color: colors.accent, fontSize: 20, fontWeight: '700', letterSpacing: 1 },
   walletHint: { fontFamily: fonts.body, color: colors.textDim, fontSize: 10, marginTop: 2 },
   item: { flexDirection: 'row', alignItems: 'center', paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: colors.border },
