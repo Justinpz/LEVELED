@@ -14,9 +14,18 @@ const fs = require('fs');
 const path = require('path');
 const prisma = require('./prisma');
 
-const DATA_PATH = path.resolve(__dirname, '../../../data/challenges.json');
+// backend/data ships in the deployed container (Railway root dir = /backend);
+// the repo-root copy only exists in a full checkout.
+const DATA_CANDIDATES = [
+  path.resolve(__dirname, '../../data/challenges.json'),
+  path.resolve(__dirname, '../../../data/challenges.json'),
+];
+const DATA_PATH = DATA_CANDIDATES.find((p) => fs.existsSync(p));
 
 async function run() {
+  if (!DATA_PATH) {
+    throw new Error(`challenges.json not found; tried ${DATA_CANDIDATES.join(', ')}`);
+  }
   const pool = JSON.parse(fs.readFileSync(DATA_PATH, 'utf8'));
   console.log(`[seed_challenges] Read ${pool.length} challenges`);
 
