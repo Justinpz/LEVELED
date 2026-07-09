@@ -104,6 +104,22 @@ app.use('/programs', programRoutes);
 app.use('/challenges', challengeRoutes);
 app.use('/admin', adminRoutes);
 
+// 6) Static web client — the Expo web export lives in ./public and is served at the
+//    domain root, so the game is playable in a browser at the backend's own URL.
+//    Mounted AFTER the API routes so those always take precedence.
+const publicDir = path.join(__dirname, '../public');
+const hasWebClient = fs.existsSync(path.join(publicDir, 'index.html'));
+if (hasWebClient) {
+  app.use(express.static(publicDir));
+  // SPA fallback: any non-API GET returns index.html so the app boots on any path.
+  // Written as a path-less middleware — Express 5's router rejects a bare '*' route.
+  const API_PREFIXES = /^\/(health|auth|game|programs|challenges|admin|webhooks)(\/|$)/;
+  app.use((req, res, next) => {
+    if (req.method !== 'GET' || API_PREFIXES.test(req.path)) return next();
+    res.sendFile(path.join(publicDir, 'index.html'));
+  });
+}
+
 // 404
 app.use((req, res) => {
   res.status(404).json({ error: 'Not found' });
