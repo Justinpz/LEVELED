@@ -39,6 +39,7 @@ const liveApi = {
   getShop: () => request('/game/shop'),
   buyGear: (id) => request(`/game/gear/${id}/buy`, { method: 'POST' }),
   equipGear: (id) => request(`/game/gear/${id}/equip`, { method: 'POST' }),
+  unequipGear: (id) => request(`/game/gear/${id}/unequip`, { method: 'POST' }),
   // Programs
   getPrograms: () => request('/programs'),
   getProgram: (id) => request(`/programs/${id}`),
@@ -58,6 +59,8 @@ const liveApi = {
   logFood: (item) => request('/food/log', { method: 'POST', body: item }),
   deleteFood: (id) => request(`/food/${id}`, { method: 'DELETE' }),
   setFoodGoals: (goals) => request('/food/goals', { method: 'POST', body: goals }),
+  getFoodCalendar: (month) => request(`/food/calendar${month ? `?month=${month}` : ''}`),
+  getFoodDay: (date) => request(`/food/day/${date}`),
 };
 
 export const api = USE_MOCK ? mockApi : liveApi;

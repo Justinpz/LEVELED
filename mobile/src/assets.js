@@ -15,6 +15,16 @@ const AVATARS = {
   4: require('../assets/avatar/t4_abyssal.png'),
   5: require('../assets/avatar/t5_ascendant.png'),
 };
+// Living idle loops (animated WebP, generated via Higgsfield image→video from the
+// stills above). Browsers play these natively in the web build; native platforms
+// that only decode the first frame effectively fall back to the still pose.
+const AVATARS_IDLE = {
+  1: require('../assets/avatar/t1_idle.webp'),
+  2: require('../assets/avatar/t2_idle.webp'),
+  3: require('../assets/avatar/t3_idle.webp'),
+  4: require('../assets/avatar/t4_idle.webp'),
+  5: require('../assets/avatar/t5_idle.webp'),
+};
 // Gear icons keyed by `${tier}_${slot}` — one icon per tier×slot covers all 124
 // catalog items with tier-and-slot-appropriate art.
 const GEAR = {
@@ -68,6 +78,13 @@ export function bgImage(key) {
 export function avatarForLevel(level) {
   const tier = Math.min(5, Math.max(1, Math.ceil(level / 20)));
   return AVATARS[tier] || null;
+}
+
+// Animated idle loop for the same tier (null-safe; prefer over the still where
+// motion is wanted — the Home hub hero).
+export function avatarIdleForLevel(level) {
+  const tier = Math.min(5, Math.max(1, Math.ceil(level / 20)));
+  return AVATARS_IDLE[tier] || AVATARS[tier] || null;
 }
 
 // Gear art: dedicated per-item image first (113 unique pieces), then the

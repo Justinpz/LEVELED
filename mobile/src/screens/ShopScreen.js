@@ -43,14 +43,20 @@ export default function ShopScreen() {
       {error ? <Text style={styles.err}>{error}</Text> : null}
       <Panel style={styles.walletPanel}>
         <Text style={styles.wallet}>⛁ {shop.totalPoints ?? 0} pts</Text>
-        <Text style={styles.walletHint}>total across all body parts · far-tier gear reveals as you level</Text>
+        <Text style={styles.walletHint}>
+          points are earned and spent PER BODY PART — each section shows its own pool
+        </Text>
       </Panel>
       {Object.entries(bySlot).map(([slot, items]) => (
         <Panel key={slot}>
           <SectionTitle>
             {slot} · Lv {shop.levelBySlot?.[slot] ?? '?'} · {shop.pointsBySlot?.[slot] ?? 0} pts
           </SectionTitle>
-          {items.map((it) => (
+          {items.map((it) => {
+            const slotPts = shop.pointsBySlot?.[it.slot] ?? 0;
+            const short = it.costPts - slotPts;
+            const affordable = !it.locked && short <= 0;
+            return (
             <View key={it.id} style={styles.item}>
               <View style={[styles.thumb, { borderColor: tierColors[it.tier] || colors.border }]}>
                 {gearImage(it.tier, it.slot, it.id) ? (
@@ -62,20 +68,26 @@ export default function ShopScreen() {
               <View style={{ flex: 1 }}>
                 <Text style={styles.itemName}>{it.name}</Text>
                 <Text style={styles.itemMeta}>{it.tier} · {it.costPts} pts{it.locked ? ` · 🔒 Lv ${it.levelGate}` : ''}</Text>
+                {!it.owned && !it.locked && !affordable ? (
+                  <Text style={styles.needMore}>need {short} more {it.slot} pts</Text>
+                ) : null}
               </View>
               {it.equipped ? (
-                <Text style={styles.equipped}>★ Worn</Text>
+                <Pressable disabled={busy === it.id} onPress={() => act(api.unequipGear, it.id)}>
+                  <Text style={styles.equipped}>★ Worn</Text>
+                </Pressable>
               ) : it.owned ? (
                 <Pressable disabled={busy === it.id} onPress={() => act(api.equipGear, it.id)}>
                   <Text style={styles.equip}>Equip</Text>
                 </Pressable>
               ) : (
-                <Pressable disabled={it.locked || busy === it.id} onPress={() => act(api.buyGear, it.id)}>
-                  <Text style={[styles.buy, it.locked && styles.disabled]}>{busy === it.id ? '…' : 'Buy'}</Text>
+                <Pressable disabled={!affordable || busy === it.id} onPress={() => act(api.buyGear, it.id)}>
+                  <Text style={[styles.buy, !affordable && styles.disabled]}>{busy === it.id ? '…' : 'Buy'}</Text>
                 </Pressable>
               )}
             </View>
-          ))}
+            );
+          })}
         </Panel>
       ))}
     </ScrollView>
@@ -98,6 +110,7 @@ const styles = StyleSheet.create({
   thumbTier: { fontFamily: fonts.body, fontWeight: '700' },
   itemName: { fontFamily: fonts.body, color: colors.text },
   itemMeta: { fontFamily: fonts.body, color: colors.textDim, fontSize: 11 },
+  needMore: { fontFamily: fonts.body, color: colors.danger, fontSize: 10, marginTop: 1 },
   buy: { fontFamily: fonts.body, color: colors.accent, fontWeight: '700', paddingHorizontal: 8 },
   equip: { fontFamily: fonts.body, color: colors.success, fontWeight: '700', paddingHorizontal: 8 },
   equipped: { fontFamily: fonts.body, color: colors.accent, fontWeight: '700', paddingHorizontal: 8 },

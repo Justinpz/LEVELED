@@ -36,6 +36,8 @@ model User {
   // Food tracker goals (health meter compares intake against these).
   calorieGoal     Int              @default(2200) @map("calorie_goal")
   proteinGoal     Int              @default(150) @map("protein_goal")
+  carbGoal        Int              @default(250) @map("carb_goal")
+  fatGoal         Int              @default(70) @map("fat_goal")
 
   whoopConnection WhoopConnection?
   foodLogs        FoodLog[]
@@ -318,6 +320,8 @@ model FoodLog {
   name     String
   calories Int
   protein  Int      @default(0)
+  carbs    Int      @default(0)
+  fat      Int      @default(0)
   loggedAt DateTime @default(now()) @map("logged_at") @db.Timestamptz(6)
   date     DateTime @db.Date // day bucket (UTC) for fast daily rollups
 

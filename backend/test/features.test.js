@@ -110,35 +110,62 @@ test('parseRequest: explicit inputs win over defaults', () => {
   assert.deepStrictEqual(ctx.equipment, ['dumbbell']);
 });
 
-// ---- health meter -----------------------------------------------------------
+// ---- health meter (4 macros) -------------------------------------------------
+
+const GOALS = { calories: 2200, protein: 150, carbs: 250, fat: 70 };
+const AT_GOAL = { calories: 2200, protein: 150, carbs: 250, fat: 70 };
 
 test('healthMeter: empty day scores 0 / Starving', () => {
-  const h = healthMeter({ calories: 0, protein: 0 }, { calories: 2200, protein: 150 });
+  const h = healthMeter({ calories: 0, protein: 0, carbs: 0, fat: 0 }, GOALS);
   assert.strictEqual(h.score, 0);
   assert.strictEqual(h.label, 'Starving');
 });
 
-test('healthMeter: hitting both goals scores 100 / Forged', () => {
-  const h = healthMeter({ calories: 2200, protein: 150 }, { calories: 2200, protein: 150 });
+test('healthMeter: hitting all four goals scores 100 / Forged', () => {
+  const h = healthMeter(AT_GOAL, GOALS);
   assert.strictEqual(h.score, 100);
   assert.strictEqual(h.label, 'Forged');
+  assert.deepStrictEqual(h.breakdown, { calories: 100, protein: 100, carbs: 100, fat: 100 });
 });
 
-test('healthMeter: halfway to goals ≈ 50 / Nourished', () => {
-  const h = healthMeter({ calories: 1100, protein: 75 }, { calories: 2200, protein: 150 });
+test('healthMeter: halfway on all macros ≈ 50 / Nourished', () => {
+  const h = healthMeter({ calories: 1100, protein: 75, carbs: 125, fat: 35 }, GOALS);
   assert.strictEqual(h.score, 50);
   assert.strictEqual(h.label, 'Nourished');
 });
 
 test('healthMeter: blowing 20% past the calorie goal drains the meter and labels Overfed', () => {
-  const h = healthMeter({ calories: 2640, protein: 150 }, { calories: 2200, protein: 150 });
+  const h = healthMeter({ ...AT_GOAL, calories: 2640 }, GOALS);
   assert.strictEqual(h.label, 'Overfed');
   assert.ok(h.score < 90, `expected drained score, got ${h.score}`);
 });
 
 test('healthMeter: protein overshoot is capped, never hurts', () => {
-  const h = healthMeter({ calories: 2200, protein: 400 }, { calories: 2200, protein: 150 });
+  const h = healthMeter({ ...AT_GOAL, protein: 400 }, GOALS);
   assert.strictEqual(h.score, 100);
+});
+
+test('healthMeter: carbs/fat drain only past 130% of goal', () => {
+  const mild = healthMeter({ ...AT_GOAL, carbs: 300 }, GOALS); // 120% — inside grace
+  assert.strictEqual(mild.score, 100);
+  const heavy = healthMeter({ ...AT_GOAL, carbs: 500, fat: 140 }, GOALS); // 200% both
+  assert.ok(heavy.score < 100, `expected drain, got ${heavy.score}`);
+});
+
+test('healthMeter: tolerates missing carbs/fat fields (legacy rows)', () => {
+  const h = healthMeter({ calories: 2200, protein: 150 }, GOALS);
+  assert.ok(Number.isFinite(h.score));
+  assert.strictEqual(h.breakdown.carbs, 0);
+});
+
+test('goalsMet: met at >=90%, calories/carbs/fat fail when blown far past', () => {
+  const { goalsMet } = require('../src/routes/food');
+  const met = goalsMet({ calories: 2100, protein: 140, carbs: 230, fat: 65 }, GOALS);
+  assert.deepStrictEqual(met, { calories: true, protein: true, carbs: true, fat: true });
+  const blown = goalsMet({ calories: 3000, protein: 140, carbs: 400, fat: 65 }, GOALS);
+  assert.strictEqual(blown.calories, false);
+  assert.strictEqual(blown.carbs, false);
+  assert.strictEqual(blown.protein, true);
 });
 
 // ---- starter programs data ---------------------------------------------------
