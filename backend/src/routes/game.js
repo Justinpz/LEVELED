@@ -208,17 +208,18 @@ router.get('/shop', async (req, res, next) => {
       back: progress.Back.spendablePoints,
       core: progress.Core.spendablePoints,
     };
-    const owned = new Set(
-      (await prisma.userGear.findMany({ where: { userId: user.id } })).map((g) => g.gearItemId)
-    );
+    const userGear = await prisma.userGear.findMany({ where: { userId: user.id } });
+    const gearState = new Map(userGear.map((g) => [g.gearItemId, g]));
     const items = await prisma.gearItem.findMany({ orderBy: [{ slot: 'asc' }, { costPts: 'asc' }] });
     const shaped = items.map((it) => {
       const gate = TIER_LEVEL_GATE[it.tier] ?? it.levelGate ?? 1;
+      const rec = gearState.get(it.id);
       return {
         ...it,
         levelGate: gate,
         locked: levelBySlot[it.slot] < gate,
-        owned: owned.has(it.id),
+        owned: !!(rec && rec.owned),
+        equipped: !!(rec && rec.equipped),
       };
     });
     res.json({ levelBySlot, pointsBySlot, items: shaped });

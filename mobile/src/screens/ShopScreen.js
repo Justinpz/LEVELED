@@ -59,7 +59,9 @@ export default function ShopScreen() {
                 <Text style={styles.itemName}>{it.name}</Text>
                 <Text style={styles.itemMeta}>{it.tier} · {it.costPts} pts{it.locked ? ` · 🔒 Lv ${it.levelGate}` : ''}</Text>
               </View>
-              {it.owned ? (
+              {it.equipped ? (
+                <Text style={styles.equipped}>★ Worn</Text>
+              ) : it.owned ? (
                 <Pressable disabled={busy === it.id} onPress={() => act(api.equipGear, it.id)}>
                   <Text style={styles.equip}>Equip</Text>
                 </Pressable>
@@ -91,5 +93,6 @@ const styles = StyleSheet.create({
   itemMeta: { fontFamily: fonts.body, color: colors.textDim, fontSize: 11 },
   buy: { fontFamily: fonts.body, color: colors.accent, fontWeight: '700', paddingHorizontal: 8 },
   equip: { fontFamily: fonts.body, color: colors.success, fontWeight: '700', paddingHorizontal: 8 },
+  equipped: { fontFamily: fonts.body, color: colors.accent, fontWeight: '700', paddingHorizontal: 8 },
   disabled: { color: colors.textDim },
 });
