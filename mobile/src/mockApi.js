@@ -43,6 +43,12 @@ function dailyPick(pool, key) {
 }
 const dayKey = () => new Date().toISOString().slice(0, 10);
 
+// Offline settings (demo).
+const mockSettings = {
+  displayName: '', units: 'lbs', barks: true, animations: true,
+  levelUpModal: true, warriorShowOriginal: false, restTimer: false, restSeconds: 90,
+};
+
 // Offline food log (demo) — mirrors the live 4-macro meter.
 const foodItems = [];
 let foodGoals = { calories: 2200, protein: 150, carbs: 250, fat: 70 };
@@ -196,6 +202,12 @@ export const mockApi = {
       challengeId: 'warrior-demo',
       completed: completedChallenges.has('warrior-demo'),
     }),
+  getSettings: () => delay({ settings: mockSettings }),
+  putSettings: (patch) => {
+    Object.assign(mockSettings, patch);
+    return delay({ settings: mockSettings });
+  },
+
   getFoodToday: () => delay(foodToday()),
   getFoodCalendar: () => delay({ month: dayKey().slice(0, 7), goals: foodGoals, days: [] }),
   getFoodDay: (date) => delay({ date, goals: foodGoals, totals: { calories: 0, protein: 0, carbs: 0, fat: 0 }, health: null, items: [], workouts: [], challenges: [] }),

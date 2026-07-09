@@ -9,6 +9,7 @@ import ScreenBackground from '../components/ScreenBackground';
 import { gearImage } from '../assets';
 import WarriorFigure from '../components/WarriorFigure';
 import { barkFor } from '../barks';
+import { useSettings } from '../settingsStore';
 
 const SLOT_ORDER_LEFT = ['arms', 'chest'];
 const SLOT_ORDER_RIGHT = ['back', 'legs', 'core'];
@@ -17,6 +18,7 @@ const SLOT_ICONS = { arms: '🛡', chest: '⛨', back: '🎒', legs: '🥾', cor
 // Home hub — the living character (tap him!), his worn gear, five progression
 // tracks, today's quests, and the food-driven health meter.
 export default function HomeScreen() {
+  const settings = useSettings();
   const [progress, setProgress] = useState(null);
   const [daily, setDaily] = useState(null);
   const [weekly, setWeekly] = useState(null);
@@ -63,15 +65,19 @@ export default function HomeScreen() {
   const equippedSlots = Object.keys(equipped);
 
   const pokeAvatar = () => {
-    // Flex bounce: quick squash-and-jump, like he's hitting a rep.
-    bounce.setValue(0);
-    Animated.sequence([
-      Animated.timing(bounce, { toValue: 1, duration: 120, useNativeDriver: true }),
-      Animated.spring(bounce, { toValue: 0, friction: 3, tension: 160, useNativeDriver: true }),
-    ]).start();
-    setBark(barkFor(tier, streak));
-    if (barkTimer.current) clearTimeout(barkTimer.current);
-    barkTimer.current = setTimeout(() => setBark(null), 3500);
+    if (settings.animations) {
+      // Flex bounce: quick squash-and-jump, like he's hitting a rep.
+      bounce.setValue(0);
+      Animated.sequence([
+        Animated.timing(bounce, { toValue: 1, duration: 120, useNativeDriver: true }),
+        Animated.spring(bounce, { toValue: 0, friction: 3, tension: 160, useNativeDriver: true }),
+      ]).start();
+    }
+    if (settings.barks) {
+      setBark(barkFor(tier, streak));
+      if (barkTimer.current) clearTimeout(barkTimer.current);
+      barkTimer.current = setTimeout(() => setBark(null), 3500);
+    }
   };
 
   if (loading) return <Centered><ActivityIndicator color={colors.accent} /></Centered>;
@@ -102,7 +108,7 @@ export default function HomeScreen() {
           </View>
           <Pressable onPress={pokeAvatar} hitSlop={8}>
             <Animated.View style={[styles.avatarBox, { transform: [{ translateY }, { scaleX }] }]}>
-              <WarriorFigure tier={tier} equippedSlots={equippedSlots} width={176} height={236} />
+              <WarriorFigure tier={tier} equippedSlots={equippedSlots} width={176} height={236} animate={settings.animations} />
             </Animated.View>
           </Pressable>
           <View style={styles.slotColumn}>
@@ -110,6 +116,7 @@ export default function HomeScreen() {
           </View>
         </View>
         <Text style={styles.className}>WARRIOR</Text>
+        {settings.displayName ? <Text style={styles.displayName}>{settings.displayName}</Text> : null}
         <Text style={styles.overall}>
           Avg Level {overall}{streak > 0 ? `  ·  🔥 ${streak} day${streak === 1 ? '' : 's'}` : ''}
         </Text>
@@ -233,6 +240,7 @@ const styles = StyleSheet.create({
   avatar: { width: '100%', height: '100%' },
   avatarPlaceholder: { fontSize: 72, color: colors.textDim },
   className: { fontFamily: fonts.heading, fontSize: 22, fontWeight: '700', color: colors.accent, letterSpacing: 3 },
+  displayName: { fontFamily: fonts.body, color: colors.text, fontSize: 13, marginTop: 1 },
   overall: { fontFamily: fonts.body, color: colors.textDim, marginTop: 2 },
   tapHint: { fontFamily: fonts.body, color: colors.textDim, fontSize: 9, marginTop: 4, opacity: 0.6 },
   meterTrack: {

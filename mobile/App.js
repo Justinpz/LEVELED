@@ -10,7 +10,11 @@ import ShopScreen from './src/screens/ShopScreen';
 import ProgramsScreen from './src/screens/ProgramsScreen';
 import QuestsScreen from './src/screens/QuestsScreen';
 import FoodScreen from './src/screens/FoodScreen';
+import SettingsScreen from './src/screens/SettingsScreen';
 import OnboardingSplash from './src/components/OnboardingSplash';
+import { hydrateSettings } from './src/settingsStore';
+
+hydrateSettings();
 
 const Tab = createBottomTabNavigator();
 
@@ -28,7 +32,7 @@ const navTheme = {
   },
 };
 
-const ICONS = { Home: '⚔', Workout: '🏋', Programs: '📜', Shop: '🛡', Quests: '★', Food: '🍖' };
+const ICONS = { Home: '⚔', Workout: '🏋', Programs: '📜', Shop: '🛡', Quests: '★', Food: '🍖', Settings: '⚙' };
 
 export default function App() {
   const [started, setStarted] = useState(false);
@@ -53,6 +57,7 @@ export default function App() {
         <Tab.Screen name="Shop" component={ShopScreen} />
         <Tab.Screen name="Quests" component={QuestsScreen} />
         <Tab.Screen name="Food" component={FoodScreen} />
+        <Tab.Screen name="Settings" component={SettingsScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

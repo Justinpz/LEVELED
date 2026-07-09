@@ -6,6 +6,7 @@ import { colors, spacing, fonts } from '../theme';
 import { Panel, SectionTitle, PixelButton } from '../components/ui';
 import ScreenBackground from '../components/ScreenBackground';
 import LevelUpModal from '../components/LevelUpModal';
+import { useSettings } from '../settingsStore';
 
 // Log a workout -> POST /game/workouts/log -> XP tally + level-ups.
 //
@@ -14,9 +15,11 @@ import LevelUpModal from '../components/LevelUpModal';
 //    that program: pick a day, its exercises are pre-loaded, log your sets.
 //  - FREE: no program selected — search the full 873-exercise library.
 export default function WorkoutScreen() {
+  const settings = useSettings();
   const [active, setActive] = useState(null); // { program, suggestedDay }
   const [dayNumber, setDayNumber] = useState(null);
   const [loadingProgram, setLoadingProgram] = useState(true);
+  const [restLeft, setRestLeft] = useState(0); // rest-timer countdown (seconds)
 
   const [search, setSearch] = useState('');
   const [results, setResults] = useState([]);
@@ -87,7 +90,15 @@ export default function WorkoutScreen() {
     const next = [...picked];
     next[i].sets.push({ weight: '', reps: '' });
     setPicked(next);
+    if (settings.restTimer) setRestLeft(settings.restSeconds);
   };
+
+  // Rest countdown tick.
+  useEffect(() => {
+    if (restLeft <= 0) return undefined;
+    const t = setTimeout(() => setRestLeft((s) => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [restLeft]);
 
   const updateSet = (i, j, field, val) => {
     const next = [...picked];
@@ -114,8 +125,9 @@ export default function WorkoutScreen() {
       };
       const res = await api.logWorkout(payload);
       setResult(res);
-      if (res.levelUps && res.levelUps.length) setCelebrate(res.levelUps);
+      if (settings.levelUpModal && res.levelUps && res.levelUps.length) setCelebrate(res.levelUps);
       setPicked([]);
+      setRestLeft(0);
     } catch (e) { setError(e.message); } finally { setSubmitting(false); }
   };
 
@@ -179,7 +191,7 @@ export default function WorkoutScreen() {
           {p.sets.map((s, j) => (
             <View key={j} style={styles.setRow}>
               <Text style={styles.setNum}>{j + 1}</Text>
-              <TextInput style={styles.setInput} placeholder="wt" placeholderTextColor={colors.textDim}
+              <TextInput style={styles.setInput} placeholder={settings.units} placeholderTextColor={colors.textDim}
                 keyboardType="numeric" value={s.weight} onChangeText={(v) => updateSet(i, j, 'weight', v)} />
               <Text style={styles.x}>×</Text>
               <TextInput style={styles.setInput} placeholder="reps" placeholderTextColor={colors.textDim}
@@ -189,6 +201,12 @@ export default function WorkoutScreen() {
           <Pressable onPress={() => addSet(i)}><Text style={styles.addSet}>+ set</Text></Pressable>
         </Panel>
       ))}
+
+      {restLeft > 0 ? (
+        <Pressable onPress={() => setRestLeft(0)} style={styles.restChip}>
+          <Text style={styles.restText}>⏳ rest {restLeft}s · tap to skip</Text>
+        </Pressable>
+      ) : null}
 
       {picked.length > 0 ? (
         <PixelButton label={submitting ? 'Logging…' : 'Complete Workout'} onPress={submit} disabled={submitting} />
@@ -249,6 +267,11 @@ const styles = StyleSheet.create({
   },
   x: { color: colors.textDim, paddingHorizontal: 8 },
   addSet: { color: colors.accent, fontFamily: fonts.body, marginTop: 4 },
+  restChip: {
+    alignSelf: 'center', backgroundColor: 'rgba(26, 20, 32, 0.9)', borderColor: colors.accent,
+    borderWidth: 2, borderRadius: 8, paddingHorizontal: 14, paddingVertical: 8, marginBottom: 10,
+  },
+  restText: { fontFamily: fonts.body, color: colors.accent, fontWeight: '700' },
   err: { color: colors.danger, fontFamily: fonts.body, marginTop: 8, textAlign: 'center' },
   tally: { fontFamily: fonts.body, fontSize: 16, fontWeight: '700', marginBottom: 2 },
   levelUpBox: { marginTop: 8, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 8 },

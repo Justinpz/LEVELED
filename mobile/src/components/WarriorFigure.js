@@ -14,13 +14,17 @@ import { WARRIOR_BASE, WARRIOR_GEAR } from '../warriorLayers';
 // z-order: legs under core under chest under back(pauldrons) under arms.
 const LAYER_ORDER = ['legs', 'core', 'chest', 'back', 'arms'];
 
-export default function WarriorFigure({ tier, equippedSlots = [], width = 180, height = 240 }) {
+export default function WarriorFigure({ tier, equippedSlots = [], width = 180, height = 240, animate = true }) {
   const t = Math.min(5, Math.max(1, tier));
   const breath = useRef(new Animated.Value(0)).current;
   const pops = useRef({}).current; // slot -> Animated.Value
   const prevSlots = useRef(new Set());
 
   useEffect(() => {
+    if (!animate) {
+      breath.setValue(0);
+      return undefined;
+    }
     const loop = Animated.loop(
       Animated.sequence([
         Animated.timing(breath, { toValue: 1, duration: 1900, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
@@ -29,7 +33,7 @@ export default function WarriorFigure({ tier, equippedSlots = [], width = 180, h
     );
     loop.start();
     return () => loop.stop();
-  }, [breath]);
+  }, [breath, animate]);
 
   // Pop-in any slot that just became equipped.
   useEffect(() => {
@@ -37,8 +41,12 @@ export default function WarriorFigure({ tier, equippedSlots = [], width = 180, h
     for (const slot of now) {
       if (!prevSlots.current.has(slot)) {
         if (!pops[slot]) pops[slot] = new Animated.Value(0);
-        pops[slot].setValue(0);
-        Animated.spring(pops[slot], { toValue: 1, friction: 4, tension: 140, useNativeDriver: true }).start();
+        if (animate) {
+          pops[slot].setValue(0);
+          Animated.spring(pops[slot], { toValue: 1, friction: 4, tension: 140, useNativeDriver: true }).start();
+        } else {
+          pops[slot].setValue(1);
+        }
       }
     }
     prevSlots.current = now;

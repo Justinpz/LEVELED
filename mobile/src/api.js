@@ -61,6 +61,9 @@ const liveApi = {
   setFoodGoals: (goals) => request('/food/goals', { method: 'POST', body: goals }),
   getFoodCalendar: (month) => request(`/food/calendar${month ? `?month=${month}` : ''}`),
   getFoodDay: (date) => request(`/food/day/${date}`),
+  // Settings
+  getSettings: () => request('/game/settings'),
+  putSettings: (patch) => request('/game/settings', { method: 'PUT', body: patch }),
 };
 
 export const api = USE_MOCK ? mockApi : liveApi;
