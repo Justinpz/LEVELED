@@ -1,0 +1,33 @@
+# Render Blueprint — deploys the LEVELED backend (which also serves the web
+# game at /) as a free web service.
+#
+# Setup (one time, from any device):
+#   1. Create a free Postgres at https://neon.tech (Sign in with GitHub →
+#      new project → copy the connection string). Neon's free tier is
+#      permanent; Render's own free Postgres self-deletes after 30 days,
+#      which is why the database lives on Neon instead.
+#   2. At https://render.com: New + → Blueprint → select this repo → when
+#      prompted, paste the Neon connection string as DATABASE_URL → Apply.
+#
+# Deploys run `npm run deploy:start` (prisma migrate deploy && node
+# src/server.js); the server auto-seeds reference data and a starter player
+# on first boot, so a brand-new database becomes a playable game with no
+# manual steps. Render auto-deploys every push to main after that.
+
+services:
+  - type: web
+    name: leveled
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm run deploy:start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false # pasted during blueprint setup (the Neon connection string)
