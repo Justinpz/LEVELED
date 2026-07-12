@@ -1,16 +1,24 @@
 // Thin client for the LEVELED backend (Express API: /game /programs /challenges).
 //
-// Set EXPO_PUBLIC_API_URL in an .env or app config to point at the deployed
-// backend. Defaults to localhost for `expo start` on a simulator.
+// URL resolution:
+//  - EXPO_PUBLIC_API_URL, when set, always wins (native builds, dev servers).
+//  - On WEB with no env URL, default to same-origin (relative paths): the web
+//    build is served by the same Express server as the API, so relative
+//    requests are correct on any host — moving hosts never needs a rebuild.
+//  - On native with no env URL, fall back to the offline mock demo.
 // Auth is not built yet — the backend resolves the acting user from x-user-id
 // (falls back to the first user row), so we send a dev id header.
 
+import { Platform } from 'react-native';
 import { mockApi } from './mockApi';
 
+const isWeb = Platform.OS === 'web';
+// Empty string = relative/same-origin requests (the web default).
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL || '';
 const DEV_USER_ID = process.env.EXPO_PUBLIC_USER_ID || '';
-// No backend URL (or EXPO_PUBLIC_MOCK=1) → run the fully-playable offline demo.
-const USE_MOCK = process.env.EXPO_PUBLIC_MOCK === '1' || !BASE_URL;
+// Explicit EXPO_PUBLIC_MOCK=1, or native with no backend URL → offline demo.
+const USE_MOCK =
+  process.env.EXPO_PUBLIC_MOCK === '1' || (!process.env.EXPO_PUBLIC_API_URL && !isWeb);
 
 async function request(path, { method = 'GET', body } = {}) {
   const headers = { 'Content-Type': 'application/json' };
