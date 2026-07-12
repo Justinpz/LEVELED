@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, TextInput, ScrollView, StyleSheet, ActivityIndicator, Pressable } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { api } from '../api';
@@ -7,6 +7,7 @@ import { Panel, SectionTitle, PixelButton } from '../components/ui';
 import ScreenBackground from '../components/ScreenBackground';
 import LevelUpModal from '../components/LevelUpModal';
 import { useSettings } from '../settingsStore';
+import { saveDraft, loadDraft, clearDraft } from '../workoutDraft';
 
 // Log a workout -> POST /game/workouts/log -> XP tally + level-ups.
 //
@@ -16,14 +17,17 @@ import { useSettings } from '../settingsStore';
 //  - FREE: no program selected — search the full 873-exercise library.
 export default function WorkoutScreen() {
   const settings = useSettings();
+  // Restore any in-progress workout that survived a tab kill / phone lock.
+  const draftRef = useRef(loadDraft());
   const [active, setActive] = useState(null); // { program, suggestedDay }
-  const [dayNumber, setDayNumber] = useState(null);
+  const [dayNumber, setDayNumber] = useState(draftRef.current?.dayNumber ?? null);
   const [loadingProgram, setLoadingProgram] = useState(true);
   const [restLeft, setRestLeft] = useState(0); // rest-timer countdown (seconds)
+  const [restored, setRestored] = useState(!!draftRef.current);
 
   const [search, setSearch] = useState('');
   const [results, setResults] = useState([]);
-  const [picked, setPicked] = useState([]); // [{ id, name, sets:[{weight,reps}], programDayId? }]
+  const [picked, setPicked] = useState(draftRef.current?.picked || []); // [{ id, name, sets, programDayId? }]
   const [searching, setSearching] = useState(false);
   const [result, setResult] = useState(null);
   const [celebrate, setCelebrate] = useState(null);
@@ -38,7 +42,10 @@ export default function WorkoutScreen() {
         const data = await api.getActiveProgram();
         if (!live) return;
         setActive(data && data.program ? data : null);
-        if (data && data.program && data.suggestedDay != null) setDayNumber(data.suggestedDay);
+        // A restored draft keeps its own day; otherwise follow the suggestion.
+        if (data && data.program && data.suggestedDay != null && !draftRef.current) {
+          setDayNumber(data.suggestedDay);
+        }
       } catch {
         if (live) setActive(null);
       } finally {
@@ -66,6 +73,11 @@ export default function WorkoutScreen() {
 
   // Pre-load the chosen program day's exercises as the workout.
   useEffect(() => {
+    // Never clobber a restored in-progress session with the program template.
+    if (draftRef.current) {
+      draftRef.current = null;
+      return;
+    }
     if (!day || day.isRest) { if (program) setPicked([]); return; }
     setPicked(
       day.exercises.map((pe) => ({
@@ -100,6 +112,11 @@ export default function WorkoutScreen() {
     return () => clearTimeout(t);
   }, [restLeft]);
 
+  // Auto-save the in-progress workout on every change (clears when empty).
+  useEffect(() => {
+    saveDraft(picked, dayNumber);
+  }, [picked, dayNumber]);
+
   const updateSet = (i, j, field, val) => {
     const next = [...picked];
     next[i].sets[j][field] = val;
@@ -128,7 +145,18 @@ export default function WorkoutScreen() {
       if (settings.levelUpModal && res.levelUps && res.levelUps.length) setCelebrate(res.levelUps);
       setPicked([]);
       setRestLeft(0);
-    } catch (e) { setError(e.message); } finally { setSubmitting(false); }
+      setRestored(false);
+      clearDraft();
+    } catch (e) {
+      // A network-shaped failure mid-gym is almost always the free server
+      // waking from its nap — the sets are safe in the on-device draft.
+      const coldStart = /failed to fetch|network|load failed|timed? ?out/i.test(e.message || '');
+      setError(
+        coldStart
+          ? 'Server is waking up (free hosting naps when idle). Your sets are saved on this phone — tap Complete Workout again in ~30 seconds.'
+          : e.message
+      );
+    } finally { setSubmitting(false); }
   };
 
   if (loadingProgram) {
@@ -142,6 +170,11 @@ export default function WorkoutScreen() {
   return (
     <ScreenBackground name="Workout">
     <ScrollView style={styles.container} contentContainerStyle={{ padding: spacing.md }}>
+      {restored && picked.length > 0 ? (
+        <Pressable onPress={() => setRestored(false)} style={styles.restoredChip}>
+          <Text style={styles.restoredText}>↻ Restored your unfinished workout — nothing was lost. (tap to dismiss)</Text>
+        </Pressable>
+      ) : null}
       {program ? (
         <Panel>
           <SectionTitle>{program.name}</SectionTitle>
@@ -272,6 +305,11 @@ const styles = StyleSheet.create({
     borderWidth: 2, borderRadius: 8, paddingHorizontal: 14, paddingVertical: 8, marginBottom: 10,
   },
   restText: { fontFamily: fonts.body, color: colors.accent, fontWeight: '700' },
+  restoredChip: {
+    backgroundColor: 'rgba(26, 20, 32, 0.9)', borderColor: colors.success, borderWidth: 2,
+    borderRadius: 8, paddingHorizontal: 12, paddingVertical: 8, marginBottom: 10,
+  },
+  restoredText: { fontFamily: fonts.body, color: colors.success, fontSize: 11, textAlign: 'center' },
   err: { color: colors.danger, fontFamily: fonts.body, marginTop: 8, textAlign: 'center' },
   tally: { fontFamily: fonts.body, fontSize: 16, fontWeight: '700', marginBottom: 2 },
   levelUpBox: { marginTop: 8, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 8 },
