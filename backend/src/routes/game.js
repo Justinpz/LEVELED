@@ -170,6 +170,42 @@ router.post('/workouts/log', async (req, res, next) => {
   }
 });
 
+// GET /game/workouts/last-sets?ids=a,b,c — for each exercise, the sets from the
+// user's MOST RECENT session that included it ("PREV" column in the tracker:
+// what you lifted last time, per set).
+router.get('/workouts/last-sets', async (req, res, next) => {
+  try {
+    const user = await resolveUser(req);
+    if (!user) return res.status(404).json({ error: 'No user' });
+    const ids = String(req.query.ids || '').split(',').filter(Boolean).slice(0, 30);
+    if (!ids.length) return res.json({ lastSets: {} });
+
+    const rows = await prisma.loggedSet.findMany({
+      where: { exerciseId: { in: ids }, session: { userId: user.id } },
+      orderBy: { loggedAt: 'desc' },
+      take: 400,
+      select: { exerciseId: true, sessionId: true, weight: true, reps: true, notes: true, loggedAt: true },
+    });
+
+    // Keep only sets from the newest session seen per exercise, in logged order.
+    const latestSession = {};
+    const lastSets = {};
+    for (const r of rows) {
+      if (!(r.exerciseId in latestSession)) {
+        latestSession[r.exerciseId] = r.sessionId;
+        lastSets[r.exerciseId] = { sets: [], notes: null };
+      }
+      if (r.sessionId === latestSession[r.exerciseId]) {
+        lastSets[r.exerciseId].sets.unshift({ weight: r.weight, reps: r.reps });
+        if (r.notes && !lastSets[r.exerciseId].notes) lastSets[r.exerciseId].notes = r.notes;
+      }
+    }
+    res.json({ lastSets });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // GET /game/exercises — library with filters (Screen 8).
 // query: bodyPart, equipment, level (difficulty), mechanic, search, take, skip
 router.get('/exercises', async (req, res, next) => {

@@ -43,6 +43,7 @@ const liveApi = {
   getProgress: () => request('/game/progress'),
   logWorkout: (payload) => request('/game/workouts/log', { method: 'POST', body: payload }),
   getExercises: (query = '') => request(`/game/exercises${query}`),
+  getLastSets: (ids) => request(`/game/workouts/last-sets?ids=${ids.join(',')}`),
   // Shop / gear
   getShop: () => request('/game/shop'),
   buyGear: (id) => request(`/game/gear/${id}/buy`, { method: 'POST' }),

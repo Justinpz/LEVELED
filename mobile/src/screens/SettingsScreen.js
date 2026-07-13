@@ -5,6 +5,7 @@ import { api } from '../api';
 import { colors, spacing, fonts } from '../theme';
 import { Panel, SectionTitle, PixelToggle } from '../components/ui';
 import ScreenBackground from '../components/ScreenBackground';
+import ProgramsPanel from '../components/ProgramsPanel';
 import { useSettings, updateSettings, hydrateSettings } from '../settingsStore';
 
 // Settings — the war camp. Units, rest timer, celebration/motion toggles,
@@ -15,6 +16,7 @@ export default function SettingsScreen() {
   const [restDraft, setRestDraft] = useState(null);
   const [program, setProgram] = useState(undefined); // undefined = loading
   const [msg, setMsg] = useState(null);
+  const [showPrograms, setShowPrograms] = useState(false);
 
   const load = useCallback(async () => {
     hydrateSettings();
@@ -108,6 +110,20 @@ export default function SettingsScreen() {
             <Pressable onPress={clearProgram}><Text style={styles.danger}>clear</Text></Pressable>
           ) : null}
         </Row>
+      </Panel>
+
+      <Panel>
+        <Pressable onPress={() => setShowPrograms(!showPrograms)}>
+          <SectionTitle>{showPrograms ? '▾ Programs' : '▸ Programs'}</SectionTitle>
+        </Pressable>
+        {!showPrograms ? (
+          <Text style={styles.hint}>
+            Browse the 10 starter programs, forge one from a goal, or build your own.
+            The selected program becomes the Workout tab's plan.
+          </Text>
+        ) : (
+          <ProgramsPanel />
+        )}
       </Panel>
 
       <Panel>

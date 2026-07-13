@@ -122,6 +122,8 @@ export const mockApi = {
     return delay({ tally: totals, perExercise, levelUps });
   },
 
+  getLastSets: () => delay({ lastSets: {} }),
+
   getShop: () => {
     const levelBySlot = Object.fromEntries(
       xp.CATEGORY_ORDER.map((bp) => [bp.toLowerCase(), xp.levelForXp(progress[bp].lifetimeXp)])
