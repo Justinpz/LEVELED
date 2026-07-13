@@ -123,6 +123,8 @@ export const mockApi = {
   },
 
   getLastSets: () => delay({ lastSets: {} }),
+  createCustomExercise: (b) =>
+    delay({ exercise: { id: `custom_${Date.now()}`, name: b.name, primaryBodyParts: [b.primaryBodyPart], bodyParts: [b.primaryBodyPart] }, existed: false }),
 
   getShop: () => {
     const levelBySlot = Object.fromEntries(
