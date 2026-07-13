@@ -45,6 +45,8 @@ const liveApi = {
   getExercises: (query = '') => request(`/game/exercises${query}`),
   getLastSets: (ids) => request(`/game/workouts/last-sets?ids=${ids.join(',')}`),
   createCustomExercise: (body) => request('/game/exercises/custom', { method: 'POST', body }),
+  getWorkoutHistory: (take = 15) => request(`/game/workouts/history?take=${take}`),
+  updateWorkoutSession: (id, sets) => request(`/game/workouts/sessions/${id}`, { method: 'PATCH', body: { sets } }),
   // Shop / gear
   getShop: () => request('/game/shop'),
   buyGear: (id) => request(`/game/gear/${id}/buy`, { method: 'POST' }),
