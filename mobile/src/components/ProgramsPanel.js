@@ -153,6 +153,9 @@ function ProgramBuilder({ onSaved }) {
   const [results, setResults] = useState([]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
+  const [customOpen, setCustomOpen] = useState(false);
+  const [customPrimary, setCustomPrimary] = useState(null);
+  const [creatingCustom, setCreatingCustom] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(async () => {
@@ -176,6 +179,18 @@ function ProgramBuilder({ onSaved }) {
     next[dayIdx].exercises.push({ id: ex.id, name: ex.name, sets: '3', reps: '8-12', bodyParts: ex.bodyParts || [] });
     setBuildDays(next);
     setSearch(''); setResults([]);
+    setCustomOpen(false); setCustomPrimary(null);
+  };
+
+  // Add a movement the library doesn't have — same flow as the Workout tab:
+  // it becomes a real, searchable, XP-earning exercise.
+  const createCustom = async () => {
+    if (!customPrimary || creatingCustom) return;
+    setCreatingCustom(true); setError(null);
+    try {
+      const res = await api.createCustomExercise({ name: search.trim(), primaryBodyPart: customPrimary });
+      addExercise({ ...res.exercise, bodyParts: res.exercise.primaryBodyParts || [] });
+    } catch (e) { setError(e.message); } finally { setCreatingCustom(false); }
   };
 
   const removeExercise = (i) => {
@@ -253,6 +268,36 @@ function ProgramBuilder({ onSaved }) {
           <Text style={styles.cMeta}>{(ex.bodyParts || []).join(' · ')}</Text>
         </Pressable>
       ))}
+      {search.trim().length >= 2 ? (
+        !customOpen ? (
+          <Pressable onPress={() => setCustomOpen(true)} style={{ paddingVertical: 10 }}>
+            <Text style={styles.customText}>
+              {results.length === 0 ? 'Not in the library? ' : ''}+ Create “{search.trim()}”
+            </Text>
+          </Pressable>
+        ) : (
+          <View style={styles.customBox}>
+            <Text style={styles.customLabel}>WHICH BODY PART EARNS THE XP?</Text>
+            <View style={styles.bpRow}>
+              {['Arms', 'Legs', 'Chest', 'Back', 'Core'].map((bp) => (
+                <Pressable key={bp} onPress={() => setCustomPrimary(bp)}
+                  style={[styles.bpChip, customPrimary === bp && { borderColor: colors[bp], backgroundColor: '#2c2138' }]}>
+                  <Text style={[styles.bpChipText, customPrimary === bp && { color: colors[bp] }]}>{bp}</Text>
+                </Pressable>
+              ))}
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 10 }}>
+              <Pressable disabled={!customPrimary || creatingCustom} onPress={createCustom}
+                style={[styles.customCreateBtn, (!customPrimary || creatingCustom) && { opacity: 0.4 }]}>
+                <Text style={styles.customCreateText}>{creatingCustom ? '…' : `CREATE “${search.trim().slice(0, 24)}”`}</Text>
+              </Pressable>
+              <Pressable onPress={() => { setCustomOpen(false); setCustomPrimary(null); }}>
+                <Text style={styles.cMeta}>cancel</Text>
+              </Pressable>
+            </View>
+          </View>
+        )
+      ) : null}
       {error ? <Text style={styles.err}>{error}</Text> : null}
       <View style={{ marginTop: 10 }}>
         <PixelButton label={saving ? 'Saving…' : 'Save Program'} onPress={save} disabled={saving || !canSave} />
@@ -299,4 +344,21 @@ const styles = StyleSheet.create({
   remove: { color: colors.danger, fontSize: 14, paddingLeft: 8 },
   resultRow: { paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: colors.border },
   resultName: { fontFamily: fonts.body, color: colors.text, fontSize: 13 },
+  customText: { fontFamily: fonts.body, color: colors.accent, fontWeight: '700', fontSize: 13 },
+  customBox: {
+    marginTop: 8, padding: 10, backgroundColor: 'rgba(14, 10, 20, 0.6)',
+    borderRadius: 8, borderWidth: 1, borderColor: colors.border,
+  },
+  customLabel: { fontFamily: fonts.body, color: colors.textDim, fontSize: 9, fontWeight: '700', letterSpacing: 1, marginBottom: 8 },
+  bpRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  bpChip: {
+    paddingVertical: 6, paddingHorizontal: 12, backgroundColor: colors.bgPanelAlt,
+    borderRadius: 6, borderWidth: 2, borderColor: colors.border,
+  },
+  bpChipText: { fontFamily: fonts.body, color: colors.textDim, fontWeight: '700', fontSize: 12 },
+  customCreateBtn: {
+    backgroundColor: colors.accent, borderRadius: 6, paddingHorizontal: 12, paddingVertical: 8,
+    borderWidth: 2, borderColor: '#00000055',
+  },
+  customCreateText: { fontFamily: fonts.body, color: '#1a1420', fontWeight: '700', fontSize: 11, letterSpacing: 0.5 },
 });
