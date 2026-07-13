@@ -85,6 +85,22 @@ export default function WorkoutScreen() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [history, setHistory] = useState(null); // null = not loaded
+  const [historyBusy, setHistoryBusy] = useState(false);
+  const [editingSessionId, setEditingSessionId] = useState(null);
+  const [editDraft, setEditDraft] = useState({}); // setId -> {weight, reps}
+  const [savingEdit, setSavingEdit] = useState(false);
+  const scrollRef = useRef(null);
+
+  const loadHistory = async () => {
+    setHistoryBusy(true);
+    try {
+      const res = await api.getWorkoutHistory(15);
+      setHistory(res.sessions || []);
+    } catch (e) { setError(e.message); } finally { setHistoryBusy(false); }
+  };
+
   // ---- program loading -------------------------------------------------------
   useFocusEffect(useCallback(() => {
     let live = true;
@@ -282,6 +298,8 @@ export default function WorkoutScreen() {
       stopTimer();
       setRestored(false);
       clearDraft();
+      if (history) loadHistory(); // refresh the log if it's open
+      if (scrollRef.current) scrollRef.current.scrollTo({ y: 0, animated: true });
     } catch (e) {
       const coldStart = /failed to fetch|network|load failed|timed? ?out/i.test(e.message || '');
       setError(
@@ -313,10 +331,27 @@ export default function WorkoutScreen() {
   return (
     <ScreenBackground name="Workout">
     <View style={{ flex: 1 }}>
-    <ScrollView style={styles.container} contentContainerStyle={{ padding: spacing.md, paddingBottom: 110 }}>
+    <ScrollView ref={scrollRef} style={styles.container} contentContainerStyle={{ padding: spacing.md, paddingBottom: 110 }}>
       {restored && picked.length > 0 ? (
         <Pressable onPress={() => setRestored(false)} style={styles.restoredChip}>
           <Text style={styles.restoredText}>↻ Restored your unfinished workout — nothing was lost. (tap to dismiss)</Text>
+        </Pressable>
+      ) : null}
+
+      {result ? (
+        <Pressable onPress={() => setResult(null)} style={styles.victoryPanel}>
+          <Text style={styles.victoryTitle}>⚡ VICTORY — XP CLAIMED</Text>
+          <View style={styles.victoryRow}>
+            {Object.entries(result.tally).map(([bp, pts]) => (
+              <Text key={bp} style={[styles.victoryStat, { color: colors[bp] }]}>{bp} +{pts}</Text>
+            ))}
+          </View>
+          {result.levelUps && result.levelUps.length > 0 ? (
+            result.levelUps.map((lu, k) => (
+              <Text key={k} style={styles.levelUp}>⬆ {lu.bodyPart} reached Lv {lu.to}! ({lu.band})</Text>
+            ))
+          ) : null}
+          <Text style={styles.victoryHint}>points added to your body-part pools · tap to dismiss</Text>
         </Pressable>
       ) : null}
 
@@ -460,21 +495,92 @@ export default function WorkoutScreen() {
 
       {error ? <Text style={styles.err}>{error}</Text> : null}
 
-      {result ? (
-        <Panel>
-          <SectionTitle>XP Gained</SectionTitle>
-          {Object.entries(result.tally).map(([bp, pts]) => (
-            <Text key={bp} style={[styles.tally, { color: colors[bp] }]}>{bp}: +{pts}</Text>
-          ))}
-          {result.levelUps && result.levelUps.length > 0 ? (
-            <View style={styles.levelUpBox}>
-              {result.levelUps.map((lu, k) => (
-                <Text key={k} style={styles.levelUp}>⬆ {lu.bodyPart} reached Lv {lu.to}! ({lu.band})</Text>
-              ))}
-            </View>
-          ) : null}
-        </Panel>
-      ) : null}
+      <Panel>
+        <Pressable onPress={() => { setHistoryOpen(!historyOpen); if (!history) loadHistory(); }}>
+          <SectionTitle>{historyOpen ? '▾ Workout Log' : '▸ Workout Log'}</SectionTitle>
+        </Pressable>
+        {!historyOpen ? (
+          <Text style={styles.hint}>every session you've logged — tap a workout to review or fix its numbers</Text>
+        ) : historyBusy && !history ? (
+          <ActivityIndicator color={colors.accent} style={{ marginVertical: 12 }} />
+        ) : !history || history.length === 0 ? (
+          <Text style={styles.hint}>no workouts logged yet — your history will build here</Text>
+        ) : (
+          <>
+            {history.map((s) => {
+              const isEditing = editingSessionId === s.id;
+              const when = new Date(s.startedAt);
+              const label = `${when.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })} · ${when.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })}`;
+              return (
+                <View key={s.id} style={styles.histCard}>
+                  <Pressable
+                    onPress={() => {
+                      if (isEditing) { setEditingSessionId(null); setEditDraft({}); return; }
+                      const draft = {};
+                      for (const ex of s.exercises) for (const set of ex.sets) {
+                        draft[set.id] = { weight: set.weight == null ? '' : String(set.weight), reps: set.reps == null ? '' : String(set.reps) };
+                      }
+                      setEditDraft(draft);
+                      setEditingSessionId(s.id);
+                    }}
+                    style={styles.histHeader}
+                  >
+                    <View style={{ flex: 1 }}>
+                      <Text style={styles.histDate}>{label}</Text>
+                      <Text style={styles.histMeta} numberOfLines={1}>
+                        {s.exercises.map((e) => e.name).join(' · ') || 'empty session'}
+                      </Text>
+                    </View>
+                    <Text style={styles.histXp}>+{s.xp} XP</Text>
+                    <Text style={[styles.chevron, isEditing && { transform: [{ rotate: '180deg' }] }]}>▾</Text>
+                  </Pressable>
+                  {isEditing ? (
+                    <View style={styles.histBody}>
+                      {s.exercises.map((ex) => (
+                        <View key={ex.exerciseId} style={{ marginBottom: 8 }}>
+                          <Text style={styles.histExName}>{ex.name}</Text>
+                          {ex.sets.map((set, j) => (
+                            <View key={set.id} style={styles.setRow}>
+                              <Text style={styles.setNum}>{j + 1}</Text>
+                              <TextInput style={styles.setInput} keyboardType="numeric" placeholder={settings.units}
+                                placeholderTextColor={colors.textDim}
+                                value={editDraft[set.id]?.weight ?? ''}
+                                onChangeText={(v) => setEditDraft((d) => ({ ...d, [set.id]: { ...d[set.id], weight: v } }))} />
+                              <TextInput style={styles.setInput} keyboardType="numeric" placeholder="reps"
+                                placeholderTextColor={colors.textDim}
+                                value={editDraft[set.id]?.reps ?? ''}
+                                onChangeText={(v) => setEditDraft((d) => ({ ...d, [set.id]: { ...d[set.id], reps: v } }))} />
+                              <View style={{ width: 62 }} />
+                            </View>
+                          ))}
+                        </View>
+                      ))}
+                      <Pressable
+                        disabled={savingEdit}
+                        onPress={async () => {
+                          setSavingEdit(true);
+                          setError(null);
+                          try {
+                            const sets = Object.entries(editDraft).map(([id, v]) => ({ id, weight: v.weight, reps: v.reps }));
+                            const res = await api.updateWorkoutSession(s.id, sets);
+                            setHistory((h) => h.map((x) => (x.id === s.id ? res.session : x)));
+                            setEditingSessionId(null);
+                            setEditDraft({});
+                          } catch (e) { setError(e.message); } finally { setSavingEdit(false); }
+                        }}
+                        style={[styles.customCreateBtn, savingEdit && { opacity: 0.4 }, { alignSelf: 'flex-start' }]}
+                      >
+                        <Text style={styles.customCreateText}>{savingEdit ? '…' : 'SAVE CHANGES'}</Text>
+                      </Pressable>
+                      <Text style={styles.hint}>fixing numbers updates your records and future PREV columns — XP stays as earned</Text>
+                    </View>
+                  ) : null}
+                </View>
+              );
+            })}
+          </>
+        )}
+      </Panel>
     </ScrollView>
 
     {/* Sticky session bar */}
@@ -628,9 +734,25 @@ const styles = StyleSheet.create({
   customCreateText: { fontFamily: fonts.body, color: '#1a1420', fontWeight: '700', fontSize: 11, letterSpacing: 0.5 },
   customCancel: { fontFamily: fonts.body, color: colors.textDim, fontSize: 12 },
   err: { color: colors.danger, fontFamily: fonts.body, marginBottom: 8, textAlign: 'center' },
-  tally: { fontFamily: fonts.body, fontSize: 16, fontWeight: '700', marginBottom: 2 },
-  levelUpBox: { marginTop: 8, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 8 },
   levelUp: { fontFamily: fonts.body, color: colors.accent, marginBottom: 2 },
+  victoryPanel: {
+    backgroundColor: 'rgba(26, 20, 32, 0.92)', borderColor: colors.accent, borderWidth: 2,
+    borderRadius: 10, padding: 14, marginBottom: spacing.sm, alignItems: 'center',
+  },
+  victoryTitle: { fontFamily: fonts.heading, color: colors.accent, fontWeight: '700', fontSize: 16, letterSpacing: 2 },
+  victoryRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginTop: 8, justifyContent: 'center' },
+  victoryStat: { fontFamily: fonts.heading, fontSize: 18, fontWeight: '700' },
+  victoryHint: { fontFamily: fonts.body, color: colors.textDim, fontSize: 9, marginTop: 8 },
+  histCard: {
+    borderWidth: 1, borderColor: colors.border, borderRadius: 8, marginTop: 8, overflow: 'hidden',
+    backgroundColor: 'rgba(14, 10, 20, 0.5)',
+  },
+  histHeader: { flexDirection: 'row', alignItems: 'center', padding: 10, gap: 8 },
+  histDate: { fontFamily: fonts.body, color: colors.text, fontWeight: '700', fontSize: 12 },
+  histMeta: { fontFamily: fonts.body, color: colors.textDim, fontSize: 10, marginTop: 2 },
+  histXp: { fontFamily: fonts.body, color: colors.accent, fontWeight: '700', fontSize: 12 },
+  histBody: { paddingHorizontal: 10, paddingBottom: 10, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 8 },
+  histExName: { fontFamily: fonts.body, color: colors.text, fontWeight: '700', fontSize: 12, marginBottom: 4 },
   // bottom bar
   bottomBar: {
     position: 'absolute', bottom: 0, left: 0, right: 0,

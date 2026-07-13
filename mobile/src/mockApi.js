@@ -123,6 +123,8 @@ export const mockApi = {
   },
 
   getLastSets: () => delay({ lastSets: {} }),
+  getWorkoutHistory: () => delay({ sessions: [] }),
+  updateWorkoutSession: (id) => delay({ session: { id, exercises: [], xp: 0 } }),
   createCustomExercise: (b) =>
     delay({ exercise: { id: `custom_${Date.now()}`, name: b.name, primaryBodyParts: [b.primaryBodyPart], bodyParts: [b.primaryBodyPart] }, existed: false }),
 

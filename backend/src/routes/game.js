@@ -206,6 +206,95 @@ router.get('/workouts/last-sets', async (req, res, next) => {
   }
 });
 
+// Shape a session (with sets + exercise names) for the history/edit UI.
+// Sets are grouped per exercise; a session's XP is the sum of each exercise's
+// award (every set of an exercise stores the same per-exercise award map).
+function shapeSession(s) {
+  const groups = [];
+  const byEx = new Map();
+  for (const set of s.sets) {
+    let g = byEx.get(set.exerciseId);
+    if (!g) {
+      g = { exerciseId: set.exerciseId, name: set.exercise?.name || set.exerciseId, sets: [], award: set.xpAwarded || {} };
+      byEx.set(set.exerciseId, g);
+      groups.push(g);
+    }
+    g.sets.push({ id: set.id, weight: set.weight, reps: set.reps, notes: set.notes });
+  }
+  let xp = 0;
+  for (const g of groups) for (const v of Object.values(g.award)) xp += v;
+  return {
+    id: s.id,
+    startedAt: s.startedAt,
+    exercises: groups.map(({ exerciseId, name, sets }) => ({ exerciseId, name, sets })),
+    xp,
+  };
+}
+
+const SESSION_INCLUDE = {
+  sets: { include: { exercise: { select: { name: true } } }, orderBy: { loggedAt: 'asc' } },
+};
+
+// GET /game/workouts/history — recent logged sessions, editable in the app.
+router.get('/workouts/history', async (req, res, next) => {
+  try {
+    const user = await resolveUser(req);
+    if (!user) return res.status(404).json({ error: 'No user' });
+    const take = Math.min(parseInt(req.query.take || '15', 10), 50);
+    const sessions = await prisma.workoutSession.findMany({
+      where: { userId: user.id },
+      orderBy: { startedAt: 'desc' },
+      take,
+      include: SESSION_INCLUDE,
+    });
+    res.json({ sessions: sessions.map(shapeSession) });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// PATCH /game/workouts/sessions/:id — correct a logged session's numbers.
+// body: { sets: [{ id, weight?, reps?, notes? }] } — only sets belonging to the
+// session are touched. XP is NOT recalculated: points come from doing the
+// exercise, not from the numbers, so fixing a typo never changes rewards.
+router.patch('/workouts/sessions/:id', async (req, res, next) => {
+  try {
+    const user = await resolveUser(req);
+    if (!user) return res.status(404).json({ error: 'No user' });
+    const session = await prisma.workoutSession.findUnique({
+      where: { id: req.params.id },
+      select: { id: true, userId: true, sets: { select: { id: true } } },
+    });
+    if (!session || session.userId !== user.id) return res.status(404).json({ error: 'Not found' });
+
+    const ownedIds = new Set(session.sets.map((s) => s.id));
+    const edits = Array.isArray(req.body?.sets) ? req.body.sets.filter((s) => ownedIds.has(s.id)) : [];
+    if (!edits.length) return res.status(400).json({ error: 'sets[] with valid ids required' });
+
+    const num = (v, max) => {
+      if (v === null || v === '' || v === undefined) return null;
+      const n = parseFloat(v);
+      return Number.isFinite(n) && n >= 0 && n <= max ? n : null;
+    };
+    await prisma.$transaction(
+      edits.map((s) =>
+        prisma.loggedSet.update({
+          where: { id: s.id },
+          data: {
+            weight: num(s.weight, 5000),
+            reps: s.reps === null || s.reps === '' || s.reps === undefined ? null : Math.max(0, Math.min(1000, parseInt(s.reps, 10) || 0)),
+            ...(s.notes !== undefined ? { notes: s.notes ? String(s.notes).slice(0, 500) : null } : {}),
+          },
+        })
+      )
+    );
+    const updated = await prisma.workoutSession.findUnique({ where: { id: session.id }, include: SESSION_INCLUDE });
+    res.json({ session: shapeSession(updated) });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // POST /game/exercises/custom — add a movement the 873-library doesn't have.
 // body: { name, primaryBodyPart, secondaryBodyPart? }
 // Creates a real Exercise row (id custom_*), so it's searchable, loggable for
