@@ -71,6 +71,9 @@ export default function WorkoutScreen() {
   const [search, setSearch] = useState('');
   const [results, setResults] = useState([]);
   const [searching, setSearching] = useState(false);
+  const [customOpen, setCustomOpen] = useState(false);
+  const [customPrimary, setCustomPrimary] = useState(null);
+  const [creatingCustom, setCreatingCustom] = useState(false);
 
   const [timerState, setTimerState] = useState('idle'); // idle | running | paused | done
   const [timerSeconds, setTimerSeconds] = useState(0);
@@ -204,7 +207,25 @@ export default function WorkoutScreen() {
     }]);
     setSearch('');
     setResults([]);
+    setCustomOpen(false);
+    setCustomPrimary(null);
     setExpandedId(ex.id);
+  };
+
+  // Create a movement the library doesn't have; it becomes a real, searchable,
+  // XP-earning exercise credited to the chosen body part.
+  const createCustom = async () => {
+    if (!customPrimary || creatingCustom) return;
+    setCreatingCustom(true);
+    setError(null);
+    try {
+      const res = await api.createCustomExercise({ name: search.trim(), primaryBodyPart: customPrimary });
+      addExercise(res.exercise);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setCreatingCustom(false);
+    }
   };
 
   const addSet = (i) => {
@@ -404,6 +425,37 @@ export default function WorkoutScreen() {
             <Text style={styles.resultParts}>{(ex.bodyParts || []).join(' · ')}</Text>
           </Pressable>
         ))}
+        {search.trim().length >= 2 && !searching ? (
+          !customOpen ? (
+            <Pressable onPress={() => setCustomOpen(true)} style={styles.customRow}>
+              <Text style={styles.customText}>
+                {results.length === 0 ? 'Not in the library? ' : ''}+ Create “{search.trim()}”
+              </Text>
+            </Pressable>
+          ) : (
+            <View style={styles.customBox}>
+              <Text style={styles.customLabel}>WHICH BODY PART EARNS THE XP?</Text>
+              <View style={styles.bpRow}>
+                {['Arms', 'Legs', 'Chest', 'Back', 'Core'].map((bp) => (
+                  <Pressable key={bp} onPress={() => setCustomPrimary(bp)}
+                    style={[styles.bpChip, customPrimary === bp && { borderColor: colors[bp], backgroundColor: '#2c2138' }]}>
+                    <Text style={[styles.bpChipText, customPrimary === bp && { color: colors[bp] }]}>{bp}</Text>
+                  </Pressable>
+                ))}
+              </View>
+              <View style={styles.customActions}>
+                <Pressable disabled={!customPrimary || creatingCustom} onPress={createCustom}
+                  style={[styles.customCreateBtn, (!customPrimary || creatingCustom) && { opacity: 0.4 }]}>
+                  <Text style={styles.customCreateText}>{creatingCustom ? '…' : `CREATE “${search.trim().slice(0, 24)}”`}</Text>
+                </Pressable>
+                <Pressable onPress={() => { setCustomOpen(false); setCustomPrimary(null); }}>
+                  <Text style={styles.customCancel}>cancel</Text>
+                </Pressable>
+              </View>
+              <Text style={styles.hint}>saved to your library — searchable and PREV-tracked from now on</Text>
+            </View>
+          )
+        ) : null}
       </Panel>
 
       {error ? <Text style={styles.err}>{error}</Text> : null}
@@ -555,6 +607,26 @@ const styles = StyleSheet.create({
   resultRow: { paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: colors.border },
   resultName: { fontFamily: fonts.body, color: colors.text },
   resultParts: { fontFamily: fonts.body, color: colors.textDim, fontSize: 11 },
+  customRow: { paddingVertical: 10 },
+  customText: { fontFamily: fonts.body, color: colors.accent, fontWeight: '700', fontSize: 13 },
+  customBox: {
+    marginTop: 8, padding: 10, backgroundColor: 'rgba(14, 10, 20, 0.6)',
+    borderRadius: 8, borderWidth: 1, borderColor: colors.border,
+  },
+  customLabel: { fontFamily: fonts.body, color: colors.textDim, fontSize: 9, fontWeight: '700', letterSpacing: 1, marginBottom: 8 },
+  bpRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  bpChip: {
+    paddingVertical: 6, paddingHorizontal: 12, backgroundColor: colors.bgPanelAlt,
+    borderRadius: 6, borderWidth: 2, borderColor: colors.border,
+  },
+  bpChipText: { fontFamily: fonts.body, color: colors.textDim, fontWeight: '700', fontSize: 12 },
+  customActions: { flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 10 },
+  customCreateBtn: {
+    backgroundColor: colors.accent, borderRadius: 6, paddingHorizontal: 12, paddingVertical: 8,
+    borderWidth: 2, borderColor: '#00000055',
+  },
+  customCreateText: { fontFamily: fonts.body, color: '#1a1420', fontWeight: '700', fontSize: 11, letterSpacing: 0.5 },
+  customCancel: { fontFamily: fonts.body, color: colors.textDim, fontSize: 12 },
   err: { color: colors.danger, fontFamily: fonts.body, marginBottom: 8, textAlign: 'center' },
   tally: { fontFamily: fonts.body, fontSize: 16, fontWeight: '700', marginBottom: 2 },
   levelUpBox: { marginTop: 8, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 8 },

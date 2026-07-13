@@ -206,6 +206,53 @@ router.get('/workouts/last-sets', async (req, res, next) => {
   }
 });
 
+// POST /game/exercises/custom — add a movement the 873-library doesn't have.
+// body: { name, primaryBodyPart, secondaryBodyPart? }
+// Creates a real Exercise row (id custom_*), so it's searchable, loggable for
+// XP (100 pts to the chosen body part, 70/30 if a secondary is given), and
+// tracked in PREV history like any library movement. Re-creating the same
+// name returns the existing row instead of a duplicate.
+router.post('/exercises/custom', async (req, res, next) => {
+  try {
+    const { name, primaryBodyPart, secondaryBodyPart } = req.body || {};
+    const clean = String(name || '').trim().slice(0, 80);
+    if (clean.length < 2) return res.status(400).json({ error: 'name (2-80 chars) required' });
+    if (!BODY_PARTS.includes(primaryBodyPart)) {
+      return res.status(400).json({ error: `primaryBodyPart must be one of ${BODY_PARTS.join(', ')}` });
+    }
+    const secondary = BODY_PARTS.includes(secondaryBodyPart) && secondaryBodyPart !== primaryBodyPart
+      ? secondaryBodyPart
+      : null;
+
+    const existing = await prisma.exercise.findFirst({
+      where: { id: { startsWith: 'custom_' }, name: { equals: clean, mode: 'insensitive' } },
+    });
+    if (existing) return res.json({ exercise: existing, existed: true });
+
+    const slug = clean.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 40);
+    const id = `custom_${slug}_${Math.random().toString(36).slice(2, 6)}`;
+    const exercise = await prisma.exercise.create({
+      data: {
+        id,
+        name: clean,
+        level: 'beginner',
+        equipment: 'other',
+        category: 'strength',
+        primaryMuscles: [],
+        secondaryMuscles: [],
+        primaryBodyParts: [primaryBodyPart],
+        secondaryBodyParts: secondary ? [secondary] : [],
+        bodyParts: secondary ? [primaryBodyPart, secondary] : [primaryBodyPart],
+        instructions: [],
+        images: [],
+      },
+    });
+    res.status(201).json({ exercise, existed: false });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // GET /game/exercises — library with filters (Screen 8).
 // query: bodyPart, equipment, level (difficulty), mechanic, search, take, skip
 router.get('/exercises', async (req, res, next) => {
