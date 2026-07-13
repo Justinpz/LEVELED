@@ -1,14 +1,14 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, Text, ScrollView, TextInput, StyleSheet, ActivityIndicator, RefreshControl, Pressable } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ActivityIndicator, Pressable } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { api } from '../api';
 import { colors, spacing, fonts } from '../theme';
 import { Panel, SectionTitle, PixelButton } from '../components/ui';
-import ScreenBackground from '../components/ScreenBackground';
 
 // Programs — pick a starter, forge one from a goal (smart generator / AI),
 // or build your own. The selected program becomes the Workout tab's plan.
-export default function ProgramsScreen() {
+// Rendered as a section inside Settings (the host screen provides scrolling).
+export default function ProgramsPanel() {
   const [programs, setPrograms] = useState([]);
   const [activeId, setActiveId] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -69,12 +69,10 @@ export default function ProgramsScreen() {
     } catch (e) { setError(e.message); } finally { setBusy(false); }
   };
 
-  if (loading) return <View style={styles.centered}><ActivityIndicator color={colors.accent} /></View>;
+  if (loading) return <View style={{ paddingVertical: 24, alignItems: 'center' }}><ActivityIndicator color={colors.accent} /></View>;
 
   return (
-    <ScreenBackground name="Quests">
-    <ScrollView style={styles.container} contentContainerStyle={{ padding: spacing.md }}
-      refreshControl={<RefreshControl refreshing={false} onRefresh={load} tintColor={colors.accent} />}>
+    <View>
       {msg ? <Text style={styles.msg}>{msg}</Text> : null}
 
       <Panel>
@@ -142,8 +140,7 @@ export default function ProgramsScreen() {
         </Pressable>
         {showBuilder ? <ProgramBuilder onSaved={async () => { setMsg('Custom program saved.'); await load(); }} /> : null}
       </Panel>
-    </ScrollView>
-    </ScreenBackground>
+    </View>
   );
 }
 
