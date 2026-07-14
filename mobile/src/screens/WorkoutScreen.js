@@ -91,7 +91,35 @@ export default function WorkoutScreen() {
   const [editingSessionId, setEditingSessionId] = useState(null);
   const [editDraft, setEditDraft] = useState({}); // setId -> {weight, reps}
   const [savingEdit, setSavingEdit] = useState(false);
+  const [repeatConfirmId, setRepeatConfirmId] = useState(null); // two-tap guard
   const scrollRef = useRef(null);
+
+  // Repeat a logged workout: same exercises, same set counts, fresh numbers.
+  // PREV fills in from history automatically, so last time's weights sit right
+  // next to the empty inputs. Guarded: if a session with logged data is in
+  // progress, the first tap asks, the second replaces.
+  const repeatSession = (s) => {
+    const inProgress = picked.some((p) => p.sets.some(hasSetData));
+    if (inProgress && repeatConfirmId !== s.id) {
+      setRepeatConfirmId(s.id);
+      return;
+    }
+    setRepeatConfirmId(null);
+    setPicked(
+      s.exercises.map((ex) => ({
+        id: ex.exerciseId,
+        name: ex.name,
+        bodyParts: [],
+        sets: Array.from({ length: Math.max(1, ex.sets.length) }, () => ({ weight: '', reps: '' })),
+        notes: '',
+      }))
+    );
+    setResult(null);
+    setExpandedId(s.exercises[0] ? s.exercises[0].exerciseId : null);
+    setHistoryOpen(false);
+    setEditingSessionId(null);
+    if (scrollRef.current) scrollRef.current.scrollTo({ y: 0, animated: true });
+  };
 
   const loadHistory = async () => {
     setHistoryBusy(true);
@@ -532,6 +560,11 @@ export default function WorkoutScreen() {
                       </Text>
                     </View>
                     <Text style={styles.histXp}>+{s.xp} XP</Text>
+                    <Pressable onPress={() => repeatSession(s)} hitSlop={8} style={styles.repeatBtn}>
+                      <Text style={styles.repeatText}>
+                        {repeatConfirmId === s.id ? 'replace?' : '↻ repeat'}
+                      </Text>
+                    </Pressable>
                     <Text style={[styles.chevron, isEditing && { transform: [{ rotate: '180deg' }] }]}>▾</Text>
                   </Pressable>
                   {isEditing ? (
@@ -751,6 +784,11 @@ const styles = StyleSheet.create({
   histDate: { fontFamily: fonts.body, color: colors.text, fontWeight: '700', fontSize: 12 },
   histMeta: { fontFamily: fonts.body, color: colors.textDim, fontSize: 10, marginTop: 2 },
   histXp: { fontFamily: fonts.body, color: colors.accent, fontWeight: '700', fontSize: 12 },
+  repeatBtn: {
+    borderWidth: 1, borderColor: colors.accent, borderRadius: 5,
+    paddingHorizontal: 8, paddingVertical: 4, marginLeft: 4,
+  },
+  repeatText: { fontFamily: fonts.body, color: colors.accent, fontWeight: '700', fontSize: 10 },
   histBody: { paddingHorizontal: 10, paddingBottom: 10, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 8 },
   histExName: { fontFamily: fonts.body, color: colors.text, fontWeight: '700', fontSize: 12, marginBottom: 4 },
   // bottom bar
