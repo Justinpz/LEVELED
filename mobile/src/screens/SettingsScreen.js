@@ -197,6 +197,6 @@ const styles = StyleSheet.create({
   segment: { paddingVertical: 6, paddingHorizontal: 14, backgroundColor: colors.bgPanelAlt },
   segmentActive: { backgroundColor: colors.accent },
   segmentText: { fontFamily: fonts.body, color: colors.textDim, fontWeight: '700', fontSize: 12 },
-  segmentTextActive: { color: '#1a1420' },
+  segmentTextActive: { color: colors.ink },
   hint: { fontFamily: fonts.body, color: colors.textDim, fontSize: 11, lineHeight: 17 },
 });

@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, ActivityIndicator, Pressable } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { api } from '../api';
-import { colors, spacing, fonts } from '../theme';
+import { colors, spacing, fonts, glass } from '../theme';
 import { Panel, SectionTitle, PixelButton } from '../components/ui';
 
 // Programs — pick a starter, forge one from a goal (smart generator / AI),
@@ -281,7 +281,7 @@ function ProgramBuilder({ onSaved }) {
             <View style={styles.bpRow}>
               {['Arms', 'Legs', 'Chest', 'Back', 'Core'].map((bp) => (
                 <Pressable key={bp} onPress={() => setCustomPrimary(bp)}
-                  style={[styles.bpChip, customPrimary === bp && { borderColor: colors[bp], backgroundColor: '#2c2138' }]}>
+                  style={[styles.bpChip, customPrimary === bp && { borderColor: colors[bp], backgroundColor: colors.bgPanelAlt }]}>
                   <Text style={[styles.bpChipText, customPrimary === bp && { color: colors[bp] }]}>{bp}</Text>
                 </Pressable>
               ))}
@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
   resultName: { fontFamily: fonts.body, color: colors.text, fontSize: 13 },
   customText: { fontFamily: fonts.body, color: colors.accent, fontWeight: '700', fontSize: 13 },
   customBox: {
-    marginTop: 8, padding: 10, backgroundColor: 'rgba(14, 10, 20, 0.6)',
+    marginTop: 8, padding: 10, backgroundColor: glass.deep,
     borderRadius: 8, borderWidth: 1, borderColor: colors.border,
   },
   customLabel: { fontFamily: fonts.body, color: colors.textDim, fontSize: 9, fontWeight: '700', letterSpacing: 1, marginBottom: 8 },
@@ -358,7 +358,7 @@ const styles = StyleSheet.create({
   bpChipText: { fontFamily: fonts.body, color: colors.textDim, fontWeight: '700', fontSize: 12 },
   customCreateBtn: {
     backgroundColor: colors.accent, borderRadius: 6, paddingHorizontal: 12, paddingVertical: 8,
-    borderWidth: 2, borderColor: '#00000055',
+    borderWidth: 1, borderColor: colors.ink,
   },
-  customCreateText: { fontFamily: fonts.body, color: '#1a1420', fontWeight: '700', fontSize: 11, letterSpacing: 0.5 },
+  customCreateText: { fontFamily: fonts.body, color: colors.ink, fontWeight: '700', fontSize: 11, letterSpacing: 0.5 },
 });

@@ -5,15 +5,15 @@
     "version": "0.1.0",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
-    "backgroundColor": "#0e0a14",
+    "backgroundColor": "#0b0e1a",
     "splash": {
-      "backgroundColor": "#0e0a14",
+      "backgroundColor": "#0b0e1a",
       "resizeMode": "contain"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": { "supportsTablet": true },
     "android": {
-      "adaptiveIcon": { "backgroundColor": "#0e0a14" }
+      "adaptiveIcon": { "backgroundColor": "#0b0e1a" }
     },
     "web": { "bundler": "metro" }
   }

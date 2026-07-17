@@ -1,6 +1,6 @@
 import React from 'react';
 import { ImageBackground, View, StyleSheet } from 'react-native';
-import { colors } from '../theme';
+import { colors, glass } from '../theme';
 import { bgImage } from '../assets';
 
 // Wraps a screen in its dark-fantasy background plate with a legibility scrim
@@ -10,7 +10,7 @@ export default function ScreenBackground({ name, children, scrim = 0.55 }) {
   if (!src) return <View style={styles.flat}>{children}</View>;
   return (
     <ImageBackground source={src} style={styles.flat} resizeMode="cover">
-      <View style={[styles.scrim, { backgroundColor: `rgba(14,10,20,${scrim})` }]}>
+      <View style={[styles.scrim, { backgroundColor: glass.scrim(scrim) }]}>
         {children}
       </View>
     </ImageBackground>

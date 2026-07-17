@@ -346,9 +346,9 @@ const styles = StyleSheet.create({
   calGrid: { flexDirection: 'row', flexWrap: 'wrap' },
   calCell: {
     width: `${100 / 7}%`, aspectRatio: 0.9, alignItems: 'center', justifyContent: 'center',
-    borderWidth: 0.5, borderColor: 'rgba(58, 43, 77, 0.4)',
+    borderWidth: 0.5, borderColor: 'rgba(44, 58, 99, 0.4)',
   },
-  calCellActive: { backgroundColor: 'rgba(36, 26, 48, 0.6)' },
+  calCellActive: { backgroundColor: 'rgba(28, 36, 64, 0.6)' },
   calDay: { fontFamily: fonts.body, color: colors.textDim, fontSize: 10 },
   calDot: { width: 6, height: 6, borderRadius: 3, marginTop: 2 },
   calMeta: { fontFamily: fonts.body, color: colors.textDim, fontSize: 7, marginTop: 1 },
