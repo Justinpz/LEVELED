@@ -2,7 +2,7 @@ import React, { useState, useCallback, useRef } from 'react';
 import { View, Text, ScrollView, StyleSheet, RefreshControl, ActivityIndicator, Image, Pressable, Animated } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { api } from '../api';
-import { colors, spacing, fonts, tierColors } from '../theme';
+import { colors, spacing, fonts, glass, tierColors } from '../theme';
 import { Panel, SectionTitle } from '../components/ui';
 import XPBar from '../components/XPBar';
 import ScreenBackground from '../components/ScreenBackground';
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
   err: { color: colors.danger, fontFamily: fonts.body, textAlign: 'center' },
   hero: { alignItems: 'center' },
   barkBubble: {
-    backgroundColor: 'rgba(14, 10, 20, 0.92)', borderColor: colors.accent, borderWidth: 2,
+    backgroundColor: glass.panelStrong, borderColor: colors.accent, borderWidth: 1,
     borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8, marginBottom: spacing.sm,
     maxWidth: 300,
   },
@@ -225,8 +225,8 @@ const styles = StyleSheet.create({
   slotColumn: { justifyContent: 'center', gap: 8, width: 64 },
   gearSlot: {
     width: 64, alignItems: 'center', paddingVertical: 4,
-    backgroundColor: 'rgba(11, 10, 16, 0.85)', borderRadius: 8,
-    borderWidth: 2, borderColor: colors.border,
+    backgroundColor: glass.deep, borderRadius: 8,
+    borderWidth: 1, borderColor: colors.border,
   },
   gearSlotImg: { width: 44, height: 44 },
   gearSlotEmpty: { fontSize: 22, color: colors.textDim, opacity: 0.35, lineHeight: 44 },
@@ -234,8 +234,8 @@ const styles = StyleSheet.create({
   avatarBox: {
     width: 180, height: 240, alignItems: 'center', justifyContent: 'center',
     // Matches the avatar art's near-black background for seamless compositing.
-    backgroundColor: '#0b0a10', borderRadius: 8, marginBottom: spacing.sm,
-    borderWidth: 2, borderColor: colors.border, overflow: 'hidden',
+    backgroundColor: colors.ink, borderRadius: 8, marginBottom: spacing.sm,
+    borderWidth: 1, borderColor: colors.border, overflow: 'hidden',
   },
   avatar: { width: '100%', height: '100%' },
   avatarPlaceholder: { fontSize: 72, color: colors.textDim },

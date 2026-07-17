@@ -1,17 +1,22 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, Pressable, StyleSheet, Animated } from 'react-native';
-import { colors, radius, spacing } from '../theme';
+import { colors, fonts, glass, radius, spacing } from '../theme';
 
-// Bordered panel — the base 8-bit container.
-export function Panel({ children, style }) {
-  return <View style={[styles.panel, style]}>{children}</View>;
+// Translucent glass card with an energy accent strip along the top edge.
+export function Panel({ children, style, tone = 'accent' }) {
+  return (
+    <View style={[styles.panel, style]}>
+      <View style={[styles.panelStrip, { backgroundColor: colors[tone] || colors.accent }]} />
+      {children}
+    </View>
+  );
 }
 
 export function SectionTitle({ children }) {
   return <Text style={styles.title}>{children}</Text>;
 }
 
-// Chunky pixel-styled button.
+// Sharp energy button — slight skew, dark ink label on a hot fill.
 export function PixelButton({ label, onPress, disabled, tone = 'accent' }) {
   const bg = disabled ? colors.border : colors[tone] || colors.accent;
   return (
@@ -19,7 +24,11 @@ export function PixelButton({ label, onPress, disabled, tone = 'accent' }) {
       onPress={disabled ? undefined : onPress}
       style={({ pressed }) => [
         styles.btn,
-        { backgroundColor: bg, opacity: pressed ? 0.8 : 1 },
+        {
+          backgroundColor: bg,
+          opacity: pressed ? 0.85 : 1,
+          shadowColor: bg,
+        },
       ]}
     >
       <Text style={styles.btnText}>{label}</Text>
@@ -27,8 +36,8 @@ export function PixelButton({ label, onPress, disabled, tone = 'accent' }) {
   );
 }
 
-// Pixel-styled on/off toggle — the "am I wearing this?" switch.
-// ON: gold track, thumb right, label WORN. OFF: dim track, thumb left, label OFF.
+// On/off toggle — the "am I wearing this?" switch.
+// ON: ember track, thumb right, label WORN. OFF: dim track, thumb left, label OFF.
 export function PixelToggle({ value, onToggle, disabled, onLabel = 'WORN', offLabel = 'OFF' }) {
   const anim = useRef(new Animated.Value(value ? 1 : 0)).current;
   useEffect(() => {
@@ -52,49 +61,57 @@ export function PixelToggle({ value, onToggle, disabled, onLabel = 'WORN', offLa
 
 const styles = StyleSheet.create({
   toggleTrack: {
-    width: 48, height: 24, borderRadius: 4,
-    borderWidth: 2, borderColor: colors.border,
+    width: 48, height: 24, borderRadius: 12,
+    borderWidth: 1, borderColor: colors.border,
   },
   toggleThumb: {
-    position: 'absolute', top: 2, width: 16, height: 16, borderRadius: 3,
-    backgroundColor: '#ece4f5', borderWidth: 1, borderColor: '#00000055',
+    position: 'absolute', top: 3, width: 16, height: 16, borderRadius: 8,
+    backgroundColor: colors.text, borderWidth: 1, borderColor: colors.ink,
   },
   toggleLabel: {
-    fontFamily: 'monospace', fontSize: 8, color: colors.textDim, marginTop: 2,
+    fontFamily: fonts.body, fontSize: 9, color: colors.textDim, marginTop: 2,
     fontWeight: '700', letterSpacing: 1,
   },
   toggleLabelOn: { color: colors.accent },
   panel: {
     // Semi-transparent so the screen's background art shows through the panels.
-    backgroundColor: 'rgba(26, 20, 32, 0.72)',
+    backgroundColor: glass.panel,
     borderColor: colors.border,
-    borderWidth: 2,
+    borderWidth: 1,
     borderRadius: radius.md,
     padding: spacing.md,
     marginBottom: spacing.md,
+    overflow: 'hidden',
+  },
+  panelStrip: {
+    position: 'absolute', top: 0, left: 0, right: '55%', height: 3,
+    borderBottomRightRadius: 3, opacity: 0.9,
   },
   title: {
-    fontFamily: 'monospace',
-    fontSize: 16,
-    fontWeight: '700',
+    fontFamily: fonts.heading,
+    fontSize: 22,
     color: colors.text,
     marginBottom: spacing.sm,
     textTransform: 'uppercase',
-    letterSpacing: 1,
+    letterSpacing: 2,
   },
   btn: {
     borderRadius: radius.sm,
     paddingVertical: 10,
     paddingHorizontal: 16,
     alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#00000055',
+    transform: [{ skewX: '-6deg' }],
+    shadowOpacity: 0.55,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 0 },
+    elevation: 4,
   },
   btnText: {
-    fontFamily: 'monospace',
+    fontFamily: fonts.body,
     fontWeight: '700',
-    color: '#1a1420',
+    color: colors.ink,
     textTransform: 'uppercase',
-    letterSpacing: 1,
+    letterSpacing: 1.5,
+    transform: [{ skewX: '6deg' }],
   },
 });

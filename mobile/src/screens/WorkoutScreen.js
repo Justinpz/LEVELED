@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { View, Text, TextInput, ScrollView, StyleSheet, ActivityIndicator, Pressable, Modal, Platform } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { api } from '../api';
-import { colors, spacing, fonts } from '../theme';
+import { colors, spacing, fonts, glass } from '../theme';
 import { Panel, SectionTitle } from '../components/ui';
 import ScreenBackground from '../components/ScreenBackground';
 import LevelUpModal from '../components/LevelUpModal';
@@ -501,7 +501,7 @@ export default function WorkoutScreen() {
               <View style={styles.bpRow}>
                 {['Arms', 'Legs', 'Chest', 'Back', 'Core'].map((bp) => (
                   <Pressable key={bp} onPress={() => setCustomPrimary(bp)}
-                    style={[styles.bpChip, customPrimary === bp && { borderColor: colors[bp], backgroundColor: '#2c2138' }]}>
+                    style={[styles.bpChip, customPrimary === bp && { borderColor: colors[bp], backgroundColor: colors.bgPanelAlt }]}>
                     <Text style={[styles.bpChipText, customPrimary === bp && { color: colors[bp] }]}>{bp}</Text>
                   </Pressable>
                 ))}
@@ -688,18 +688,18 @@ const styles = StyleSheet.create({
     minWidth: 40, alignItems: 'center', paddingVertical: 6, paddingHorizontal: 10,
     backgroundColor: colors.bgPanelAlt, borderRadius: 6, borderWidth: 2, borderColor: colors.border,
   },
-  dayChipActive: { borderColor: colors.accent, backgroundColor: '#2c2138' },
+  dayChipActive: { borderColor: colors.accent, backgroundColor: colors.bgPanelAlt },
   dayChipText: { fontFamily: fonts.body, color: colors.textDim, fontWeight: '700' },
   dayChipTextActive: { color: colors.accent },
   dayName: { fontFamily: fonts.body, color: colors.text, marginTop: 8, fontWeight: '700' },
   restoredChip: {
-    backgroundColor: 'rgba(26, 20, 32, 0.9)', borderColor: colors.success, borderWidth: 2,
+    backgroundColor: glass.panelStrong, borderColor: colors.success, borderWidth: 1,
     borderRadius: 8, paddingHorizontal: 12, paddingVertical: 8, marginBottom: 10,
   },
   restoredText: { fontFamily: fonts.body, color: colors.success, fontSize: 11, textAlign: 'center' },
   // cards
   card: {
-    backgroundColor: 'rgba(26, 20, 32, 0.72)', borderColor: colors.border, borderWidth: 2,
+    backgroundColor: glass.panel, borderColor: colors.border, borderWidth: 1,
     borderRadius: 8, marginBottom: spacing.sm, overflow: 'hidden',
   },
   cardExpanded: { borderColor: colors.accent },
@@ -710,7 +710,7 @@ const styles = StyleSheet.create({
   },
   numBoxDone: { backgroundColor: colors.success, borderColor: colors.success },
   numText: { fontFamily: fonts.body, color: colors.textDim, fontWeight: '700', fontSize: 12 },
-  numTextDone: { color: '#0e0a14' },
+  numTextDone: { color: colors.ink },
   cardName: { fontFamily: fonts.body, color: colors.text, fontWeight: '700', fontSize: 14 },
   cardMeta: { fontFamily: fonts.body, color: colors.textDim, fontSize: 10, marginTop: 2 },
   chevron: { color: colors.textDim, fontSize: 14, paddingHorizontal: 4 },
@@ -733,7 +733,7 @@ const styles = StyleSheet.create({
     marginTop: 8, minHeight: 40,
   },
   prevNote: {
-    marginTop: 8, padding: 8, backgroundColor: 'rgba(14, 10, 20, 0.6)', borderRadius: 6,
+    marginTop: 8, padding: 8, backgroundColor: glass.deep, borderRadius: 6,
     borderLeftWidth: 2, borderLeftColor: colors.accent,
   },
   prevNoteLabel: { fontFamily: fonts.body, color: colors.accent, fontSize: 8, fontWeight: '700', letterSpacing: 1 },
@@ -749,7 +749,7 @@ const styles = StyleSheet.create({
   customRow: { paddingVertical: 10 },
   customText: { fontFamily: fonts.body, color: colors.accent, fontWeight: '700', fontSize: 13 },
   customBox: {
-    marginTop: 8, padding: 10, backgroundColor: 'rgba(14, 10, 20, 0.6)',
+    marginTop: 8, padding: 10, backgroundColor: glass.deep,
     borderRadius: 8, borderWidth: 1, borderColor: colors.border,
   },
   customLabel: { fontFamily: fonts.body, color: colors.textDim, fontSize: 9, fontWeight: '700', letterSpacing: 1, marginBottom: 8 },
@@ -762,14 +762,14 @@ const styles = StyleSheet.create({
   customActions: { flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 10 },
   customCreateBtn: {
     backgroundColor: colors.accent, borderRadius: 6, paddingHorizontal: 12, paddingVertical: 8,
-    borderWidth: 2, borderColor: '#00000055',
+    borderWidth: 1, borderColor: colors.ink,
   },
-  customCreateText: { fontFamily: fonts.body, color: '#1a1420', fontWeight: '700', fontSize: 11, letterSpacing: 0.5 },
+  customCreateText: { fontFamily: fonts.body, color: colors.ink, fontWeight: '700', fontSize: 11, letterSpacing: 0.5 },
   customCancel: { fontFamily: fonts.body, color: colors.textDim, fontSize: 12 },
   err: { color: colors.danger, fontFamily: fonts.body, marginBottom: 8, textAlign: 'center' },
   levelUp: { fontFamily: fonts.body, color: colors.accent, marginBottom: 2 },
   victoryPanel: {
-    backgroundColor: 'rgba(26, 20, 32, 0.92)', borderColor: colors.accent, borderWidth: 2,
+    backgroundColor: glass.panelStrong, borderColor: colors.accent, borderWidth: 1,
     borderRadius: 10, padding: 14, marginBottom: spacing.sm, alignItems: 'center',
   },
   victoryTitle: { fontFamily: fonts.heading, color: colors.accent, fontWeight: '700', fontSize: 16, letterSpacing: 2 },
@@ -778,7 +778,7 @@ const styles = StyleSheet.create({
   victoryHint: { fontFamily: fonts.body, color: colors.textDim, fontSize: 9, marginTop: 8 },
   histCard: {
     borderWidth: 1, borderColor: colors.border, borderRadius: 8, marginTop: 8, overflow: 'hidden',
-    backgroundColor: 'rgba(14, 10, 20, 0.5)',
+    backgroundColor: glass.deep,
   },
   histHeader: { flexDirection: 'row', alignItems: 'center', padding: 10, gap: 8 },
   histDate: { fontFamily: fonts.body, color: colors.text, fontWeight: '700', fontSize: 12 },
@@ -795,7 +795,7 @@ const styles = StyleSheet.create({
   bottomBar: {
     position: 'absolute', bottom: 0, left: 0, right: 0,
     flexDirection: 'row', alignItems: 'center', gap: 14,
-    backgroundColor: 'rgba(20, 15, 28, 0.97)', borderTopWidth: 2, borderTopColor: colors.border,
+    backgroundColor: 'rgba(11, 14, 26, 0.97)', borderTopWidth: 1, borderTopColor: colors.border,
     paddingHorizontal: 14, paddingVertical: 10,
   },
   timerProgress: { position: 'absolute', top: 0, left: 0, height: 3 },
@@ -808,9 +808,9 @@ const styles = StyleSheet.create({
   timerCtl: { color: colors.textDim, fontSize: 13, padding: 2 },
   finishBtn: {
     backgroundColor: colors.accent, borderRadius: 6, paddingHorizontal: 16, paddingVertical: 10,
-    borderWidth: 2, borderColor: '#00000055',
+    borderWidth: 1, borderColor: colors.ink,
   },
-  finishText: { fontFamily: fonts.body, color: '#1a1420', fontWeight: '700', letterSpacing: 1 },
+  finishText: { fontFamily: fonts.body, color: colors.ink, fontWeight: '700', letterSpacing: 1 },
   // sheet
   sheetBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.8)', justifyContent: 'flex-end' },
   sheet: {
