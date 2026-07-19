@@ -62,7 +62,7 @@ export default function WorkoutScreen() {
   const [loadingProgram, setLoadingProgram] = useState(true);
   const [restored, setRestored] = useState(!!draftRef.current);
 
-  const [picked, setPicked] = useState(draftRef.current?.picked || []); // [{id,name,prescription?,bodyParts?,sets:[{weight,reps}],notes}]
+  const [picked, setPicked] = useState(draftRef.current?.picked || []); // [{id,name,prescription?,bodyParts?,sets:[{weight,reps}],notes,supersetWithNext?}]
   const [expandedId, setExpandedId] = useState(null);
   const [lastSets, setLastSets] = useState({}); // exerciseId -> {sets:[{weight,reps}], notes}
   const [saveStatus, setSaveStatus] = useState('idle'); // idle | saving | saved
@@ -294,6 +294,22 @@ export default function WorkoutScreen() {
 
   const removeExercise = (i) => setPicked(picked.filter((_, idx) => idx !== i));
 
+  const moveExercise = (i, dir) => {
+    const j = i + dir;
+    if (j < 0 || j >= picked.length) return;
+    const next = [...picked];
+    [next[i], next[j]] = [next[j], next[i]];
+    setPicked(next);
+  };
+
+  // Link this exercise with the one below it: alternate their sets back-to-back.
+  // The link is positional — it always pairs a card with whatever sits under it.
+  const toggleSuperset = (i) => {
+    const next = [...picked];
+    next[i] = { ...next[i], supersetWithNext: !next[i].supersetWithNext };
+    setPicked(next);
+  };
+
   // ---- derived ------------------------------------------------------------------
   const completedCount = picked.filter((p) => p.sets.some(hasSetData)).length;
   const totalVolume = useMemo(
@@ -414,8 +430,11 @@ export default function WorkoutScreen() {
         const isExpanded = expandedId === p.id;
         const isComplete = p.sets.some(hasSetData);
         const prev = lastSets[p.id];
+        const linksDown = !!p.supersetWithNext && i < picked.length - 1;
+        const inSuperset = linksDown || (i > 0 && picked[i - 1].supersetWithNext);
         return (
-          <View key={p.id} style={[styles.card, isExpanded && styles.cardExpanded]}>
+          <React.Fragment key={p.id}>
+          <View style={[styles.card, isExpanded && styles.cardExpanded, inSuperset && styles.cardSuperset]}>
             <Pressable onPress={() => setExpandedId(isExpanded ? null : p.id)} style={styles.cardHeader}>
               <View style={[styles.numBox, isComplete && styles.numBoxDone]}>
                 <Text style={[styles.numText, isComplete && styles.numTextDone]}>{isComplete ? '✓' : i + 1}</Text>
@@ -426,6 +445,14 @@ export default function WorkoutScreen() {
                   {p.prescription ? `${p.prescription}` : `${p.sets.length} set${p.sets.length === 1 ? '' : 's'}`}
                   {p.bodyParts && p.bodyParts.length ? `  ·  ${p.bodyParts.join(' / ')}` : ''}
                 </Text>
+              </View>
+              <View style={styles.moveCol}>
+                <Pressable disabled={i === 0} onPress={() => moveExercise(i, -1)} hitSlop={6}>
+                  <Text style={[styles.moveBtn, i === 0 && styles.moveBtnOff]}>▲</Text>
+                </Pressable>
+                <Pressable disabled={i === picked.length - 1} onPress={() => moveExercise(i, 1)} hitSlop={6}>
+                  <Text style={[styles.moveBtn, i === picked.length - 1 && styles.moveBtnOff]}>▼</Text>
+                </Pressable>
               </View>
               <Text style={[styles.chevron, isExpanded && { transform: [{ rotate: '180deg' }] }]}>▾</Text>
             </Pressable>
@@ -450,6 +477,13 @@ export default function WorkoutScreen() {
                 ))}
                 <View style={styles.cardActions}>
                   <Pressable onPress={() => addSet(i)}><Text style={styles.addSet}>+ set{settings.restTimer ? ` (rest ${settings.restSeconds}s)` : ''}</Text></Pressable>
+                  {i < picked.length - 1 ? (
+                    <Pressable onPress={() => toggleSuperset(i)}>
+                      <Text style={[styles.ssToggle, p.supersetWithNext && styles.ssToggleOn]}>
+                        ⇄ superset{p.supersetWithNext ? ' ✓' : ''}
+                      </Text>
+                    </Pressable>
+                  ) : null}
                   <Pressable onPress={() => removeExercise(i)}><Text style={styles.removeText}>remove</Text></Pressable>
                 </View>
                 <TextInput
@@ -469,6 +503,10 @@ export default function WorkoutScreen() {
               </View>
             ) : null}
           </View>
+          {linksDown ? (
+            <View style={styles.ssLink}><Text style={styles.ssLinkText}>⇄ SUPERSET</Text></View>
+          ) : null}
+          </React.Fragment>
         );
       })}
 
@@ -703,6 +741,18 @@ const styles = StyleSheet.create({
     borderRadius: 8, marginBottom: spacing.sm, overflow: 'hidden',
   },
   cardExpanded: { borderColor: colors.accent },
+  cardSuperset: { borderLeftWidth: 3, borderLeftColor: colors.accentAlt },
+  moveCol: { justifyContent: 'center', gap: 2 },
+  moveBtn: { color: colors.textDim, fontSize: 11, lineHeight: 13, paddingHorizontal: 4 },
+  moveBtnOff: { opacity: 0.25 },
+  ssLink: { alignItems: 'center', marginTop: -8, marginBottom: 2, zIndex: 1 },
+  ssLinkText: {
+    fontFamily: fonts.body, color: colors.accentAlt, fontSize: 8, fontWeight: '700', letterSpacing: 1,
+    backgroundColor: colors.bgPanelAlt, borderWidth: 1, borderColor: colors.accentAlt,
+    borderRadius: 8, paddingHorizontal: 8, paddingVertical: 2, overflow: 'hidden',
+  },
+  ssToggle: { color: colors.textDim, fontFamily: fonts.body, fontSize: 11, paddingVertical: 4 },
+  ssToggleOn: { color: colors.accentAlt, fontWeight: '700' },
   cardHeader: { flexDirection: 'row', alignItems: 'center', padding: 12, gap: 10 },
   numBox: {
     width: 28, height: 28, borderRadius: 4, backgroundColor: colors.bgPanelAlt,
