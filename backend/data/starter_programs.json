@@ -1,1717 +1,3301 @@
 [
- {
-  "name": "Iron Foundations",
-  "description": "The first forging. Three full-body days that build the base every warrior stands on.",
-  "durationWeeks": 4,
-  "daysPerWeek": 3,
-  "designedBy": "LEVELED",
-  "isStarter": true,
-  "days": [
-   {
-    "dayNumber": 1,
-    "name": "Full Body A",
-    "isRest": false,
-    "bodyParts": [
-     "Legs",
-     "Chest",
-     "Back"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Barbell_Squat",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Barbell_Bench_Press_-_Medium_Grip",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Bent_Over_Barbell_Row",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Plank",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Standing_Calf_Raises",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     }
+  {
+    "name": "Iron Foundations",
+    "description": "The first forging. Three full-body days that build the base every warrior stands on.",
+    "durationWeeks": 4,
+    "daysPerWeek": 3,
+    "designedBy": "LEVELED",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Full Body A",
+        "isRest": false,
+        "bodyParts": [
+          "Legs",
+          "Chest",
+          "Back"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Squat",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Barbell_Bench_Press_-_Medium_Grip",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Bent_Over_Barbell_Row",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Plank",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Standing_Calf_Raises",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 2,
+        "name": "Full Body B",
+        "isRest": false,
+        "bodyParts": [
+          "Back",
+          "Legs",
+          "Arms"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Deadlift",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Standing_Military_Press",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Full_Range-Of-Motion_Lat_Pulldown",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Barbell_Curl",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Crunches",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 3,
+        "name": "Full Body C",
+        "isRest": false,
+        "bodyParts": [
+          "Legs",
+          "Chest",
+          "Core"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Lunge",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Incline_Dumbbell_Press",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Seated_Cable_Rows",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Triceps_Pushdown",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Hanging_Leg_Raise",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 2,
-    "name": "Full Body B",
-    "isRest": false,
-    "bodyParts": [
-     "Back",
-     "Legs",
-     "Arms"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Barbell_Deadlift",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 5,
-      "reps": "5",
-      "restSeconds": 180
-     },
-     {
-      "exerciseId": "Standing_Military_Press",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Full_Range-Of-Motion_Lat_Pulldown",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Barbell_Curl",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Crunches",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "Push Pull Legs",
+    "description": "The classic war rhythm: push the enemy back, pull them down, stand your ground.",
+    "durationWeeks": 6,
+    "daysPerWeek": 3,
+    "designedBy": "LEVELED",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Push",
+        "isRest": false,
+        "bodyParts": [
+          "Chest",
+          "Arms"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Bench_Press_-_Medium_Grip",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Standing_Military_Press",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Incline_Dumbbell_Press",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Triceps_Pushdown",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "EZ-Bar_Skullcrusher",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          }
+        ]
+      },
+      {
+        "dayNumber": 2,
+        "name": "Pull",
+        "isRest": false,
+        "bodyParts": [
+          "Back",
+          "Arms"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Deadlift",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Pullups",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Seated_Cable_Rows",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Face_Pull",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Barbell_Curl",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          }
+        ]
+      },
+      {
+        "dayNumber": 3,
+        "name": "Legs",
+        "isRest": false,
+        "bodyParts": [
+          "Legs",
+          "Core"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Squat",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Romanian_Deadlift",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Leg_Press",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Standing_Calf_Raises",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Hanging_Leg_Raise",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 3,
-    "name": "Full Body C",
-    "isRest": false,
-    "bodyParts": [
-     "Legs",
-     "Chest",
-     "Core"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Barbell_Lunge",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Incline_Dumbbell_Press",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Seated_Cable_Rows",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Triceps_Pushdown",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Hanging_Leg_Raise",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "Warrior's Arm Forge",
+    "description": "Specialization block. Hammer the arms from every angle until the sleeves surrender.",
+    "durationWeeks": 4,
+    "daysPerWeek": 3,
+    "designedBy": "LEVELED",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Heavy Arms",
+        "isRest": false,
+        "bodyParts": [
+          "Arms"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Close-Grip_Barbell_Bench_Press",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Barbell_Curl",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "EZ-Bar_Skullcrusher",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Hammer_Curls",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Plank",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 2,
+        "name": "Pump Arms",
+        "isRest": false,
+        "bodyParts": [
+          "Arms"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Triceps_Pushdown",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Preacher_Curl",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Lying_Triceps_Press",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Machine_Preacher_Curls",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Crunches",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 3,
+        "name": "Shoulders & Grip",
+        "isRest": false,
+        "bodyParts": [
+          "Arms"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Standing_Military_Press",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Side_Lateral_Raise",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Dumbbell_Shoulder_Press",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Dumbbell_Shrug",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Russian_Twist",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      }
     ]
-   }
-  ]
- },
- {
-  "name": "Push Pull Legs",
-  "description": "The classic war rhythm: push the enemy back, pull them down, stand your ground.",
-  "durationWeeks": 6,
-  "daysPerWeek": 3,
-  "designedBy": "LEVELED",
-  "isStarter": true,
-  "days": [
-   {
-    "dayNumber": 1,
-    "name": "Push",
-    "isRest": false,
-    "bodyParts": [
-     "Chest",
-     "Arms"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Barbell_Bench_Press_-_Medium_Grip",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Standing_Military_Press",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Incline_Dumbbell_Press",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Triceps_Pushdown",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "EZ-Bar_Skullcrusher",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     }
+  },
+  {
+    "name": "Leg Day Legion",
+    "description": "March or fall. Three lower-body sieges for quads, hamstrings, and glutes.",
+    "durationWeeks": 4,
+    "daysPerWeek": 3,
+    "designedBy": "LEVELED",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Quad Assault",
+        "isRest": false,
+        "bodyParts": [
+          "Legs"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Squat",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Leg_Press",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Leg_Extensions",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Barbell_Lunge",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Standing_Calf_Raises",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 2,
+        "name": "Hinge & Hamstrings",
+        "isRest": false,
+        "bodyParts": [
+          "Legs",
+          "Back"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Deadlift",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Romanian_Deadlift",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Lying_Leg_Curls",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Good_Morning",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Hyperextensions_Back_Extensions",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 3,
+        "name": "Glutes & Power",
+        "isRest": false,
+        "bodyParts": [
+          "Legs",
+          "Core"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Hip_Thrust",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Front_Barbell_Squat",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Dumbbell_Step_Ups",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Barbell_Glute_Bridge",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Plank",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 2,
-    "name": "Pull",
-    "isRest": false,
-    "bodyParts": [
-     "Back",
-     "Arms"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Barbell_Deadlift",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 5,
-      "reps": "5",
-      "restSeconds": 180
-     },
-     {
-      "exerciseId": "Pullups",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Seated_Cable_Rows",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Face_Pull",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Barbell_Curl",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     }
+  },
+  {
+    "name": "Core of Steel",
+    "description": "The keep at the center of the castle. Armor the trunk that holds everything up.",
+    "durationWeeks": 4,
+    "daysPerWeek": 3,
+    "designedBy": "LEVELED",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Anterior",
+        "isRest": false,
+        "bodyParts": [
+          "Core"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Crunches",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Hanging_Leg_Raise",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Ab_Roller",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Reverse_Crunch",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Plank",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 2,
+        "name": "Rotation & Sides",
+        "isRest": false,
+        "bodyParts": [
+          "Core"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Russian_Twist",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Side_Bridge",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Mountain_Climbers",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Flutter_Kicks",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Superman",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 3,
+        "name": "Loaded Core",
+        "isRest": false,
+        "bodyParts": [
+          "Core",
+          "Back"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Deadlift",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Front_Barbell_Squat",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Sit-Up",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Hyperextensions_Back_Extensions",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Plank",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 3,
-    "name": "Legs",
-    "isRest": false,
-    "bodyParts": [
-     "Legs",
-     "Core"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Barbell_Squat",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Romanian_Deadlift",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Leg_Press",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Standing_Calf_Raises",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Hanging_Leg_Raise",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "Upper Lower Split",
+    "description": "Four days, two fronts. Alternate the upper and lower kingdoms all week.",
+    "durationWeeks": 4,
+    "daysPerWeek": 4,
+    "designedBy": "LEVELED",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Upper Power",
+        "isRest": false,
+        "bodyParts": [
+          "Chest",
+          "Back",
+          "Arms"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Bench_Press_-_Medium_Grip",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Bent_Over_Barbell_Row",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Standing_Military_Press",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Pullups",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Barbell_Curl",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          }
+        ]
+      },
+      {
+        "dayNumber": 2,
+        "name": "Lower Power",
+        "isRest": false,
+        "bodyParts": [
+          "Legs",
+          "Core"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Squat",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Romanian_Deadlift",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Leg_Press",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Standing_Calf_Raises",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Hanging_Leg_Raise",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 3,
+        "name": "Upper Volume",
+        "isRest": false,
+        "bodyParts": [
+          "Chest",
+          "Back",
+          "Arms"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Incline_Dumbbell_Press",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Seated_Cable_Rows",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Dumbbell_Shoulder_Press",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Face_Pull",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Triceps_Pushdown",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 4,
+        "name": "Lower Volume",
+        "isRest": false,
+        "bodyParts": [
+          "Legs",
+          "Core"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Front_Barbell_Squat",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Barbell_Lunge",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Lying_Leg_Curls",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Leg_Extensions",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Plank",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      }
     ]
-   }
-  ]
- },
- {
-  "name": "Warrior's Arm Forge",
-  "description": "Specialization block. Hammer the arms from every angle until the sleeves surrender.",
-  "durationWeeks": 4,
-  "daysPerWeek": 3,
-  "designedBy": "LEVELED",
-  "isStarter": true,
-  "days": [
-   {
-    "dayNumber": 1,
-    "name": "Heavy Arms",
-    "isRest": false,
-    "bodyParts": [
-     "Arms"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Close-Grip_Barbell_Bench_Press",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 5,
-      "reps": "5",
-      "restSeconds": 180
-     },
-     {
-      "exerciseId": "Barbell_Curl",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "EZ-Bar_Skullcrusher",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Hammer_Curls",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Plank",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "Bodyweight Battalion",
+    "description": "No iron, no excuses. Wage the campaign anywhere with your own weight.",
+    "durationWeeks": 4,
+    "daysPerWeek": 3,
+    "designedBy": "LEVELED",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Push & Core",
+        "isRest": false,
+        "bodyParts": [
+          "Chest",
+          "Core"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Pushups",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Decline_Push-Up",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Dips_-_Triceps_Version",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Plank",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Mountain_Climbers",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 2,
+        "name": "Legs & Core",
+        "isRest": false,
+        "bodyParts": [
+          "Legs",
+          "Core"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Bodyweight_Squat",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Bodyweight_Walking_Lunge",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Step-up_with_Knee_Raise",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Flutter_Kicks",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Side_Bridge",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 3,
+        "name": "Pull & Burn",
+        "isRest": false,
+        "bodyParts": [
+          "Back",
+          "Core"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Pullups",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Chin-Up",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Inverted_Row",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Superman",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Crunches",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 2,
-    "name": "Pump Arms",
-    "isRest": false,
-    "bodyParts": [
-     "Arms"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Triceps_Pushdown",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Preacher_Curl",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Lying_Triceps_Press",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Machine_Preacher_Curls",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Crunches",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "Dumbbell Crusade",
+    "description": "One pair of dumbbells, an entire arsenal. Full campaign with minimal gear.",
+    "durationWeeks": 4,
+    "daysPerWeek": 3,
+    "designedBy": "LEVELED",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Push",
+        "isRest": false,
+        "bodyParts": [
+          "Chest",
+          "Arms"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Dumbbell_Bench_Press",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Dumbbell_Shoulder_Press",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Incline_Dumbbell_Press",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Standing_Dumbbell_Triceps_Extension",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Crunches",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 2,
+        "name": "Pull",
+        "isRest": false,
+        "bodyParts": [
+          "Back",
+          "Arms"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "One-Arm_Dumbbell_Row",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Bent_Over_Two-Dumbbell_Row",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Dumbbell_Shrug",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Hammer_Curls",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Russian_Twist",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 3,
+        "name": "Legs",
+        "isRest": false,
+        "bodyParts": [
+          "Legs",
+          "Core"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Goblet_Squat",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Dumbbell_Lunges",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Stiff-Legged_Dumbbell_Deadlift",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Dumbbell_Step_Ups",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Plank",
+            "series": "C",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 3,
-    "name": "Shoulders & Grip",
-    "isRest": false,
-    "bodyParts": [
-     "Arms"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Standing_Military_Press",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Side_Lateral_Raise",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Dumbbell_Shoulder_Press",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Dumbbell_Shrug",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Russian_Twist",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "Strength of the Ancients",
+    "description": "The old lifts, the old ways. Five heavy sets of five on the great barbell lifts.",
+    "durationWeeks": 8,
+    "daysPerWeek": 3,
+    "designedBy": "LEVELED",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Squat Day",
+        "isRest": false,
+        "bodyParts": [
+          "Legs",
+          "Core"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Squat",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Barbell_Bench_Press_-_Medium_Grip",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Bent_Over_Barbell_Row",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Plank",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 2,
+        "name": "Press Day",
+        "isRest": false,
+        "bodyParts": [
+          "Chest",
+          "Arms",
+          "Back"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Standing_Military_Press",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Barbell_Deadlift",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Pullups",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Hanging_Leg_Raise",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 3,
+        "name": "Heavy Day",
+        "isRest": false,
+        "bodyParts": [
+          "Legs",
+          "Chest",
+          "Back"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Squat",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Close-Grip_Barbell_Bench_Press",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Barbell_Shrug",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Hyperextensions_Back_Extensions",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          }
+        ]
+      }
     ]
-   }
-  ]
- },
- {
-  "name": "Leg Day Legion",
-  "description": "March or fall. Three lower-body sieges for quads, hamstrings, and glutes.",
-  "durationWeeks": 4,
-  "daysPerWeek": 3,
-  "designedBy": "LEVELED",
-  "isStarter": true,
-  "days": [
-   {
-    "dayNumber": 1,
-    "name": "Quad Assault",
-    "isRest": false,
-    "bodyParts": [
-     "Legs"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Barbell_Squat",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 5,
-      "reps": "5",
-      "restSeconds": 180
-     },
-     {
-      "exerciseId": "Leg_Press",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Leg_Extensions",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Barbell_Lunge",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Standing_Calf_Raises",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "The Gauntlet",
+    "description": "Five days, five trials. One body part per day \u2014 the classic warrior split.",
+    "durationWeeks": 4,
+    "daysPerWeek": 5,
+    "designedBy": "LEVELED",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Chest Trial",
+        "isRest": false,
+        "bodyParts": [
+          "Chest"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Bench_Press_-_Medium_Grip",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Incline_Dumbbell_Press",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Dumbbell_Flyes",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Pushups",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 2,
+        "name": "Back Trial",
+        "isRest": false,
+        "bodyParts": [
+          "Back"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Deadlift",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Pullups",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Bent_Over_Barbell_Row",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Seated_Cable_Rows",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          }
+        ]
+      },
+      {
+        "dayNumber": 3,
+        "name": "Leg Trial",
+        "isRest": false,
+        "bodyParts": [
+          "Legs"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Squat",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Leg_Press",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Lying_Leg_Curls",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Standing_Calf_Raises",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 4,
+        "name": "Arm Trial",
+        "isRest": false,
+        "bodyParts": [
+          "Arms"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Curl",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "EZ-Bar_Skullcrusher",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Hammer_Curls",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Triceps_Pushdown",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          }
+        ]
+      },
+      {
+        "dayNumber": 5,
+        "name": "Core Trial",
+        "isRest": false,
+        "bodyParts": [
+          "Core"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Hanging_Leg_Raise",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Russian_Twist",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Ab_Roller",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Plank",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "12-15",
+            "restSeconds": 60
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 2,
-    "name": "Hinge & Hamstrings",
-    "isRest": false,
-    "bodyParts": [
-     "Legs",
-     "Back"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Barbell_Deadlift",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 5,
-      "reps": "5",
-      "restSeconds": 180
-     },
-     {
-      "exerciseId": "Romanian_Deadlift",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Lying_Leg_Curls",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Good_Morning",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Hyperextensions_Back_Extensions",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Arms Onslaught",
+    "description": "One-off battle \u2014 Arms only. High-volume hypertrophy assault. Six movements, four hard sets each. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Arms Onslaught \u2014 Volume assault",
+        "isRest": false,
+        "bodyParts": [
+          "Arms"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Bench_Dips",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Close-Grip_Dumbbell_Press",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Drag_Curl",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Incline_Push-Up_Close-Grip",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Push-Ups_-_Close_Triceps_Position",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Bottoms-Up_Clean_From_The_Hang_Position",
+            "series": "B",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 3,
-    "name": "Glutes & Power",
-    "isRest": false,
-    "bodyParts": [
-     "Legs",
-     "Core"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Barbell_Hip_Thrust",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Front_Barbell_Squat",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Dumbbell_Step_Ups",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Barbell_Glute_Bridge",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Plank",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Arms Siege",
+    "description": "One-off battle \u2014 Arms only. Heavy siege work. Five movements, five sets of five, long recoveries \u2014 bring weight. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Arms Siege \u2014 Heavy strength",
+        "isRest": false,
+        "bodyParts": [
+          "Arms"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Bench_Press_-_Powerlifting",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Close-Grip_Push-Up_off_of_a_Dumbbell",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Dumbbell_Floor_Press",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "JM_Press",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Reverse_Band_Bench_Press",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          }
+        ]
+      }
     ]
-   }
-  ]
- },
- {
-  "name": "Core of Steel",
-  "description": "The keep at the center of the castle. Armor the trunk that holds everything up.",
-  "durationWeeks": 4,
-  "daysPerWeek": 3,
-  "designedBy": "LEVELED",
-  "isStarter": true,
-  "days": [
-   {
-    "dayNumber": 1,
-    "name": "Anterior",
-    "isRest": false,
-    "bodyParts": [
-     "Core"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Crunches",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Hanging_Leg_Raise",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Ab_Roller",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Reverse_Crunch",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Plank",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Arms Trial",
+    "description": "One-off battle \u2014 Arms only. The endurance trial. High reps, short rests, no mercy in the back half. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Arms Trial \u2014 Endurance burn",
+        "isRest": false,
+        "bodyParts": [
+          "Arms"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Board_Press",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Decline_Close-Grip_Bench_To_Skull_Crusher",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Floor_Press",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "One_Arm_Floor_Press",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Reverse_Triceps_Bench_Press",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Dip_Machine",
+            "series": "B",
+            "orderInSeries": 3,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 2,
-    "name": "Rotation & Sides",
-    "isRest": false,
-    "bodyParts": [
-     "Core"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Russian_Twist",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Side_Bridge",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Mountain_Climbers",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Flutter_Kicks",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Superman",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Arms Warpath",
+    "description": "One-off battle \u2014 Arms only. Pyramid power session. Climb heavier every set, then fight back down. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Arms Warpath \u2014 Power pyramid",
+        "isRest": false,
+        "bodyParts": [
+          "Arms"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Close-Grip_Barbell_Bench_Press",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Dips_-_Triceps_Version",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Floor_Press_with_Chains",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Pin_Presses",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Bench_Press_with_Chains",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Farmers_Walk",
+            "series": "B",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 3,
-    "name": "Loaded Core",
-    "isRest": false,
-    "bodyParts": [
-     "Core",
-     "Back"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Barbell_Deadlift",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Front_Barbell_Squat",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Sit-Up",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Hyperextensions_Back_Extensions",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Plank",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Legs Onslaught",
+    "description": "One-off battle \u2014 Legs only. High-volume hypertrophy assault. Six movements, four hard sets each. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Legs Onslaught \u2014 Volume assault",
+        "isRest": false,
+        "bodyParts": [
+          "Legs"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Full_Squat",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Barbell_Lunge",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Barbell_Walking_Lunge",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Clean",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Double_Leg_Butt_Kick",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Dumbbell_Seated_Box_Jump",
+            "series": "B",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          }
+        ]
+      }
     ]
-   }
-  ]
- },
- {
-  "name": "Upper Lower Split",
-  "description": "Four days, two fronts. Alternate the upper and lower kingdoms all week.",
-  "durationWeeks": 4,
-  "daysPerWeek": 4,
-  "designedBy": "LEVELED",
-  "isStarter": true,
-  "days": [
-   {
-    "dayNumber": 1,
-    "name": "Upper Power",
-    "isRest": false,
-    "bodyParts": [
-     "Chest",
-     "Back",
-     "Arms"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Barbell_Bench_Press_-_Medium_Grip",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 5,
-      "reps": "5",
-      "restSeconds": 180
-     },
-     {
-      "exerciseId": "Bent_Over_Barbell_Row",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 5,
-      "reps": "5",
-      "restSeconds": 180
-     },
-     {
-      "exerciseId": "Standing_Military_Press",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Pullups",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Barbell_Curl",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     }
+  },
+  {
+    "name": "\u26a1 Legs Siege",
+    "description": "One-off battle \u2014 Legs only. Heavy siege work. Five movements, five sets of five, long recoveries \u2014 bring weight. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Legs Siege \u2014 Heavy strength",
+        "isRest": false,
+        "bodyParts": [
+          "Legs"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Glute_Bridge",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Barbell_Side_Split_Squat",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Bench_Jump",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Clean_Deadlift",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Dumbbell_Clean",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 2,
-    "name": "Lower Power",
-    "isRest": false,
-    "bodyParts": [
-     "Legs",
-     "Core"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Barbell_Squat",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 5,
-      "reps": "5",
-      "restSeconds": 180
-     },
-     {
-      "exerciseId": "Romanian_Deadlift",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Leg_Press",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Standing_Calf_Raises",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Hanging_Leg_Raise",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Legs Trial",
+    "description": "One-off battle \u2014 Legs only. The endurance trial. High reps, short rests, no mercy in the back half. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Legs Trial \u2014 Endurance burn",
+        "isRest": false,
+        "bodyParts": [
+          "Legs"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Hack_Squat",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Barbell_Squat",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Bodyweight_Squat",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Clean_Pull",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Dumbbell_Lunges",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Dumbbell_Squat_To_A_Bench",
+            "series": "B",
+            "orderInSeries": 3,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 3,
-    "name": "Upper Volume",
-    "isRest": false,
-    "bodyParts": [
-     "Chest",
-     "Back",
-     "Arms"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Incline_Dumbbell_Press",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Seated_Cable_Rows",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Dumbbell_Shoulder_Press",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Face_Pull",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Triceps_Pushdown",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Legs Warpath",
+    "description": "One-off battle \u2014 Legs only. Pyramid power session. Climb heavier every set, then fight back down. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Legs Warpath \u2014 Power pyramid",
+        "isRest": false,
+        "bodyParts": [
+          "Legs"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Hip_Thrust",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Barbell_Step_Ups",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Box_Squat",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Clean_from_Blocks",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Dumbbell_Rear_Lunge",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Dumbbell_Step_Ups",
+            "series": "B",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 4,
-    "name": "Lower Volume",
-    "isRest": false,
-    "bodyParts": [
-     "Legs",
-     "Core"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Front_Barbell_Squat",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Barbell_Lunge",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Lying_Leg_Curls",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Leg_Extensions",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Plank",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Chest Onslaught",
+    "description": "One-off battle \u2014 Chest only. High-volume hypertrophy assault. Six movements, four hard sets each. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Chest Onslaught \u2014 Volume assault",
+        "isRest": false,
+        "bodyParts": [
+          "Chest"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Around_The_Worlds",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Bent-Arm_Dumbbell_Pullover",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Decline_Dumbbell_Flyes",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Hammer_Grip_Incline_DB_Bench_Press",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Incline_Dumbbell_Press",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Incline_Push-Up_Wide",
+            "series": "B",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          }
+        ]
+      }
     ]
-   }
-  ]
- },
- {
-  "name": "Bodyweight Battalion",
-  "description": "No iron, no excuses. Wage the campaign anywhere with your own weight.",
-  "durationWeeks": 4,
-  "daysPerWeek": 3,
-  "designedBy": "LEVELED",
-  "isStarter": true,
-  "days": [
-   {
-    "dayNumber": 1,
-    "name": "Push & Core",
-    "isRest": false,
-    "bodyParts": [
-     "Chest",
-     "Core"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Pushups",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Decline_Push-Up",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Dips_-_Triceps_Version",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Plank",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Mountain_Climbers",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Chest Siege",
+    "description": "One-off battle \u2014 Chest only. Heavy siege work. Five movements, five sets of five, long recoveries \u2014 bring weight. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Chest Siege \u2014 Heavy strength",
+        "isRest": false,
+        "bodyParts": [
+          "Chest"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Bench_Press_-_Medium_Grip",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Clock_Push-Up",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Dumbbell_Bench_Press",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Incline_Dumbbell_Bench_With_Palms_Facing_In",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Incline_Push-Up",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 2,
-    "name": "Legs & Core",
-    "isRest": false,
-    "bodyParts": [
-     "Legs",
-     "Core"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Bodyweight_Squat",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Bodyweight_Walking_Lunge",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Step-up_with_Knee_Raise",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Flutter_Kicks",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Side_Bridge",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Chest Trial",
+    "description": "One-off battle \u2014 Chest only. The endurance trial. High reps, short rests, no mercy in the back half. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Chest Trial \u2014 Endurance burn",
+        "isRest": false,
+        "bodyParts": [
+          "Chest"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Guillotine_Bench_Press",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Decline_Barbell_Bench_Press",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Dumbbell_Bench_Press_with_Neutral_Grip",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Incline_Dumbbell_Flyes",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Incline_Push-Up_Medium",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Isometric_Wipers",
+            "series": "B",
+            "orderInSeries": 3,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 3,
-    "name": "Pull & Burn",
-    "isRest": false,
-    "bodyParts": [
-     "Back",
-     "Core"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Pullups",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Chin-Up",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Inverted_Row",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Superman",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Crunches",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Chest Warpath",
+    "description": "One-off battle \u2014 Chest only. Pyramid power session. Climb heavier every set, then fight back down. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Chest Warpath \u2014 Power pyramid",
+        "isRest": false,
+        "bodyParts": [
+          "Chest"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Incline_Bench_Press_-_Medium_Grip",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Decline_Dumbbell_Bench_Press",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Front_Raise_And_Pullover",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Incline_Dumbbell_Flyes_-_With_A_Twist",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Incline_Push-Up_Reverse_Grip",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Neck_Press",
+            "series": "B",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          }
+        ]
+      }
     ]
-   }
-  ]
- },
- {
-  "name": "Dumbbell Crusade",
-  "description": "One pair of dumbbells, an entire arsenal. Full campaign with minimal gear.",
-  "durationWeeks": 4,
-  "daysPerWeek": 3,
-  "designedBy": "LEVELED",
-  "isStarter": true,
-  "days": [
-   {
-    "dayNumber": 1,
-    "name": "Push",
-    "isRest": false,
-    "bodyParts": [
-     "Chest",
-     "Arms"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Dumbbell_Bench_Press",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Dumbbell_Shoulder_Press",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Incline_Dumbbell_Press",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Standing_Dumbbell_Triceps_Extension",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Crunches",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Back Onslaught",
+    "description": "One-off battle \u2014 Back only. High-volume hypertrophy assault. Six movements, four hard sets each. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Back Onslaught \u2014 Volume assault",
+        "isRest": false,
+        "bodyParts": [
+          "Back"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Deadlift",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Bent_Over_Two-Arm_Long_Bar_Row",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Clean_Shrug",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "One-Arm_Dumbbell_Row",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Rack_Pulls",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Standing_Dumbbell_Upright_Row",
+            "series": "B",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 2,
-    "name": "Pull",
-    "isRest": false,
-    "bodyParts": [
-     "Back",
-     "Arms"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "One-Arm_Dumbbell_Row",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Bent_Over_Two-Dumbbell_Row",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Dumbbell_Shrug",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Hammer_Curls",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Russian_Twist",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Back Siege",
+    "description": "One-off battle \u2014 Back only. Heavy siege work. Five movements, five sets of five, long recoveries \u2014 bring weight. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Back Siege \u2014 Heavy strength",
+        "isRest": false,
+        "bodyParts": [
+          "Back"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Bent-Arm_Barbell_Pullover",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Bent_Over_Two-Dumbbell_Row",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Deficit_Deadlift",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "One-Arm_Long_Bar_Row",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Reverse_Grip_Bent-Over_Rows",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 3,
-    "name": "Legs",
-    "isRest": false,
-    "bodyParts": [
-     "Legs",
-     "Core"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Goblet_Squat",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Dumbbell_Lunges",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Stiff-Legged_Dumbbell_Deadlift",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Dumbbell_Step_Ups",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Plank",
-      "series": "C",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Back Trial",
+    "description": "One-off battle \u2014 Back only. The endurance trial. High reps, short rests, no mercy in the back half. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Back Trial \u2014 Endurance burn",
+        "isRest": false,
+        "bodyParts": [
+          "Back"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Bent_Over_Barbell_Row",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Bent_Over_Two-Dumbbell_Row_With_Palms_In",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Dumbbell_Incline_Row",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Pullups",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Seated_Good_Mornings",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Straight_Bar_Bench_Mid_Rows",
+            "series": "B",
+            "orderInSeries": 3,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          }
+        ]
+      }
     ]
-   }
-  ]
- },
- {
-  "name": "Strength of the Ancients",
-  "description": "The old lifts, the old ways. Five heavy sets of five on the great barbell lifts.",
-  "durationWeeks": 8,
-  "daysPerWeek": 3,
-  "designedBy": "LEVELED",
-  "isStarter": true,
-  "days": [
-   {
-    "dayNumber": 1,
-    "name": "Squat Day",
-    "isRest": false,
-    "bodyParts": [
-     "Legs",
-     "Core"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Barbell_Squat",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 5,
-      "reps": "5",
-      "restSeconds": 180
-     },
-     {
-      "exerciseId": "Barbell_Bench_Press_-_Medium_Grip",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 5,
-      "reps": "5",
-      "restSeconds": 180
-     },
-     {
-      "exerciseId": "Bent_Over_Barbell_Row",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 5,
-      "reps": "5",
-      "restSeconds": 180
-     },
-     {
-      "exerciseId": "Plank",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Back Warpath",
+    "description": "One-off battle \u2014 Back only. Pyramid power session. Climb heavier every set, then fight back down. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Back Warpath \u2014 Power pyramid",
+        "isRest": false,
+        "bodyParts": [
+          "Back"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Bent_Over_One-Arm_Long_Bar_Row",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Chin-Up",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Hyperextensions_With_No_Hyperextension_Bench",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Rack_Pull_with_Bands",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Snatch_Shrug",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Superman",
+            "series": "B",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 2,
-    "name": "Press Day",
-    "isRest": false,
-    "bodyParts": [
-     "Chest",
-     "Arms",
-     "Back"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Standing_Military_Press",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 5,
-      "reps": "5",
-      "restSeconds": 180
-     },
-     {
-      "exerciseId": "Barbell_Deadlift",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 5,
-      "reps": "5",
-      "restSeconds": 180
-     },
-     {
-      "exerciseId": "Pullups",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Hanging_Leg_Raise",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Core Onslaught",
+    "description": "One-off battle \u2014 Core only. High-volume hypertrophy assault. Six movements, four hard sets each. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Core Onslaught \u2014 Volume assault",
+        "isRest": false,
+        "bodyParts": [
+          "Core"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "3_4_Sit-Up",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Bent-Knee_Hip_Raise",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Cross-Body_Crunch",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Elbow_to_Knee",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Landmine_180s",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Side_Jackknife",
+            "series": "B",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 3,
-    "name": "Heavy Day",
-    "isRest": false,
-    "bodyParts": [
-     "Legs",
-     "Chest",
-     "Back"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Barbell_Squat",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 5,
-      "reps": "5",
-      "restSeconds": 180
-     },
-     {
-      "exerciseId": "Close-Grip_Barbell_Bench_Press",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 5,
-      "reps": "5",
-      "restSeconds": 180
-     },
-     {
-      "exerciseId": "Barbell_Shrug",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Hyperextensions_Back_Extensions",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Core Siege",
+    "description": "One-off battle \u2014 Core only. Heavy siege work. Five movements, five sets of five, long recoveries \u2014 bring weight. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Core Siege \u2014 Heavy strength",
+        "isRest": false,
+        "bodyParts": [
+          "Core"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Air_Bike",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Bottoms_Up",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Dead_Bug",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Flat_Bench_Leg_Pull-In",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Leg_Pull-In",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          }
+        ]
+      }
     ]
-   }
-  ]
- },
- {
-  "name": "The Gauntlet",
-  "description": "Five days, five trials. One body part per day \u2014 the classic warrior split.",
-  "durationWeeks": 4,
-  "daysPerWeek": 5,
-  "designedBy": "LEVELED",
-  "isStarter": true,
-  "days": [
-   {
-    "dayNumber": 1,
-    "name": "Chest Trial",
-    "isRest": false,
-    "bodyParts": [
-     "Chest"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Barbell_Bench_Press_-_Medium_Grip",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Incline_Dumbbell_Press",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Dumbbell_Flyes",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Pushups",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Core Trial",
+    "description": "One-off battle \u2014 Core only. The endurance trial. High reps, short rests, no mercy in the back half. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Core Trial \u2014 Endurance burn",
+        "isRest": false,
+        "bodyParts": [
+          "Core"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Ab_Rollout",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Butt-Ups",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Decline_Oblique_Crunch",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Gorilla_Chin_Crunch",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Russian_Twist",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Spider_Crawl",
+            "series": "B",
+            "orderInSeries": 3,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 2,
-    "name": "Back Trial",
-    "isRest": false,
-    "bodyParts": [
-     "Back"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Barbell_Deadlift",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 5,
-      "reps": "5",
-      "restSeconds": 180
-     },
-     {
-      "exerciseId": "Pullups",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Bent_Over_Barbell_Row",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Seated_Cable_Rows",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     }
+  },
+  {
+    "name": "\u26a1 Core Warpath",
+    "description": "One-off battle \u2014 Core only. Pyramid power session. Climb heavier every set, then fight back down. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Core Warpath \u2014 Power pyramid",
+        "isRest": false,
+        "bodyParts": [
+          "Core"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Rollout_from_Bench",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Cocoons",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Decline_Reverse_Crunch",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Jackknife_Sit-Up",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Seated_Flat_Bench_Leg_Pull-In",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Wind_Sprints",
+            "series": "B",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 3,
-    "name": "Leg Trial",
-    "isRest": false,
-    "bodyParts": [
-     "Legs"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Barbell_Squat",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Leg_Press",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Lying_Leg_Curls",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Standing_Calf_Raises",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Shoulders Onslaught",
+    "description": "One-off battle \u2014 Shoulders only. High-volume hypertrophy assault. Six movements, four hard sets each. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Shoulders Onslaught \u2014 Volume assault",
+        "isRest": false,
+        "bodyParts": [
+          "Shoulders"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Anti-Gravity_Press",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Barbell_Shoulder_Press",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Dumbbell_One-Arm_Shoulder_Press",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Iron_Cross",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Rack_Delivery",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          },
+          {
+            "exerciseId": "Single-Arm_Linear_Jammer",
+            "series": "B",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "8-12",
+            "restSeconds": 90
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 4,
-    "name": "Arm Trial",
-    "isRest": false,
-    "bodyParts": [
-     "Arms"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Barbell_Curl",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "EZ-Bar_Skullcrusher",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Hammer_Curls",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 4,
-      "reps": "8-12",
-      "restSeconds": 90
-     },
-     {
-      "exerciseId": "Triceps_Pushdown",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "15-20",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Shoulders Siege",
+    "description": "One-off battle \u2014 Shoulders only. Heavy siege work. Five movements, five sets of five, long recoveries \u2014 bring weight. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Shoulders Siege \u2014 Heavy strength",
+        "isRest": false,
+        "bodyParts": [
+          "Shoulders"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Arnold_Dumbbell_Press",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Bradford_Rocky_Presses",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Dumbbell_One-Arm_Upright_Row",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Jerk_Balance",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          },
+          {
+            "exerciseId": "Seated_Barbell_Military_Press",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 5,
+            "reps": "5",
+            "restSeconds": 180
+          }
+        ]
+      }
     ]
-   },
-   {
-    "dayNumber": 5,
-    "name": "Core Trial",
-    "isRest": false,
-    "bodyParts": [
-     "Core"
-    ],
-    "exercises": [
-     {
-      "exerciseId": "Hanging_Leg_Raise",
-      "series": "A",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Russian_Twist",
-      "series": "A",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Ab_Roller",
-      "series": "B",
-      "orderInSeries": 1,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     },
-     {
-      "exerciseId": "Plank",
-      "series": "B",
-      "orderInSeries": 2,
-      "sets": 3,
-      "reps": "12-15",
-      "restSeconds": 60
-     }
+  },
+  {
+    "name": "\u26a1 Shoulders Trial",
+    "description": "One-off battle \u2014 Shoulders only. The endurance trial. High reps, short rests, no mercy in the back half. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Shoulders Trial \u2014 Endurance burn",
+        "isRest": false,
+        "bodyParts": [
+          "Shoulders"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Incline_Shoulder_Raise",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Clean_and_Press",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Dumbbell_Raise",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Landmine_Linear_Jammer",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Seated_Dumbbell_Press",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          },
+          {
+            "exerciseId": "Standing_Barbell_Press_Behind_Neck",
+            "series": "B",
+            "orderInSeries": 3,
+            "sets": 3,
+            "reps": "15-20",
+            "restSeconds": 60
+          }
+        ]
+      }
     ]
-   }
-  ]
- }
+  },
+  {
+    "name": "\u26a1 Shoulders Warpath",
+    "description": "One-off battle \u2014 Shoulders only. Pyramid power session. Climb heavier every set, then fight back down. A full session for when you need a plan NOW.",
+    "durationWeeks": 1,
+    "daysPerWeek": 1,
+    "designedBy": "One-Off Battle",
+    "isStarter": true,
+    "days": [
+      {
+        "dayNumber": 1,
+        "name": "Shoulders Warpath \u2014 Power pyramid",
+        "isRest": false,
+        "bodyParts": [
+          "Shoulders"
+        ],
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Rear_Delt_Row",
+            "series": "A",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Cuban_Press",
+            "series": "A",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Dumbbell_Shoulder_Press",
+            "series": "A",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Push_Press_-_Behind_the_Neck",
+            "series": "B",
+            "orderInSeries": 1,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "See-Saw_Press_Alternating_Side_Press",
+            "series": "B",
+            "orderInSeries": 2,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          },
+          {
+            "exerciseId": "Standing_Bradford_Press",
+            "series": "B",
+            "orderInSeries": 3,
+            "sets": 4,
+            "reps": "6-10",
+            "restSeconds": 120
+          }
+        ]
+      }
+    ]
+  }
 ]

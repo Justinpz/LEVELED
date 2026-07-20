@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { View, Text, TextInput, ScrollView, StyleSheet, ActivityIndicator, Pressable, Modal, Platform } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { api } from '../api';
-import { colors, spacing, fonts, glass } from '../theme';
+import { colors, spacing, fonts, glass, bodyParts } from '../theme';
 import { Panel, SectionTitle } from '../components/ui';
 import ScreenBackground from '../components/ScreenBackground';
 import LevelUpModal from '../components/LevelUpModal';
@@ -23,26 +23,48 @@ const TIMER_PRESETS = [30, 45, 60, 90, 120, 150, 180];
 
 const formatTime = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 
-function playBeep() {
+// One shared AudioContext, created/resumed on a user tap (starting the timer).
+// Browsers block audio that isn't unlocked by a gesture — creating the context
+// at ring time (after 90 silent seconds) used to fail, so the timer never made
+// a sound. Unlock early, keep it alive, resume before every ring.
+let audioCtx = null;
+function unlockAudio() {
   if (Platform.OS !== 'web' || typeof window === 'undefined') return;
   try {
     const Ctx = window.AudioContext || window.webkitAudioContext;
     if (!Ctx) return;
-    const ctx = new Ctx();
-    [0, 0.25, 0.5].forEach((delay) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.frequency.value = 880;
-      const start = ctx.currentTime + delay;
-      gain.gain.setValueAtTime(0.001, start);
-      gain.gain.exponentialRampToValueAtTime(0.35, start + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.18);
-      osc.start(start);
-      osc.stop(start + 0.2);
-    });
-    setTimeout(() => ctx.close().catch(() => {}), 1500);
+    if (!audioCtx || audioCtx.state === 'closed') audioCtx = new Ctx();
+    if (audioCtx.state !== 'running') audioCtx.resume().catch(() => {});
+  } catch {}
+}
+
+function playBeep() {
+  if (Platform.OS !== 'web' || typeof window === 'undefined') return;
+  try {
+    unlockAudio();
+    if (!audioCtx) return;
+    const ring = () => {
+      const ctx = audioCtx;
+      // Bell-like ding ×3: fundamental + harmonic with a long decay.
+      [0, 0.35, 0.7].forEach((delay) => {
+        const start = ctx.currentTime + delay;
+        [[1318.5, 0.3], [1975.5, 0.12]].forEach(([freq, vol]) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0.0001, start);
+          gain.gain.exponentialRampToValueAtTime(vol, start + 0.015);
+          gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.55);
+          osc.start(start);
+          osc.stop(start + 0.6);
+        });
+      });
+    };
+    if (audioCtx.state !== 'running') audioCtx.resume().then(ring).catch(() => {});
+    else ring();
   } catch {}
 }
 
@@ -93,6 +115,9 @@ export default function WorkoutScreen() {
   const [savingEdit, setSavingEdit] = useState(false);
   const [repeatConfirmId, setRepeatConfirmId] = useState(null); // two-tap guard
   const scrollRef = useRef(null);
+  // A restored draft owns the screen: the async program load must never replace
+  // it. Only an explicit day-chip tap hands control back to program preload.
+  const draftOwnsScreen = useRef(!!draftRef.current);
 
   // Repeat a logged workout: same exercises, same set counts, fresh numbers.
   // PREV fills in from history automatically, so last time's weights sit right
@@ -105,6 +130,8 @@ export default function WorkoutScreen() {
       return;
     }
     setRepeatConfirmId(null);
+    clearDraft(); // deliberate replacement — the old draft must not resurrect
+    draftOwnsScreen.current = true; // the repeated session owns the screen now
     setPicked(
       s.exercises.map((ex) => ({
         id: ex.exerciseId,
@@ -137,7 +164,7 @@ export default function WorkoutScreen() {
         const data = await api.getActiveProgram();
         if (!live) return;
         setActive(data && data.program ? data : null);
-        if (data && data.program && data.suggestedDay != null && !draftRef.current) {
+        if (data && data.program && data.suggestedDay != null && !draftOwnsScreen.current) {
           setDayNumber(data.suggestedDay);
         }
       } catch {
@@ -158,6 +185,13 @@ export default function WorkoutScreen() {
       draftRef.current = null;
       return;
     }
+    // The program arrives async AFTER the draft consumed its first run above —
+    // this effect re-fires (program.id undefined → id) and used to wipe the
+    // restored session, losing real logged sets. Restored drafts keep the
+    // screen until the user explicitly taps a day chip.
+    if (draftOwnsScreen.current) return;
+    // Belt and braces: never overwrite sets the user has typed numbers into.
+    if (picked.some((p) => p.sets.some(hasSetData))) return;
     if (!day || day.isRest) { if (program) setPicked([]); return; }
     setPicked(
       day.exercises.map((pe) => ({
@@ -190,8 +224,8 @@ export default function WorkoutScreen() {
 
   // ---- draft autosave + save indicator ----------------------------------------
   useEffect(() => {
-    saveDraft(picked, dayNumber);
-    if (picked.length === 0) return;
+    const wrote = saveDraft(picked, dayNumber);
+    if (picked.length === 0 || !wrote) return; // never flash SAVED for a refused write
     setSaveStatus('saving');
     if (saveFlashTimer.current) clearTimeout(saveFlashTimer.current);
     saveFlashTimer.current = setTimeout(() => {
@@ -234,6 +268,7 @@ export default function WorkoutScreen() {
   }, [timerState]);
 
   const startTimer = (seconds) => {
+    unlockAudio(); // every timer start is a tap — the gesture that permits the ding
     setTimerSeconds(seconds);
     setTimerTotal(seconds);
     setTimerState('running');
@@ -292,7 +327,13 @@ export default function WorkoutScreen() {
     setPicked(next);
   };
 
-  const removeExercise = (i) => setPicked(picked.filter((_, idx) => idx !== i));
+  const removeExercise = (i) => {
+    const next = picked.filter((_, idx) => idx !== i);
+    // Removing the last exercise is a deliberate discard of the session —
+    // clear the stored draft too, or the deleted session resurrects on reload.
+    if (next.length === 0) clearDraft();
+    setPicked(next);
+  };
 
   const moveExercise = (i, dir) => {
     const j = i + dir;
@@ -323,8 +364,12 @@ export default function WorkoutScreen() {
     setError(null);
     setResult(null);
     try {
+      // Attribute the session to the program day the exercises actually came
+      // from (items preloaded from a day carry programDayId) — a free-built or
+      // restored session must not be credited to a day the user never ran.
+      const fromDay = picked.find((p) => p.programDayId);
       const payload = {
-        programDayId: day ? day.id : undefined,
+        programDayId: fromDay ? fromDay.programDayId : undefined,
         exercises: picked.map((p) => ({
           exerciseId: p.id,
           sets: p.sets.map((s, idx) => ({
@@ -342,6 +387,9 @@ export default function WorkoutScreen() {
       stopTimer();
       setRestored(false);
       clearDraft();
+      // The submitted session is done — hand the screen back to program
+      // preload so the next day (incl. single-day one-offs) can load again.
+      draftOwnsScreen.current = false;
       if (history) loadHistory(); // refresh the log if it's open
       if (scrollRef.current) scrollRef.current.scrollTo({ y: 0, animated: true });
     } catch (e) {
@@ -410,7 +458,17 @@ export default function WorkoutScreen() {
           <>
             <View style={styles.dayRow}>
               {program.days.map((d) => (
-                <Pressable key={d.id} onPress={() => setDayNumber(d.dayNumber)}
+                <Pressable key={d.id} onPress={() => {
+                  if (d.dayNumber === dayNumber) return; // active chip — nothing to do
+                  if (picked.some((p) => p.sets.some(hasSetData))) {
+                    setError('You have logged sets in this session — FINISH it (or remove those exercises) before switching days. Protecting your data.');
+                    return;
+                  }
+                  setError(null);
+                  clearDraft(); // deliberate switch away from a dataless session
+                  draftOwnsScreen.current = false;
+                  setDayNumber(d.dayNumber);
+                }}
                   style={[styles.dayChip, d.dayNumber === dayNumber && styles.dayChipActive]}>
                   <Text style={[styles.dayChipText, d.dayNumber === dayNumber && styles.dayChipTextActive]}>
                     {d.dayNumber}{active.suggestedDay === d.dayNumber ? ' ★' : ''}
@@ -537,7 +595,7 @@ export default function WorkoutScreen() {
             <View style={styles.customBox}>
               <Text style={styles.customLabel}>WHICH BODY PART EARNS THE XP?</Text>
               <View style={styles.bpRow}>
-                {['Arms', 'Legs', 'Chest', 'Back', 'Core'].map((bp) => (
+                {bodyParts.map((bp) => (
                   <Pressable key={bp} onPress={() => setCustomPrimary(bp)}
                     style={[styles.bpChip, customPrimary === bp && { borderColor: colors[bp], backgroundColor: colors.bgPanelAlt }]}>
                     <Text style={[styles.bpChipText, customPrimary === bp && { color: colors[bp] }]}>{bp}</Text>

@@ -21,6 +21,7 @@ export const colors = {
   Chest: '#ffc93c',
   Back: '#4f8dff',
   Core: '#c964ff',
+  Shoulders: '#ff5fa2',
 };
 
 // Translucent fills layered over the screen background art.
@@ -53,4 +54,4 @@ export const fonts = {
   heading: 'Teko_600SemiBold',
 };
 
-export const bodyParts = ['Arms', 'Legs', 'Chest', 'Back', 'Core'];
+export const bodyParts = ['Arms', 'Legs', 'Chest', 'Back', 'Core', 'Shoulders'];

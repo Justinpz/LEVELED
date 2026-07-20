@@ -11,9 +11,9 @@ import WarriorFigure from '../components/WarriorFigure';
 import { barkFor } from '../barks';
 import { useSettings } from '../settingsStore';
 
-const SLOT_ORDER_LEFT = ['arms', 'chest'];
+const SLOT_ORDER_LEFT = ['arms', 'shoulders', 'chest'];
 const SLOT_ORDER_RIGHT = ['back', 'legs', 'core'];
-const SLOT_ICONS = { arms: '🛡', chest: '⛨', back: '🎒', legs: '🥾', core: '⚙' };
+const SLOT_ICONS = { arms: '🥊', shoulders: '🛡', chest: '⛨', back: '🎒', legs: '🥾', core: '⚙' };
 
 // Home hub — the living character (tap him!), his worn gear, five progression
 // tracks, today's quests, and the food-driven health meter.

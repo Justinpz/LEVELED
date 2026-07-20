@@ -170,18 +170,47 @@ test('goalsMet: met at >=90%, calories/carbs/fat fail when blown far past', () =
 
 // ---- starter programs data ---------------------------------------------------
 
-test('starter_programs.json ships 10 programs with valid exercise ids', () => {
+test('starter_programs.json ships 10 programs + 24 one-off battles, valid exercise ids', () => {
   const programs = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../data/starter_programs.json'), 'utf8'));
   const library = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../data/exercises_leveled.json'), 'utf8'));
   const ids = new Set(library.map((e) => e.id));
-  assert.strictEqual(programs.length, 10);
+  const oneOffs = programs.filter((p) => p.name.startsWith('⚡'));
+  const regular = programs.filter((p) => !p.name.startsWith('⚡'));
+  assert.strictEqual(regular.length, 10);
+  assert.strictEqual(oneOffs.length, 24); // 4 per body part × 6 parts
+  for (const p of regular) assert.ok(p.days.length >= 3, `${p.name} has too few days`);
+  for (const p of oneOffs) {
+    assert.strictEqual(p.days.length, 1, `${p.name} should be a single session`);
+    assert.ok(p.days[0].exercises.length >= 5, `${p.name} is too short to be a real session`);
+    assert.strictEqual(p.days[0].bodyParts.length, 1, `${p.name} must target exactly one part`);
+    // Every movement must credit ONLY the targeted body part as primary.
+    const part = p.days[0].bodyParts[0];
+    const byId = new Map(library.map((e) => [e.id, e]));
+    for (const ex of p.days[0].exercises) {
+      const e = byId.get(ex.exerciseId);
+      assert.deepStrictEqual(e.primaryBodyParts, [part], `${p.name}: ${ex.exerciseId} is not ${part}-primary`);
+    }
+  }
   for (const p of programs) {
-    assert.ok(p.days.length >= 3, `${p.name} has too few days`);
     for (const d of p.days) {
       for (const ex of d.exercises) {
         assert.ok(ids.has(ex.exerciseId), `${p.name}/${d.name}: unknown exercise ${ex.exerciseId}`);
       }
     }
+  }
+});
+
+test('exercise library routes shoulder work to the Shoulders track', () => {
+  const library = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../data/exercises_leveled.json'), 'utf8'));
+  const shoulderPrimary = library.filter((e) => (e.primaryMuscles || []).includes('shoulders'));
+  assert.ok(shoulderPrimary.length > 100, 'expected a real shoulder catalog');
+  for (const e of shoulderPrimary) {
+    assert.ok(e.primaryBodyParts.includes('Shoulders'), `${e.id} shoulder-primary but not Shoulders-primary`);
+  }
+  // Traps stay Back — shoulders means delts here.
+  const trapsOnly = library.filter((e) => (e.primaryMuscles || [])[0] === 'traps');
+  for (const e of trapsOnly) {
+    assert.ok(!e.primaryBodyParts.includes('Shoulders'), `${e.id} traps-primary should not be Shoulders`);
   }
 });
 

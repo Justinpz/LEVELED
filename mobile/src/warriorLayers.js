@@ -11,6 +11,8 @@ export const WARRIOR_BASE = {
   5: require('../assets/warrior/t5_base.png'),
 };
 
+// shoulders overlays exist for tiers 1-2 so far (art for 3-5 lands with the
+// next credit top-up); WarriorFigure skips slots with no asset.
 export const WARRIOR_GEAR = {
   1: {
     arms: require('../assets/warrior/t1_arms.png'),
@@ -18,6 +20,7 @@ export const WARRIOR_GEAR = {
     chest: require('../assets/warrior/t1_chest.png'),
     core: require('../assets/warrior/t1_core.png'),
     legs: require('../assets/warrior/t1_legs.png'),
+    shoulders: require('../assets/warrior/t1_shoulders.png'),
   },
   2: {
     arms: require('../assets/warrior/t2_arms.png'),
@@ -25,6 +28,7 @@ export const WARRIOR_GEAR = {
     chest: require('../assets/warrior/t2_chest.png'),
     core: require('../assets/warrior/t2_core.png'),
     legs: require('../assets/warrior/t2_legs.png'),
+    shoulders: require('../assets/warrior/t2_shoulders.png'),
   },
   3: {
     arms: require('../assets/warrior/t3_arms.png'),

@@ -114,6 +114,7 @@ enum BodyPart {
   Chest
   Back
   Core
+  Shoulders
 }
 
 enum GearTier {
@@ -130,6 +131,7 @@ enum GearSlot {
   chest
   back
   core
+  shoulders
 }
 
 enum ChallengeKind {

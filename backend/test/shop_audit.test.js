@@ -20,15 +20,16 @@ const path = require('path');
 const xp = require('../src/lib/xp');
 
 const TIER_LEVEL_GATE = { iron: 1, mythic: 21, celestial: 41, abyssal: 61, ascendant: 81 };
-const SLOTS = ['arms', 'legs', 'chest', 'back', 'core'];
+const SLOTS = ['arms', 'legs', 'chest', 'back', 'core', 'shoulders'];
 const TIERS = Object.keys(TIER_LEVEL_GATE);
 
 const catalog = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../data/gear_database.json'), 'utf8')
 );
 
-test('catalog has 124 items, all with valid tier/slot/cost', () => {
-  assert.strictEqual(catalog.length, 124);
+test('catalog has 126 items (124 originals + 2 shoulder pieces), all valid', () => {
+  assert.strictEqual(catalog.length, 126);
+  assert.strictEqual(catalog.filter((i) => i.slot === 'shoulders').length, 2);
   for (const it of catalog) {
     const id = it.item_id || it.id;
     assert.ok(TIERS.includes(it.tier), `${id}: bad tier ${it.tier}`);

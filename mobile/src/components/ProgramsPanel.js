@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, ActivityIndicator, Pressable } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ActivityIndicator, Pressable, Modal, ScrollView } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { api } from '../api';
-import { colors, spacing, fonts, glass } from '../theme';
+import { colors, spacing, fonts, glass, bodyParts } from '../theme';
 import { Panel, SectionTitle, PixelButton } from '../components/ui';
 
 // Programs — pick a starter, forge one from a goal (smart generator / AI),
@@ -20,6 +20,8 @@ export default function ProgramsPanel() {
   const [msg, setMsg] = useState(null);
   const [busy, setBusy] = useState(false);
   const [showBuilder, setShowBuilder] = useState(false);
+  const [showOneOffs, setShowOneOffs] = useState(false);
+  const [preview, setPreview] = useState(null); // { name, loading, days? }
 
   const load = useCallback(async () => {
     try {
@@ -69,7 +71,40 @@ export default function ProgramsPanel() {
     } catch (e) { setError(e.message); } finally { setBusy(false); }
   };
 
+  // Long-press: fetch the full program (days + exercises) and show what you'd
+  // actually be signing up for before selecting it.
+  const openPreview = async (p) => {
+    setPreview({ name: p.name, loading: true });
+    try {
+      const res = await api.getProgram(p.id);
+      const prog = res.program || res;
+      setPreview({ name: prog.name, description: prog.description, loading: false, days: prog.days || [] });
+    } catch (e) {
+      setPreview({ name: p.name, loading: false, error: e.message, days: [] });
+    }
+  };
+
   if (loading) return <View style={{ paddingVertical: 24, alignItems: 'center' }}><ActivityIndicator color={colors.accent} /></View>;
+
+  const oneOffs = programs.filter((p) => p.name.startsWith('⚡'));
+  const regular = programs.filter((p) => !p.name.startsWith('⚡'));
+
+  const renderProgram = (p) => (
+    <View key={p.id} style={styles.progRow}>
+      <Pressable style={{ flex: 1 }} onLongPress={() => openPreview(p)} delayLongPress={350}>
+        <Text style={styles.progName}>{p.id === activeId ? '▶ ' : ''}{p.name}</Text>
+        <Text style={styles.cMeta}>
+          {p.daysPerWeek} days/wk · {p.durationWeeks} wks{p.isStarter ? ' · starter' : ''}
+          {p.description ? `\n${p.description}` : ''}
+        </Text>
+      </Pressable>
+      <Pressable disabled={busy} onPress={() => select(p.id)}>
+        <Text style={[styles.selectBtn, p.id === activeId && styles.selectedBtn]}>
+          {p.id === activeId ? 'Active' : 'Select'}
+        </Text>
+      </Pressable>
+    </View>
+  );
 
   return (
     <View>
@@ -114,25 +149,57 @@ export default function ProgramsPanel() {
 
       <Panel>
         <SectionTitle>Programs</SectionTitle>
-        <Text style={styles.hint}>Select one and the Workout tab serves its days. Tap again to clear.</Text>
+        <Text style={styles.hint}>
+          Select one and the Workout tab serves its days. Tap again to clear.
+          Long-press any program to preview exactly what you'd be training.
+        </Text>
         {programs.length === 0 ? <Text style={styles.cMeta}>No programs yet — forge or build one.</Text> : null}
-        {programs.map((p) => (
-          <View key={p.id} style={styles.progRow}>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.progName}>{p.id === activeId ? '▶ ' : ''}{p.name}</Text>
-              <Text style={styles.cMeta}>
-                {p.daysPerWeek} days/wk · {p.durationWeeks} wks{p.isStarter ? ' · starter' : ''}
-                {p.description ? `\n${p.description}` : ''}
-              </Text>
-            </View>
-            <Pressable disabled={busy} onPress={() => select(p.id)}>
-              <Text style={[styles.selectBtn, p.id === activeId && styles.selectedBtn]}>
-                {p.id === activeId ? 'Active' : 'Select'}
-              </Text>
-            </Pressable>
-          </View>
-        ))}
+        {regular.map(renderProgram)}
       </Panel>
+
+      <Panel>
+        <Pressable onPress={() => setShowOneOffs(!showOneOffs)}>
+          <SectionTitle>{showOneOffs ? '▾ ⚡ One-Off Battles' : '▸ ⚡ One-Off Battles'}</SectionTitle>
+        </Pressable>
+        {!showOneOffs ? (
+          <Text style={styles.hint}>
+            {oneOffs.length} single-body-part sessions for when you need a plan NOW — full-length,
+            not easy. Four flavors per body part; long-press to preview.
+          </Text>
+        ) : (
+          oneOffs.map(renderProgram)
+        )}
+      </Panel>
+
+      <Modal transparent animationType="fade" visible={!!preview} onRequestClose={() => setPreview(null)}>
+        <Pressable style={styles.previewBackdrop} onPress={() => setPreview(null)}>
+          <Pressable style={styles.previewCard} onPress={() => {}}>
+            <Text style={styles.previewTitle}>{preview ? preview.name : ''}</Text>
+            {preview && preview.description ? <Text style={styles.cMeta}>{preview.description}</Text> : null}
+            {preview && preview.loading ? (
+              <ActivityIndicator color={colors.accent} style={{ marginVertical: 16 }} />
+            ) : preview && preview.error ? (
+              <Text style={styles.err}>{preview.error}</Text>
+            ) : preview ? (
+              <ScrollView style={{ maxHeight: 420 }}>
+                {(preview.days || []).map((d) => (
+                  <View key={d.id || d.dayNumber} style={{ marginTop: 10 }}>
+                    <Text style={styles.dayLine}>
+                      Day {d.dayNumber}: {d.name}{d.isRest ? ' (rest)' : ''}
+                    </Text>
+                    {(d.exercises || []).map((e, i) => (
+                      <Text key={i} style={styles.exLine}>
+                        {'   '}{(e.exerciseId || '').replace(/_/g, ' ')} — {e.sets}×{e.reps}
+                      </Text>
+                    ))}
+                  </View>
+                ))}
+              </ScrollView>
+            ) : null}
+            <Text style={styles.previewClose}>tap outside to close</Text>
+          </Pressable>
+        </Pressable>
+      </Modal>
 
       <Panel>
         <Pressable onPress={() => setShowBuilder(!showBuilder)}>
@@ -279,7 +346,7 @@ function ProgramBuilder({ onSaved }) {
           <View style={styles.customBox}>
             <Text style={styles.customLabel}>WHICH BODY PART EARNS THE XP?</Text>
             <View style={styles.bpRow}>
-              {['Arms', 'Legs', 'Chest', 'Back', 'Core'].map((bp) => (
+              {bodyParts.map((bp) => (
                 <Pressable key={bp} onPress={() => setCustomPrimary(bp)}
                   style={[styles.bpChip, customPrimary === bp && { borderColor: colors[bp], backgroundColor: colors.bgPanelAlt }]}>
                   <Text style={[styles.bpChipText, customPrimary === bp && { color: colors[bp] }]}>{bp}</Text>
@@ -361,4 +428,14 @@ const styles = StyleSheet.create({
     borderWidth: 1, borderColor: colors.ink,
   },
   customCreateText: { fontFamily: fonts.body, color: colors.ink, fontWeight: '700', fontSize: 11, letterSpacing: 0.5 },
+  previewBackdrop: {
+    flex: 1, backgroundColor: 'rgba(0,0,0,0.78)', alignItems: 'center', justifyContent: 'center',
+    padding: spacing.lg,
+  },
+  previewCard: {
+    backgroundColor: colors.bgPanel, borderColor: colors.accent, borderWidth: 1, borderRadius: 12,
+    padding: spacing.md, width: '100%', maxWidth: 440,
+  },
+  previewTitle: { fontFamily: fonts.heading, color: colors.accent, fontSize: 22, letterSpacing: 1 },
+  previewClose: { fontFamily: fonts.body, color: colors.textDim, fontSize: 10, marginTop: 12, textAlign: 'center' },
 });

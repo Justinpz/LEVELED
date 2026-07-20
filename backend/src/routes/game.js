@@ -371,20 +371,13 @@ router.get('/shop', async (req, res, next) => {
     const user = await resolveUser(req);
     if (!user) return res.status(404).json({ error: 'No user' });
     const progress = await ensureProgress(user.id);
-    const levelBySlot = {
-      arms: xp.levelForXp(progress.Arms.lifetimeXp),
-      legs: xp.levelForXp(progress.Legs.lifetimeXp),
-      chest: xp.levelForXp(progress.Chest.lifetimeXp),
-      back: xp.levelForXp(progress.Back.lifetimeXp),
-      core: xp.levelForXp(progress.Core.lifetimeXp),
-    };
-    const pointsBySlot = {
-      arms: progress.Arms.spendablePoints,
-      legs: progress.Legs.spendablePoints,
-      chest: progress.Chest.spendablePoints,
-      back: progress.Back.spendablePoints,
-      core: progress.Core.spendablePoints,
-    };
+    // Derived from the master body-part list: slot key = part lowercased.
+    const levelBySlot = {};
+    const pointsBySlot = {};
+    for (const part of xp.CATEGORY_ORDER) {
+      levelBySlot[part.toLowerCase()] = xp.levelForXp(progress[part].lifetimeXp);
+      pointsBySlot[part.toLowerCase()] = progress[part].spendablePoints;
+    }
     const totalPoints = Object.values(pointsBySlot).reduce((a, b) => a + b, 0);
     const userGear = await prisma.userGear.findMany({ where: { userId: user.id } });
     const gearState = new Map(userGear.map((g) => [g.gearItemId, g]));

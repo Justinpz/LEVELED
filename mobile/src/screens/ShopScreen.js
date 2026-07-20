@@ -73,7 +73,7 @@ export default function ShopScreen() {
       <Panel>
         <SectionTitle>Wearing Now</SectionTitle>
         <View style={styles.wornRow}>
-          {['arms', 'chest', 'back', 'legs', 'core'].map((slot) => {
+          {['arms', 'shoulders', 'chest', 'back', 'legs', 'core'].map((slot) => {
             const worn = shop.items.find((it) => it.slot === slot && it.equipped);
             const img = worn ? gearImage(worn.tier, worn.slot, worn.id) : null;
             return (
