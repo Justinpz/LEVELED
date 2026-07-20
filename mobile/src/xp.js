@@ -1,7 +1,7 @@
 // Client port of the backend XP engine (backend/src/lib/xp.js) for offline mock mode.
 // Keep in sync with the server. Master doc Part 2 + Part 4.
 
-export const CATEGORY_ORDER = ['Arms', 'Legs', 'Chest', 'Back', 'Core'];
+export const CATEGORY_ORDER = ['Arms', 'Legs', 'Chest', 'Back', 'Core', 'Shoulders'];
 const BASE = 100;
 export const MAX_LEVEL = 100;
 const WARRIOR_BONUS_PARTS = ['Legs', 'Back', 'Chest'];

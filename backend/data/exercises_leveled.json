@@ -107,14 +107,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "Hold the Ab Roller with both hands and kneel on the floor.",
@@ -203,16 +203,16 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Legs",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Legs"
+      "Legs",
+      "Shoulders"
     ],
     "instructions": [
       "Clean and press a kettlebell overhead with one arm.",
@@ -437,12 +437,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Move the cables to the bottom of the tower and select an appropriate weight.",
       "Grasp the cables and hold them at shoulder height, palms facing forward. This will be your starting position.",
@@ -467,10 +470,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -502,16 +505,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Chest",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Lie on the floor with two kettlebells next to your shoulders.",
@@ -544,8 +549,8 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Arms",
       "Back"
     ],
     "primaryBodyParts": [
@@ -580,12 +585,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Clean two kettlebells to your shoulders. Clean the kettlebells to your shoulders by extending through the legs and hips as you pull the kettlebells towards your shoulders. Rotate your wrists as you do so.",
       "Press one directly overhead by extending through the elbow, turning it so the palm faces forward while holding the other kettlebell stationary .",
@@ -612,8 +620,8 @@
       "lats"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -650,18 +658,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest",
       "Back",
-      "Core"
+      "Core",
+      "Arms",
+      "Chest"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
+      "Core",
       "Arms",
-      "Chest",
-      "Core"
+      "Chest"
     ],
     "instructions": [
       "Place two kettlebells on the floor about shoulder width apart. Position yourself on your toes and your hands as though you were doing a pushup, with the body straight and extended. Use the handles of the kettlebells to support your upper body. You may need to position your feet wide for support.",
@@ -776,14 +784,16 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
-    ],
-    "primaryBodyParts": [
+      "Shoulders",
+      "Back",
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
-      "Back"
+      "Back",
+      "Arms"
     ],
     "instructions": [
       "Place a bar on the ground behind the head of an incline bench.",
@@ -811,11 +821,11 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Back"
@@ -845,12 +855,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Sit on an exercise bench with back support and hold two dumbbells in front of you at about upper chest level with your palms facing your body and your elbows bent. Tip: Your arms should be next to your torso. The starting position should look like the contracted portion of a dumbbell curl.",
       "Now to perform the movement, raise the dumbbells as you rotate the palms of your hands until they are facing forward.",
@@ -878,14 +891,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "Lay down on a flat bench holding a dumbbell in each hand with the palms of the hands facing towards the ceiling. Tip: Your arms should be parallel to the floor and next to your thighs. To avoid injury, make sure that you keep your elbows slightly bent. This will be your starting position.",
@@ -916,9 +929,9 @@
       "quadriceps"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Legs",
-      "Back"
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -962,18 +975,18 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs",
       "Back",
-      "Core"
+      "Core",
+      "Legs",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms",
+      "Core",
       "Legs",
-      "Core"
+      "Arms"
     ],
     "instructions": [
       "Begin with the atlas stone between your feet. Bend at the hips to wrap your arms vertically around the Atlas Stone, attempting to get your fingers underneath the stone. Many stones will have a small flat portion on the bottom, which will make the stone easier to hold.",
@@ -1006,9 +1019,9 @@
       "traps"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Legs",
-      "Back"
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -1044,14 +1057,16 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
-    ],
-    "primaryBodyParts": [
+      "Shoulders",
+      "Back",
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
-      "Back"
+      "Back",
+      "Arms"
     ],
     "instructions": [
       "Run a band around a stationary post like that of a squat rack.",
@@ -1085,8 +1100,8 @@
       "lower back"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Arms",
       "Back"
     ],
     "primaryBodyParts": [
@@ -1118,10 +1133,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -1218,16 +1233,16 @@
       "middle back"
     ],
     "bodyParts": [
-      "Arms",
       "Back",
-      "Core"
+      "Core",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Arms"
     ],
     "instructions": [
       "Choke the band around the center of the pullup bar. You can use different bands to provide varying levels of assistance.",
@@ -1358,11 +1373,11 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Back"
@@ -1423,16 +1438,16 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Back",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "For this exercise you will need to get into a pushup position, but instead of having your hands of the floor, you will be grabbing on to an Olympic barbell (loaded with 5-10 lbs on each side) instead. This will be your starting position.",
@@ -1461,16 +1476,16 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Back",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Hold an Olympic barbell loaded with 5-10lbs on each side and kneel on the floor.",
@@ -1499,13 +1514,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -1605,16 +1622,16 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
+      "Back",
       "Legs",
-      "Back"
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Legs"
+      "Legs",
+      "Arms"
     ],
     "instructions": [
       "Stand in front of a loaded barbell.",
@@ -1716,13 +1733,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -1754,8 +1773,8 @@
       "hamstrings"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
+      "Legs",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Legs"
@@ -1822,13 +1841,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -1858,11 +1879,11 @@
       "chest"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Chest"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Chest"
@@ -1930,13 +1951,15 @@
       "middle back"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
+      "Arms",
       "Back"
     ],
     "instructions": [
@@ -1969,18 +1992,18 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Legs",
       "Back",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Place a loaded barbell on the ground, near the end of a bench. Kneel with both legs on the bench, and take a medium to narrow grip on the barbell. This will be your starting position.",
@@ -2040,14 +2063,16 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
-    ],
-    "primaryBodyParts": [
+      "Shoulders",
+      "Chest",
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Arms"
     ],
     "instructions": [
       "Sit on a bench with back support in a squat rack. Position a barbell at a height that is just above your head. Grab the barbell with a pronated grip (palms facing forward).",
@@ -2107,8 +2132,8 @@
       "middle back"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -2142,8 +2167,8 @@
       "lower back"
     ],
     "bodyParts": [
-      "Back",
-      "Core"
+      "Core",
+      "Back"
     ],
     "primaryBodyParts": [
       "Core"
@@ -2366,14 +2391,16 @@
       "forearms"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
-    ],
-    "primaryBodyParts": [
+      "Shoulders",
+      "Chest",
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Arms"
     ],
     "instructions": [
       "For this exercise you will need a heavy rope anchored at its center 15-20 feet away. Standing in front of the rope, take an end in each hand with your arms extended at your side. This will be your starting position.",
@@ -2433,14 +2460,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "Sit upright on the floor with your partner behind you.",
@@ -2470,13 +2497,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "For this exercise you will need to place a bench behind your back. With the bench perpendicular to your body, and while looking away from it, hold on to the bench on its edge with the hands fully extended, separated at shoulder width. The legs will be extended forward, bent at the waist and perpendicular to your torso. This will be your starting position.",
@@ -2544,14 +2573,16 @@
     "bodyParts": [
       "Arms",
       "Chest",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
       "Chest",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Begin by lying on the bench, getting your head beyond the bar if possible. Tuck your feet underneath you and arch your back. Using the bar to help support your weight, lift your shoulder off the bench and retract them, squeezing the shoulder blades together. Use your feet to drive your traps into the bench. Maintain this tight body position throughout the movement.",
@@ -2580,13 +2611,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -2622,14 +2655,16 @@
     "bodyParts": [
       "Arms",
       "Chest",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
       "Chest",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Adjust the leader chain, shortening it to the desired length.Place the chains on the sleeves of the bar.",
@@ -2694,16 +2729,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Back",
       "Chest",
-      "Back"
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Lie on a flat bench with a barbell using a shoulder grip width.",
@@ -2734,16 +2771,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Chest",
-      "Back"
+      "Back",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Place a dumbbell standing up on a flat bench.",
@@ -2806,14 +2845,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Holding a barbell with a pronated grip (palms facing down), bend your knees slightly and bring your torso forward, by bending at the waist, while keeping the back straight until it is almost parallel to the floor. Tip: Make sure that you keep the head up. The barbell should hang directly in front of you as your arms hang perpendicular to the floor and your torso. This is your starting position.",
@@ -2839,10 +2880,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -2874,11 +2915,11 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Back"
@@ -2913,8 +2954,8 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -2951,8 +2992,8 @@
       "lats"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -2990,14 +3031,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "With a dumbbell in each hand (palms facing your torso), bend your knees slightly and bring your torso forward by bending at the waist; as you bend make sure to keep your back straight until it is almost parallel to the floor. Tip: Make sure that you keep the head up. The weights should hang directly in front of you as your arms hang perpendicular to the floor and your torso. This is your starting position.",
@@ -3026,8 +3069,8 @@
       "lats"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -3066,18 +3109,20 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Legs",
       "Back",
-      "Core"
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Back",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Clean a kettlebell to your shoulder. Clean the kettlebell to your shoulders by extending through the legs and hips as you raise the kettlebell towards your shoulder. The wrist should rotate as you do so. This will be your starting position.",
@@ -3172,14 +3217,16 @@
     "bodyParts": [
       "Arms",
       "Chest",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
       "Chest",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Begin by lying on the bench, getting your head beyond the bar if possible. One to five boards, made out of 2x6's, can be screwed together and held in place by a training partner, bands, or just tucked under your shirt.",
@@ -3276,16 +3323,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Chest",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Position two equally loaded EZ bars on the ground next to each other. Ensure they are able to roll.",
@@ -3315,8 +3364,8 @@
       "lats"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -3452,12 +3501,15 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
+    "secondaryBodyParts": [
+      "Shoulders"
+    ],
     "instructions": [
       "Initiate the exercise by standing upright with a kettlebell in one hand.",
       "Swing the kettlebell back forcefully and then reverse the motion forcefully. Crush the kettlebell handle as hard as possible and raise the kettlebell to your shoulder."
@@ -3731,12 +3783,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Sit on a Military Press Bench with a bar at shoulder level with a pronated grip (palms facing forward). Tip: Your grip should be wider than shoulder width and it should create a 90-degree angle between the forearm and the upper arm as the barbell goes down. This is your starting position.",
       "Once you pick up the barbell with the correct grip, lift the bar up over your head by locking your arms.",
@@ -3859,13 +3914,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -3894,14 +3951,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "To get yourself into the starting position, place the pulleys on a high position (above your head), select the resistance to be used and hold the pulleys in each hand.",
@@ -3965,8 +4022,8 @@
       "lower back"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Arms",
       "Back"
     ],
     "primaryBodyParts": [
@@ -4127,10 +4184,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -4318,10 +4375,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -4414,13 +4471,15 @@
       "middle back"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
+      "Arms",
       "Back"
     ],
     "instructions": [
@@ -4516,11 +4575,11 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Back"
@@ -4554,12 +4613,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Move the cables to the bottom of the towers and select an appropriate weight.",
       "Stand directly in between the uprights. Grasp the cables and hold them at shoulder height, palms facing forward. This will be your starting position.",
@@ -4892,8 +4954,8 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Arms",
       "Back"
     ],
     "primaryBodyParts": [
@@ -4929,12 +4991,15 @@
       "forearms"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "While standing upright, hold a barbell plate in both hands at the 3 and 9 o'clock positions. Your palms should be facing each other and your arms should be extended straight out in front of you. This will be your starting position.",
       "Initiate the movement by rotating the plate as far to one side as possible. Use the same type of movement you would use to turn a steering wheel to one side.",
@@ -5034,18 +5099,18 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest",
       "Back",
-      "Core"
+      "Core",
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms",
+      "Core",
       "Chest",
-      "Core"
+      "Shoulders"
     ],
     "instructions": [
       "Begin standing while facing a wall or a partner.",
@@ -5102,13 +5167,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -5236,13 +5303,15 @@
       "chest"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms",
       "Chest"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
+      "Arms",
       "Chest"
     ],
     "instructions": [
@@ -5269,14 +5338,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "Start off by standing with your legs together, holding a bodybar or a broomstick.",
@@ -5305,16 +5374,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Chest",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Begin in a three point stance, squatted down with your back flat and one hand on the ground. Place the medicine ball directly in front of you.",
@@ -5343,16 +5414,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Chest",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Begin in a kneeling position facing a wall or utilize a partner. Hold the ball with both hands tight into the chest.",
@@ -5382,16 +5455,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Chest",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Begin in a kneeling position holding the medicine ball with both hands tightly into the chest.",
@@ -5420,16 +5495,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Chest",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Begin in an athletic stance with the knees bent, hips back, and back flat. Hold the medicine ball near your legs. This will be your starting position.",
@@ -5486,8 +5563,8 @@
       "middle back"
     ],
     "bodyParts": [
-      "Legs",
-      "Back"
+      "Back",
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -5522,8 +5599,8 @@
       "middle back"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -5593,14 +5670,16 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms",
       "Legs",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
+      "Arms",
       "Legs",
       "Back"
     ],
@@ -5636,16 +5715,18 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Arms",
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
       "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "With a barbell on the floor close to the shins, take an overhand (or hook) grip just outside the legs. Lower your hips with the weight focused on the heels, back straight, head facing forward, chest up, with your shoulders just in front of the bar. This will be your starting position.",
@@ -5680,8 +5761,8 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Arms",
       "Back"
     ],
     "primaryBodyParts": [
@@ -5720,8 +5801,8 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Arms",
       "Back"
     ],
     "primaryBodyParts": [
@@ -5757,14 +5838,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Begin with a shoulder width, double overhand or hook grip, with the bar hanging at the mid thigh position. Your back should be straight and inclined slightly forward.",
@@ -5796,18 +5879,20 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
+      "Core",
       "Legs",
       "Back",
-      "Core"
-    ],
-    "primaryBodyParts": [
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
+      "Core",
       "Legs",
       "Back",
-      "Core"
+      "Arms"
     ],
     "instructions": [
       "With a barbell on the floor close to the shins, take an overhand or hook grip just outside the legs. Lower your hips with the weight focused on the heels, back straight, head facing forward, chest up, with your shoulders just in front of the bar. This will be your starting position.",
@@ -5848,18 +5933,20 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
+      "Core",
       "Legs",
       "Back",
-      "Core"
-    ],
-    "primaryBodyParts": [
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
+      "Core",
       "Legs",
       "Back",
-      "Core"
+      "Arms"
     ],
     "instructions": [
       "Assume a shoulder-width stance, with knees inside the arms. Now while keeping the back flat, bend at the knees and hips so that you can grab the bar with the arms fully extended and a pronated grip that is slightly wider than shoulder width. Point the elbows out to sides. The bar should be close to the shins. Position the shoulders over or slightly ahead of the bar. Establish a flat back posture. This will be your starting position.",
@@ -5894,15 +5981,15 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Shoulders",
       "Back"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms",
+      "Shoulders",
       "Back"
     ],
     "instructions": [
@@ -5932,13 +6019,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -5971,13 +6060,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Lie back on a flat bench. Using a close grip (around shoulder width), lift the bar from the rack and hold it straight over you with your arms locked. This will be your starting position.",
@@ -6008,13 +6099,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Place a dumbbell standing up on a flat bench.",
@@ -6078,13 +6171,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Lie on a flat bench with an EZ bar loaded to an appropriate weight.",
@@ -6148,14 +6243,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Sit down on a pull-down machine with a wide bar attached to the top pulley. Make sure that you adjust the knee pad of the machine to fit your height. These pads will prevent your body from being raised by the resistance attached to the bar.",
@@ -6188,15 +6285,17 @@
     ],
     "bodyParts": [
       "Arms",
+      "Core",
       "Chest",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
+      "Core",
       "Chest",
-      "Core"
+      "Shoulders"
     ],
     "instructions": [
       "Lie on the floor and place your hands on an upright dumbbell. Supporting your weight on your toes and hands, keep your torso rigid and your elbows in with your arms straight. This will be your starting position.",
@@ -6292,18 +6391,20 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Core",
+      "Arms",
       "Back",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
+      "Core",
       "Arms",
       "Back",
-      "Core"
+      "Shoulders"
     ],
     "instructions": [
       "With the weight loaded, take a zurcher hold on the end of the implement. Place the bar in the crook of the elbow and hold onto your wrist. Try to keep the weight off of the forearms.",
@@ -6426,14 +6527,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Chest",
       "Arms",
-      "Chest"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Secure an exercise band around a stationary post.",
@@ -6467,16 +6570,16 @@
       "quadriceps"
     ],
     "bodyParts": [
-      "Legs",
       "Back",
-      "Core"
+      "Core",
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Legs",
-      "Core"
+      "Core",
+      "Legs"
     ],
     "instructions": [
       "Stand with your feet shoulder width apart. This will be your starting position.",
@@ -6503,12 +6606,15 @@
       "forearms"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "In the crucifix, you statically hold weights out to the side for time. While the event can be practiced using dumbbells, it is best to practice with one of the various implements used, such as axes and hammers, as it feels different.",
       "Begin standing, and raise your arms out to the side holding the implements. Your arms should be parallel to the ground. In competition, judges or sensors are used to let you know when you break parallel. Hold for as long as you can. Typically, the weights should be heavy enough that you fail in 30-60 seconds."
@@ -6629,11 +6735,11 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Back"
@@ -6666,8 +6772,8 @@
       "glutes"
     ],
     "bodyParts": [
-      "Legs",
-      "Back"
+      "Back",
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -6739,9 +6845,9 @@
       "traps"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Legs",
-      "Back"
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -6780,9 +6886,9 @@
       "traps"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Legs",
-      "Back"
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -6818,13 +6924,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -6857,13 +6965,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Secure your legs at the end of the decline bench and slowly lay down on the bench.",
@@ -6927,13 +7037,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -7090,13 +7202,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -7157,13 +7271,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -7198,9 +7314,9 @@
       "traps"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Legs",
-      "Back"
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -7272,13 +7388,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Sit securely in a dip machine, select the weight and firmly grasp the handles.",
@@ -7308,13 +7426,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -7345,13 +7465,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "To get into the starting position, hold your body at arm's length with your arms nearly locked above the bars.",
@@ -7416,8 +7538,8 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Arms",
       "Back"
     ],
     "primaryBodyParts": [
@@ -7454,14 +7576,16 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
-    ],
-    "primaryBodyParts": [
+      "Shoulders",
+      "Legs",
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
-      "Legs"
+      "Legs",
+      "Arms"
     ],
     "instructions": [
       "Hold a kettlebell by the handle in each hand.",
@@ -7494,14 +7618,16 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
-    ],
-    "primaryBodyParts": [
+      "Shoulders",
+      "Legs",
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
-      "Legs"
+      "Legs",
+      "Arms"
     ],
     "instructions": [
       "Clean two kettlebells to your shoulders.",
@@ -7530,11 +7656,11 @@
       "quadriceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Legs"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Legs"
@@ -7567,16 +7693,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Legs",
-      "Core"
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Legs"
+      "Legs",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Place a kettlebell in front of your front foot and clean and press a kettlebell overhead with your opposite arm. Clean the kettlebell to your shoulder by extending through the legs and hips as you pull the kettlebell towards your shoulders. Rotate your wrist as you do so, so that the palm faces forward.",
@@ -7707,13 +7835,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -7775,13 +7905,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -7812,13 +7944,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -7885,16 +8019,18 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Arms",
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
       "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Begin standing with a dumbbell in each hand with your feet shoulder width apart.",
@@ -7925,13 +8061,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Lay on the floor holding dumbbells in your hands. Your knees can be bent. Begin with the weights fully extended above you.",
@@ -7992,14 +8130,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Using a neutral grip, lean into an incline bench.",
@@ -8027,12 +8167,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Sit on an Incline Bench while holding a dumbbell on each hand on top of your thighs.",
       "Lift your legs up to kick the weights to your shoulders and lean back. Position the dumbbells above your shoulders with your arms extended. The arms should be perpendicular to the floor with your palms facing forward and knuckles pointing towards the ceiling. This will be your starting position.",
@@ -8094,11 +8237,11 @@
       "middle back"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Back"
@@ -8160,10 +8303,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -8225,12 +8368,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Grab a dumbbell and either sit on a military press bench or a utility bench that has a back support on it as you place the dumbbells upright on top of your thighs or stand up straight.",
       "Clean the dumbbell up to bring it to shoulder height. The other hand can be kept fully extended to the side, by the waist or grabbing a fixed surface.",
@@ -8292,13 +8438,15 @@
       "traps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
+      "Arms",
       "Back"
     ],
     "instructions": [
@@ -8360,12 +8508,15 @@
       "biceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Grab a dumbbell in each arm and stand up straight with your arms extended by your sides with a slight bend at the elbows and your back straight. This will be your starting position. Tip: The dumbbell should be next to your thighs with the palm of your hands facing back.",
       "Use your side shoulders to lift the dumbbells as you exhale. The dumbbells should be to the side of the body as you move them up. Continue to lift it until the dumbbells are nearly in line with your chin. Tip: Your elbows should drive the motion. As you lift the dumbbell, your elbow should always be higher than your forearm. Also, keep your torso stationary and pause for a second at the top of the movement.",
@@ -8426,11 +8577,11 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Back"
@@ -8526,12 +8677,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "While holding a dumbbell in each hand, sit on a military press bench or utility bench that has back support. Place the dumbbells upright on top of your thighs.",
       "Now raise the dumbbells to shoulder height one at a time using your thighs to help propel them up into position.",
@@ -8886,11 +9040,11 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Back"
@@ -8949,14 +9103,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "Stand up straight.",
@@ -9147,13 +9301,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -9178,10 +9334,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -9210,10 +9366,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -9241,10 +9397,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -9273,11 +9429,11 @@
       "middle back"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Back"
@@ -9311,17 +9467,17 @@
     ],
     "bodyParts": [
       "Arms",
+      "Core",
       "Legs",
-      "Back",
-      "Core"
+      "Back"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
+      "Core",
       "Legs",
-      "Back",
-      "Core"
+      "Back"
     ],
     "instructions": [
       "There are various implements that can be used for the farmers walk. These can also be performed with heavy dumbbells or short bars if these implements aren't available. Begin by standing between the implements.",
@@ -9574,13 +9730,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Adjust the j-hooks so they are at the appropriate height to rack the bar. Begin lying on the floor with your head near the end of a power rack. Keeping your shoulder blades pulled together; pull the bar off of the hooks.",
@@ -9609,13 +9767,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Adjust the j-hooks so they are at the appropriate height to rack the bar. For this exercise, drape the chains directly over the end of the bar, trying to keep the ends away from the plates.",
@@ -9709,16 +9869,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Chest",
       "Legs",
-      "Chest"
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Legs"
+      "Legs",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Attach a dual handled chain or rope attachment to the sled. You should be facing away from the sled, holding a handle in each hand.",
@@ -9989,10 +10151,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -10057,10 +10219,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -10087,10 +10249,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -10146,10 +10308,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -10180,16 +10342,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Chest",
-      "Back"
+      "Back",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Lie on a flat bench while holding a barbell using a palms down grip that is about 15 inches apart.",
@@ -10285,10 +10449,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -10319,14 +10483,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Either standing or seated on a high bench, grasp two stirrup cables that are attached to the high pulleys. Grab with the opposing hand so your arms are crisscrossed about you and your palms are facing forward.",
@@ -10353,8 +10519,8 @@
       "middle back"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -10457,14 +10623,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
+      "Legs",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "Stand holding a light kettlebell by the horns close to your chest. This will be your starting position.",
@@ -10494,15 +10660,15 @@
     ],
     "bodyParts": [
       "Legs",
-      "Back",
-      "Core"
+      "Core",
+      "Back"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Back",
-      "Core"
+      "Core",
+      "Back"
     ],
     "instructions": [
       "Begin with a bar on a rack at shoulder height. Rack the bar across the rear of your shoulders as you would a power squat, not on top of your shoulders. Keep your back tight, shoulder blades pinched together, and your knees slightly bent. Step back from the rack.",
@@ -10532,15 +10698,15 @@
     ],
     "bodyParts": [
       "Legs",
-      "Back",
-      "Core"
+      "Core",
+      "Back"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Back",
-      "Core"
+      "Core",
+      "Back"
     ],
     "instructions": [
       "Begin with a bar on a rack at about the same height as your stomach. Bend over underneath the bar and rack the bar across the rear of your shoulders as you would a power squat, not on top of your shoulders. At the proper height, you should be near parallel to the floor when bent over. Keep your back tight, shoulder blades pinched together, and your knees slightly bent. Keep your back arched and your cervical spine in proper alignment.",
@@ -10567,9 +10733,9 @@
       "lats"
     ],
     "bodyParts": [
+      "Core",
       "Arms",
-      "Back",
-      "Core"
+      "Back"
     ],
     "primaryBodyParts": [
       "Core"
@@ -10732,13 +10898,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -10828,12 +10996,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "With your back to the wall bend at the waist and place both hands on the floor at shoulder width.",
       "Kick yourself up against the wall with your arms straight. Your body should be upside down with the arms and legs fully extended. Keep your whole body as straight as possible. Tip: If doing this for the first time, have a spotter help you. Also, make sure that you keep facing the wall with your head, rather than looking down.",
@@ -10867,16 +11038,18 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Arms",
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
       "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Begin with a shoulder width, double overhand or hook grip, with the bar hanging at the mid thigh position. Your back should be straight and inclined slightly forward.",
@@ -10909,16 +11082,18 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Arms",
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
       "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Begin with a shoulder width, double overhand or hook grip, with the bar hanging just below the knees. Your back should be straight and inclined slightly forward.",
@@ -10953,18 +11128,20 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Core",
+      "Arms",
       "Back",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
+      "Core",
       "Arms",
       "Back",
-      "Core"
+      "Shoulders"
     ],
     "instructions": [
       "Begin with a wide grip on the bar, with an overhand or hook grip. The feet should be directly below the hips with the feet turned out. Your knees should be slightly bent, and the torso inclined forward. The spine should be fully extended and the head facing forward. The bar should be at the hips. This will be your starting position.",
@@ -10999,18 +11176,20 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Core",
+      "Arms",
       "Back",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
+      "Core",
       "Arms",
       "Back",
-      "Core"
+      "Shoulders"
     ],
     "instructions": [
       "Begin with a wide grip on the bar, with an overhand or hook grip. The feet should be directly below the hips with the feet turned out. Your knees should be slightly bent, and the torso inclined forward. The spine should be fully extended and the head facing forward. The bar should be just below the knees. This will be your starting position.",
@@ -11041,15 +11220,15 @@
     ],
     "bodyParts": [
       "Legs",
-      "Back",
-      "Core"
+      "Core",
+      "Back"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Back",
-      "Core"
+      "Core",
+      "Back"
     ],
     "instructions": [
       "Begin with a bar on a rack at about the same height as your stomach. Suspend the bar using chains or suspension straps.",
@@ -11143,16 +11322,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Core"
+      "Core",
+      "Arms",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
+      "Core",
       "Arms",
-      "Core"
+      "Shoulders"
     ],
     "instructions": [
       "This drill helps you learn the snatch. Begin by holding a light weight across the back of the shoulders. Your feet should be slightly wider than hip width apart with the feet turned out, the same position that you would perform a squat with.",
@@ -11181,16 +11362,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Chest",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Utilize a heavy bag for this exercise. Assume an upright stance next to the bag, with your feet staggered, fairly wide apart. Place your hand on the bag at about chest height. This will be your starting position.",
@@ -11374,8 +11557,8 @@
       "glutes"
     ],
     "bodyParts": [
-      "Legs",
-      "Back"
+      "Back",
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -11408,8 +11591,8 @@
       "glutes"
     ],
     "bodyParts": [
-      "Legs",
-      "Back"
+      "Back",
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -11479,8 +11662,8 @@
       "hamstrings"
     ],
     "bodyParts": [
-      "Legs",
-      "Back"
+      "Back",
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -11517,8 +11700,8 @@
       "hamstrings"
     ],
     "bodyParts": [
-      "Legs",
-      "Back"
+      "Back",
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -11676,14 +11859,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "Grab a dumbbell in each hand and lie face down on an incline bench that is set to an incline that is approximately 30 degrees.",
@@ -11715,13 +11898,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -11749,14 +11934,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "To get yourself into the starting position, set the pulleys at the floor level (lowest level possible on the machine that is below your torso).",
@@ -11787,13 +11972,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -11855,14 +12042,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "Hold a dumbbell on each hand and lie on an incline bench that is set to an incline angle of no more than 30 degrees.",
@@ -11892,14 +12079,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "Hold a dumbbell in each hand and lie on an incline bench that is set to an incline angle of no more than 30 degrees.",
@@ -11930,13 +12117,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -12029,13 +12218,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -12065,13 +12256,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Stand facing a Smith machine bar or sturdy elevated platform at an appropriate height.",
@@ -12101,13 +12294,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -12138,16 +12333,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Chest",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Stand facing a Smith machine bar or sturdy elevated platform at an appropriate height.",
@@ -12178,16 +12375,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Chest",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Stand facing a Smith machine bar or sturdy elevated platform at an appropriate height.",
@@ -12218,16 +12417,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Chest",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Stand facing a Smith machine bar or sturdy elevated platform at an appropriate height.",
@@ -12310,10 +12511,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -12377,8 +12578,8 @@
       "lats"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -12417,17 +12618,17 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs",
+      "Shoulders",
       "Chest",
+      "Legs",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
-      "Legs",
       "Chest",
+      "Legs",
       "Back"
     ],
     "instructions": [],
@@ -12481,13 +12682,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -12581,16 +12784,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Chest",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Assume a push-up position, supporting your weight on your hands and toes while keeping your body straight. Your hands should be just outside of shoulder width. This will be your starting position.",
@@ -12620,13 +12825,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Start the exercise the same way you would a close grip bench press. You will lie on a flat bench while holding a barbell at arms length (fully extended) with the elbows in. However, instead of having the arms perpendicular to the torso, make sure the bar is set in a direct line above the upper chest. This will be your starting position.",
@@ -12760,14 +12967,16 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
-    ],
-    "primaryBodyParts": [
+      "Shoulders",
+      "Legs",
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
-      "Legs"
+      "Legs",
+      "Arms"
     ],
     "instructions": [
       "This drill helps you learn to drive yourself low enough during the jerk and corrects those who move backward during the movement. Begin with the bar racked in the jerk position, with the shoulders forward, torso upright, and the feet split slightly apart.",
@@ -12868,18 +13077,20 @@
       "traps"
     ],
     "bodyParts": [
+      "Back",
+      "Core",
       "Arms",
       "Legs",
-      "Back",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
+      "Core",
       "Arms",
       "Legs",
-      "Core"
+      "Shoulders"
     ],
     "instructions": [
       "To load kegs, place the desired number a distance from the loading platform, typically 30-50 feet.",
@@ -12907,12 +13118,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Clean a kettlebell to your shoulder. Clean the kettlebell to your shoulder by extending through the legs and hips as you raise the kettlebell towards your shoulder. The palm should be facing inward.",
       "Looking straight ahead, press the kettlebell out and overhead, rotating your wrist so that your palm faces forward at the top of the motion.",
@@ -12977,16 +13191,16 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Legs",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Legs"
+      "Legs",
+      "Shoulders"
     ],
     "instructions": [
       "Place one kettlebell between your legs and take a wider than shoulder width stance. Bend over by pushing your butt out and keeping your back flat.",
@@ -13016,16 +13230,16 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Place kettlebell between your feet. To get in the starting position, push your butt back and look straight ahead.",
@@ -13089,16 +13303,16 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Legs",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Legs"
+      "Legs",
+      "Shoulders"
     ],
     "instructions": [
       "Place one kettlebell between your legs and take a comfortable stance. Bend over by pushing your butt out and keeping your back flat.",
@@ -13124,11 +13338,11 @@
       "abdominals"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Core"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Core"
@@ -13162,14 +13376,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
+      "Legs",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "Pick up a kettlebell with two hands and hold it by the horns. Hold one leg off of the floor and squat down on the other.",
@@ -13197,12 +13411,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Sit on the floor and spread your legs out comfortably.",
       "Clean one kettlebell to your shoulder.",
@@ -13228,12 +13445,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Clean two kettlebells two your shoulders.",
       "Press one kettlebell.",
@@ -13263,16 +13483,16 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
+      "Back",
       "Legs",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Legs"
+      "Legs",
+      "Shoulders"
     ],
     "instructions": [
       "Place a kettlebell on the ground between your feet. Position your feet in a wide stance, and grasp the kettlebell with two hands. Set your hips back as far as possible, with your knees bent. Keep your chest and head up. This will be your starting position.",
@@ -13299,14 +13519,16 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
-    ],
-    "primaryBodyParts": [
+      "Shoulders",
+      "Legs",
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
-      "Legs"
+      "Legs",
+      "Arms"
     ],
     "instructions": [
       "Clean two kettlebells to your shoulders. Clean the kettlebells to your shoulders by extending through the legs and hips as you pull the kettlebells towards your shoulders. Rotate your wrists as you do so. This will be your starting position.",
@@ -13337,16 +13559,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
+      "Core",
       "Legs",
-      "Core"
-    ],
-    "primaryBodyParts": [
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
+      "Core",
       "Legs",
-      "Core"
+      "Arms"
     ],
     "instructions": [
       "Lie on your back on the floor and press a kettlebell to the top position by extending the elbow. Bend the knee on the same side as the kettlebell.",
@@ -13377,16 +13601,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
+      "Core",
       "Legs",
-      "Core"
-    ],
-    "primaryBodyParts": [
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
+      "Core",
       "Legs",
-      "Core"
+      "Arms"
     ],
     "instructions": [
       "Lie on your back on the floor and press a kettlebell to the top position by extending the elbow. Bend the knee on the same side as the kettlebell.",
@@ -13416,16 +13642,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Legs",
-      "Core"
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Legs"
+      "Legs",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Place a kettlebell in front of your lead foot and clean and press it overhead with your opposite arm. Clean the kettlebell to your shoulder by extending through the legs and hips as you pull the kettlebell towards your shoulders. Rotate your wrist as you do so, so that the palm faces forward. Press it overhead by extending the elbow.",
@@ -13458,16 +13686,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Back",
-      "Core"
+      "Core",
+      "Arms",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
+      "Core",
       "Arms",
-      "Core"
+      "Shoulders"
     ],
     "instructions": [
       "Grip the rings using a false grip, with the base of your palms on top of the rings.",
@@ -13628,11 +13858,11 @@
       "abdominals"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Core"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Core"
@@ -13760,8 +13990,8 @@
       "middle back"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -13859,8 +14089,8 @@
       "middle back"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -13897,15 +14127,15 @@
     ],
     "bodyParts": [
       "Legs",
-      "Back",
-      "Core"
+      "Core",
+      "Back"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Back",
-      "Core"
+      "Core",
+      "Back"
     ],
     "instructions": [
       "Set the bar to the proper height in a power rack. Kneel behind the bar; it may be beneficial to put a mat down to pad your knees. Slide under the bar, racking it across the back of your shoulders. Your shoulder blades should be retracted and the bar tight across your back. Unrack the weight.",
@@ -13934,18 +14164,18 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Legs",
       "Back",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Position a bar into a landmine or securely anchor it in a corner. Load the bar to an appropriate weight.",
@@ -13979,18 +14209,20 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
+      "Core",
       "Legs",
       "Chest",
-      "Core"
-    ],
-    "primaryBodyParts": [
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
+      "Core",
       "Legs",
       "Chest",
-      "Core"
+      "Arms"
     ],
     "instructions": [
       "Position a bar into landmine or, lacking one, securely anchor it in a corner. Load the bar to an appropriate weight and position the handle attachment on the bar.",
@@ -14127,10 +14359,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -14188,13 +14420,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -14380,13 +14614,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -14447,13 +14683,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -14514,13 +14752,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -14549,8 +14789,8 @@
       "middle back"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -14583,12 +14823,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Load an appropriate weight onto the pins and adjust the seat for your height. The handles should be near the top of the shoulders at the beginning of the motion. Your chest and head should be up and handles held with a pronated grip. This will be your starting position.",
       "Press the handles upward by extending through the elbow.",
@@ -14614,8 +14857,8 @@
       "forearms"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -14759,20 +15002,22 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs",
+      "Shoulders",
+      "Core",
       "Chest",
+      "Legs",
       "Back",
-      "Core"
-    ],
-    "primaryBodyParts": [
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
-      "Legs",
+      "Core",
       "Chest",
+      "Legs",
       "Back",
-      "Core"
+      "Arms"
     ],
     "instructions": [
       "Begin standing with the log in front of you. Grasp the handles, and begin to clean the log. As you are bent over to start the clean, attempt to get the log as high as possible, pulling it into your chest. Extend through the hips and knees to bring it up to complete the clean.",
@@ -14801,8 +15046,8 @@
       "middle back"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -14864,14 +15109,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "To move into the starting position, place the pulleys at the low position, select the resistance to be used and grasp a handle in each hand.",
@@ -14933,13 +15178,15 @@
       "traps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
+      "Arms",
       "Back"
     ],
     "instructions": [
@@ -15157,8 +15404,8 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -15319,13 +15566,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Lie on a flat bench while holding two dumbbells directly in front of you. Your arms should be fully extended at a 90-degree angle from your torso and the floor. The palms should be facing in and the elbows should be tucked in. This is the starting position.",
@@ -15570,10 +15819,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -15631,10 +15880,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -15696,8 +15945,8 @@
       "lats"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -15765,13 +16014,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -15864,12 +16115,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Sit down on the Shoulder Press Machine and select the weight.",
       "Grab the handles to your sides as you keep the elbows bent and in line with your torso. This will be your starting position.",
@@ -15928,13 +16182,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -15964,14 +16220,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "For this exercise you will need a medicine ball and a partner. Stand back to back with your partner, spaced 2-3 feet apart. This will be your starting position.",
@@ -16001,16 +16257,16 @@
       "quadriceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs",
-      "Core"
+      "Shoulders",
+      "Core",
+      "Legs"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
-      "Legs",
-      "Core"
+      "Core",
+      "Legs"
     ],
     "instructions": [
       "Assume a semisquat stance with a medicine ball in your hands. Your arms should hang so the ball is near your feet.",
@@ -16103,8 +16359,8 @@
       "lats"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -16170,16 +16426,16 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Begin in a pushup position, with your weight supported by your hands and toes. Flexing the knee and hip, bring one leg until the knee is approximately under the hip. This will be your starting position.",
@@ -16241,16 +16497,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Back",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Begin with a loaded barbell held at the mid thigh position with a wide grip. The feet should be directly below the hips, with the feet turned out as needed. Lower the hips, with the chest up and the head looking forward. The shoulders should be just in front of the bar. This will be the starting position.",
@@ -16283,16 +16541,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Back",
-      "Core"
+      "Core",
+      "Arms",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
+      "Core",
       "Arms",
-      "Core"
+      "Shoulders"
     ],
     "instructions": [
       "Grip the rings using a false grip, with the base of your palms on top of the rings. Initiate a pull up by pulling the elbows down to your side, flexing the elbows.",
@@ -16498,13 +16758,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -16691,14 +16953,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Choose a flat bench and place a dumbbell on each side of it.",
@@ -16793,10 +17057,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -16830,16 +17094,16 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Place a kettlebell between your feet. As you bend down to grab the kettlebell, push your butt back and keep your eyes looking forward.",
@@ -16864,10 +17128,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -16898,8 +17162,8 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
@@ -16934,14 +17198,16 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
-    ],
-    "primaryBodyParts": [
+      "Shoulders",
+      "Legs",
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
-      "Legs"
+      "Legs",
+      "Arms"
     ],
     "instructions": [
       "Hold a kettlebell by the handle. Clean the kettlebell to your shoulder by extending through the legs and hips as you pull the kettlebell towards your shoulder. Rotate your wrist as you do so, so that the palm faces forward. This will be your starting position.",
@@ -16969,12 +17235,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Clean a kettlebell to your shoulder. Clean the kettlebell to your shoulder by extending through the legs and hips as you pull the kettlebell towards your shoulder. Rotate your wrist as you do so, so that the palm faces inward. This will be your starting position.",
       "Look at the kettlebell and press it up and out until it is locked out overhead.",
@@ -17000,12 +17269,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Clean a kettlebell to your shoulder. Clean the kettlebell to your shoulder by extending through the legs and hips as you pull the kettlebell towards your shoulder. Rotate your wrist as you do so, so that the palm faces forward. This will be your starting position.",
       "Hold the kettlebell with the elbow out to the side, and press it up and out until it is locked out overhead.",
@@ -17033,14 +17305,16 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
-    ],
-    "primaryBodyParts": [
+      "Shoulders",
+      "Legs",
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
-      "Legs"
+      "Legs",
+      "Arms"
     ],
     "instructions": [
       "Hold a kettlebell by the handle. Clean the kettlebell to your shoulder by extending through the legs and hips as you pull the kettlebell towards your shoulder. Rotate your wrist as you do so, so that the palm faces forward. This will be your starting position.",
@@ -17068,8 +17342,8 @@
       "lats"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -17105,16 +17379,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Legs",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Legs",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "instructions": [
       "Place a kettlebell between your feet. Bend your knees and push your butt back to get in the proper starting position.",
@@ -17144,14 +17420,16 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
-    ],
-    "primaryBodyParts": [
+      "Shoulders",
+      "Legs",
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
-      "Legs"
+      "Legs",
+      "Arms"
     ],
     "instructions": [
       "Hold a kettlebell by the handle. Clean the kettlebell to your shoulder by extending through the legs and hips as you pull the kettlebell towards your shoulder. Rotate your wrist as you do so, so that the palm faces forward. This will be your starting position.",
@@ -17181,11 +17459,11 @@
       "quadriceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Legs"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Legs"
@@ -17219,16 +17497,16 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [],
     "images": [
@@ -17252,8 +17530,8 @@
       "lats"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -17289,16 +17567,16 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Back",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Start in a standing position with a staggered, athletic stance. Hold a medicine ball in one hand, on the same side as your back leg. This will be your starting position.",
@@ -17330,16 +17608,18 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Arms",
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
       "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Place one kettlebell between your feet.",
@@ -17370,14 +17650,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
+      "Legs",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "Clean and press a kettlebell with one arm. Clean the kettlebell to your shoulder by extending through the legs and hips as you pull the kettlebell towards your shoulder. Rotate your wrist as you do so. Press the weight overhead by extending through the elbow.This will be your starting position.",
@@ -17410,15 +17690,15 @@
     ],
     "bodyParts": [
       "Legs",
-      "Back",
-      "Core"
+      "Core",
+      "Back"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Back",
-      "Core"
+      "Core",
+      "Back"
     ],
     "instructions": [
       "Stand to the side of a barbell next to its center. Bend your knees and lower your body until you are able to reach the barbell.",
@@ -17446,10 +17726,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -17544,8 +17824,8 @@
       "lats"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -17583,13 +17863,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -17654,13 +17936,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Lie down on a flat surface with your back pressing against the floor or an exercise mat. Make sure your knees are bent.",
@@ -17692,8 +17976,8 @@
       "middle back"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -17794,18 +18078,18 @@
       "chest"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Chest",
-      "Core"
+      "Core",
+      "Arms",
+      "Chest"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
+      "Core",
       "Arms",
-      "Chest",
-      "Core"
+      "Chest"
     ],
     "instructions": [
       "Lie facedown on the floor.",
@@ -17833,8 +18117,8 @@
       "biceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -17941,16 +18225,16 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Place one kettlebell between your feet. Clean the kettlebell by extending through the legs and hips as you raise the kettlebell towards your shoulders.",
@@ -17979,16 +18263,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Chest",
-      "Core"
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Secure your feet and lay back on the floor. Your knees should be bent. Hold a weight with both hands to your chest. This will be your starting position.",
@@ -18048,8 +18334,8 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -18118,18 +18404,20 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Core",
       "Back",
-      "Core"
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms",
+      "Core",
       "Back",
-      "Core"
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Start out by having a barbell in front of you on the floor. Your feet should be wider than shoulder width apart from each other.",
@@ -18162,17 +18450,17 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Chest",
-      "Back",
-      "Core"
+      "Arms",
+      "Back"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
       "Chest",
+      "Arms",
       "Back"
     ],
     "instructions": [
@@ -18235,16 +18523,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Chest",
-      "Core"
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Connect a standard handle to a tower, and\u2014if possible\u2014position the cable to shoulder height. If not, a low pulley will suffice.",
@@ -18276,16 +18566,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Chest",
-      "Core"
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Connect a standard handle to a tower, and position the cable to shoulder height.",
@@ -18452,13 +18744,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Stand between a set of parallel bars. Place a hand on each bar, and then take a small jump to help you get into the starting position with your arms locked out.",
@@ -18608,14 +18902,16 @@
     "bodyParts": [
       "Arms",
       "Chest",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
       "Chest",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Pin presses remove the eccentric phase of the bench press, developing starting strength. They also allow you to train a desired range of motion.",
@@ -18835,13 +19131,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -18870,13 +19168,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -18943,16 +19243,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Arms",
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
       "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Stand with your feet slightly wider than shoulder width apart and toes pointing out slightly.",
@@ -19038,16 +19340,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Standing with the weight racked on the front of the shoulders, begin with the dip. With your feet directly under your hips, flex the knees without moving the hips backward. Go down only slightly, and reverse direction as powerfully as possible.",
@@ -19074,10 +19378,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -19113,16 +19417,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Back",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Begin with a loaded barbell on the floor. The bar should be close to or touching the shins, and a wide grip should be taken on the bar. The feet should be directly below the hips, with the feet turned out as needed. Lower the hips, with the chest up and the head looking forward. The shoulders should be just in front of the bar. This will be the starting position.",
@@ -19158,16 +19464,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Arms",
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
       "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Begin with a loaded barbell on boxes or stands of the desired height. A wide grip should be taken on the bar. The feet should be directly below the hips, with the feet turned out as needed. Lower the hips, with the chest up and the head looking forward. The shoulders should be just in front of the bar, with the elbows pointed out. This will be the starting position.",
@@ -19202,16 +19510,16 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "In the power stairs, implements are moved up a staircase. For training purposes, these can be performed with a tire or box.",
@@ -19304,16 +19612,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Chest",
-      "Core"
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "To begin, lie down on a bench with a barbell resting on your chest. Position your legs so they are secure on the extension of the abdominal bench. This is the starting position.",
@@ -19374,16 +19684,16 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Place your sled on an appropriate surface, loaded to a suitable weight. The sled should provide enough resistance to require effort, but not so heavy that you are significantly slowed down.",
@@ -19445,8 +19755,8 @@
       "middle back"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -19483,16 +19793,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Chest",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "With your hands wide apart, support your body on your toes and hands in a plank position. Your elbows should be extended and your body straight. Do not allow your hips to sag. This will be your starting position.",
@@ -19522,13 +19834,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Lie on the floor face down and place your hands closer than shoulder width for a close hand position. Make sure that you are holding your torso up at arms' length.",
@@ -19557,13 +19871,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -19594,13 +19910,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -19631,14 +19949,16 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
-    ],
-    "primaryBodyParts": [
+      "Shoulders",
+      "Legs",
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
-      "Legs"
+      "Legs",
+      "Arms"
     ],
     "instructions": [],
     "images": [
@@ -19663,14 +19983,16 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
-    ],
-    "primaryBodyParts": [
+      "Shoulders",
+      "Legs",
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
-      "Legs"
+      "Legs",
+      "Arms"
     ],
     "instructions": [
       "Standing with the weight racked on the back of the shoulders, begin with the dip. With your feet directly under your hips, flex the knees without moving the hips backward. Go down only slightly, and reverse direction as powerfully as possible. Drive through the heels create as much speed and force as possible, moving the bar in a vertical path.",
@@ -19699,16 +20021,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Chest",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Get into pushup position on the toes with your hands just outside of shoulder width.",
@@ -19738,13 +20062,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -19774,13 +20100,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -19809,14 +20137,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "Start off by rolling your torso forward onto the ball so your hips rest on top of the ball and become the highest point of your body.",
@@ -19932,13 +20260,15 @@
       "traps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
+      "Arms",
       "Back"
     ],
     "instructions": [
@@ -19970,9 +20300,9 @@
       "traps"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Legs",
-      "Back"
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -20009,9 +20339,9 @@
       "traps"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Legs",
-      "Back"
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -20107,14 +20437,16 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
-    ],
-    "primaryBodyParts": [
+      "Shoulders",
+      "Chest",
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Arms"
     ],
     "instructions": [
       "You will need a partner for this drill.",
@@ -20149,14 +20481,16 @@
     "bodyParts": [
       "Arms",
       "Chest",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
       "Chest",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Position a bench inside a power rack, with the bar set to the correct height. Begin by anchoring bands either to band pegs or to the top of the rack. Ensure that you will be position properly under the bands. Attach the other end to the barbell.",
@@ -20190,8 +20524,8 @@
       "lower back"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Arms",
       "Back"
     ],
     "primaryBodyParts": [
@@ -20232,8 +20566,8 @@
       "quadriceps"
     ],
     "bodyParts": [
-      "Legs",
-      "Back"
+      "Back",
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -20314,8 +20648,8 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Arms",
       "Back"
     ],
     "primaryBodyParts": [
@@ -20478,10 +20812,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -20510,10 +20844,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -20547,14 +20881,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Stand erect while holding a barbell with a supinated grip (palms facing up).",
@@ -20646,10 +20982,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -20713,13 +21049,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Lie back on a flat bench. Using a close, supinated grip (around shoulder width), lift the bar from the rack and hold it straight over you with your arms locked extended in front of you and perpendicular to the floor. This will be your starting position.",
@@ -20785,17 +21123,17 @@
     ],
     "bodyParts": [
       "Arms",
+      "Core",
       "Legs",
-      "Back",
-      "Core"
+      "Back"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
+      "Core",
       "Legs",
-      "Back",
-      "Core"
+      "Back"
     ],
     "instructions": [
       "Position the frame at the starting point, and load with the appropriate weight. Standing in the center of the frame, begin by gripping the handles and driving through your heels to lift the frame. Ensure your chest and head are up and your back is straight.",
@@ -20825,8 +21163,8 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Arms",
       "Back"
     ],
     "primaryBodyParts": [
@@ -20863,13 +21201,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Grip a ring in each hand, and then take a small jump to help you get into the starting position with your arms locked out.",
@@ -20965,14 +21305,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Grab the pull-up bar with the palms facing forward using a wide grip.",
@@ -21043,8 +21385,8 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Arms",
       "Back"
     ],
     "primaryBodyParts": [
@@ -21082,14 +21424,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Grab the rope with both hands above your head. Pull down on the rope as you take a small jump.",
@@ -21211,13 +21555,15 @@
       "chest"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms",
       "Chest"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
+      "Arms",
       "Chest"
     ],
     "instructions": [
@@ -21250,8 +21596,8 @@
       "middle back"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Arms",
       "Back"
     ],
     "primaryBodyParts": [
@@ -21349,8 +21695,8 @@
       "lower back"
     ],
     "bodyParts": [
-      "Back",
-      "Core"
+      "Core",
+      "Back"
     ],
     "primaryBodyParts": [
       "Core"
@@ -21394,18 +21740,20 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Core",
+      "Arms",
       "Back",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
+      "Core",
       "Arms",
       "Back",
-      "Core"
+      "Shoulders"
     ],
     "instructions": [
       "To load sandbags or other objects, begin with the implements placed a distance from the loading platform, typically 50 feet.",
@@ -21559,12 +21907,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Sit on a Military Press Bench with a bar behind your head and either have a spotter give you the bar (better on the rotator cuff this way) or pick it up yourself carefully with a pronated grip (palms facing forward). Tip: Your grip should be wider than shoulder width and it should create a 90-degree angle between the forearm and the upper arm as the barbell goes down.",
       "Once you pick up the barbell with the correct grip length, lift the bar up over your head by locking your arms. Hold at about shoulder level and slightly in front of your head. This is your starting position.",
@@ -21655,10 +22006,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -21723,13 +22074,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Sit on the floor with your knees bent and your partner standing behind you. Extend your arms straight behind you with your palms facing each other. Your partner will hold your wrists for you. This will be the starting position.",
@@ -21758,14 +22111,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "For this exercise you will need access to a low pulley row machine with a V-bar. Note: The V-bar will enable you to have a neutral grip where the palms of your hands face each other. To get into the starting position, first sit down on the machine and place your feet on the front platform or crossbar provided making sure that your knees are slightly bent and not locked.",
@@ -21794,12 +22149,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Adjust the weight to an appropriate amount and be seated, grasping the handles. Your upper arms should be about 90 degrees to the body, with your head and chest up. The elbows should also be bent to about 90 degrees. This will be your starting position.",
       "Begin by extending through the elbow, pressing the handles together above your head.",
@@ -22054,12 +22412,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Grab a couple of dumbbells and sit on a military press bench or a utility bench that has a back support on it as you place the dumbbells upright on top of your thighs.",
       "Clean the dumbbells up one at a time by using your thighs to bring the dumbbells up to shoulder height at each side.",
@@ -22148,11 +22509,11 @@
       "chest"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Chest"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Chest"
@@ -22213,8 +22574,8 @@
       "glutes"
     ],
     "bodyParts": [
-      "Legs",
-      "Back"
+      "Back",
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -22468,8 +22829,8 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -22595,10 +22956,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -22693,14 +23054,16 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Core"
-    ],
-    "primaryBodyParts": [
+      "Shoulders",
+      "Core",
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
-      "Core"
+      "Core",
+      "Arms"
     ],
     "instructions": [
       "Grab a dumbbell with each hand and stand up erect.",
@@ -22730,8 +23093,8 @@
       "middle back"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -22765,11 +23128,11 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Back"
@@ -22798,12 +23161,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "To begin, stand on an exercise band so that tension begins at arm's length. Grasp the handles and lift them so that the hands are at shoulder height at each side.",
       "Rotate the wrists so that the palms of your hands are facing forward. Your elbows should be bent, with the upper arms and forearms in line to the torso. This is your starting position.",
@@ -22829,11 +23195,11 @@
       "lats"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Back"
@@ -22859,10 +23225,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -22916,14 +23282,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [],
     "images": [
@@ -23003,10 +23369,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -23035,11 +23401,11 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Back"
@@ -23196,14 +23562,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Grab the pull-up bar with the palms facing forward using a wide grip.",
@@ -23235,13 +23603,15 @@
       "lats"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
+      "Arms",
       "Back"
     ],
     "instructions": [
@@ -23334,14 +23704,16 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
-    ],
-    "primaryBodyParts": [
+      "Shoulders",
+      "Chest",
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Arms"
     ],
     "instructions": [
       "Position a bar into a landmine or securely anchor it in a corner. Load the bar to an appropriate weight.",
@@ -23370,13 +23742,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -23605,13 +23979,15 @@
       "traps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
+      "Arms",
       "Back"
     ],
     "instructions": [
@@ -23868,12 +24244,12 @@
       "quadriceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Legs",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Legs",
@@ -23938,16 +24314,16 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Chest"
+      "Chest",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Arms"
     ],
     "instructions": [
       "Load your pushing sled with the desired weight.",
@@ -23971,10 +24347,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -24004,8 +24380,8 @@
       "lats"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -24043,18 +24419,20 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Legs",
+      "Arms",
       "Back",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Arms",
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "You will need a tire and a sledgehammer for this exercise. Stand in front of the tire about two feet away from it with a staggered stance. Grip the sledgehammer.",
@@ -24082,11 +24460,11 @@
       "chest"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Chest"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Chest"
@@ -24119,14 +24497,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "With the bar at thigh level, load an appropriate weight.",
@@ -24156,13 +24534,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -24194,14 +24574,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Set the barbell attached to the smith machine to a height that is about 2 inches below your knees.",
@@ -24264,13 +24646,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Place a flat bench underneath the smith machine. Place the barbell at a height that you can reach when lying down and your arms are almost fully extended. Once the weight you need is selected, lie down on the flat bench. Using a close and pronated grip (palms facing forward) that is around shoulder width, unlock the bar from the rack and hold it straight over you with your arms locked. This will be your starting position.",
@@ -24300,13 +24684,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -24340,16 +24726,16 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Position the bar at knee height and load it to an appropriate weight.",
@@ -24410,13 +24796,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -24480,13 +24868,15 @@
       "traps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
+      "Arms",
       "Back"
     ],
     "instructions": [
@@ -24516,12 +24906,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "To begin, place a flat bench (or preferably one with back support) underneath a smith machine. Position the barbell at a height so that when seated on the flat bench, the arms must be almost fully extended to reach the barbell.",
       "Once you have the correct height, sit slightly in behind the barbell so that there is an imaginary straight line from the tip of your nose to the barbell. Your feet should be stationary. Grab the barbell with the palms facing forward, unlock it and lift it up so that your arms are fully extended. This is the starting position.",
@@ -24695,14 +25088,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "To begin, set the bar on the smith machine to a height that is around the middle of your thighs. Once the correct height is chosen and the bar is loaded, grasp the bar using a pronated (palms forward) grip that is shoulder width apart. You may need some wrist wraps if using a significant amount of weight.",
@@ -24774,16 +25169,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Arms",
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
       "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Place your feet at a shoulder width stance with the barbell resting right above the connection between the toes and the rest of the foot.",
@@ -24818,13 +25215,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
+      "Legs",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -24858,8 +25257,8 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Arms",
       "Back"
     ],
     "primaryBodyParts": [
@@ -24934,14 +25333,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Begin with a wide grip, with the bar hanging at the mid thigh position. You can use a hook or overhand grip. Your back should be straight and inclined slightly forward.",
@@ -24974,16 +25375,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Arms",
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
       "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Begin with a loaded barbell on boxes or stands of the desired height. A wide grip should be taken on the bar. The feet should be directly below the hips, with the feet turned out as needed. Lower the hips, with the chest up and the head looking forward. The shoulders should be just in front of the bar, with the elbows pointed out. This will be the starting position.",
@@ -25118,16 +25521,16 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Legs",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Legs"
+      "Legs",
+      "Shoulders"
     ],
     "instructions": [
       "Hold a dumbbell in each hand with a pronated grip. Your feet should be wide with your hips and knees extended. This will be your starting position.",
@@ -25157,16 +25560,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Chest",
-      "Core"
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Begin in a prone position on the floor. Support your weight on your hands and toes, with your feet together and your body straight. Your arms should be bent to 90 degrees. This will be your starting position.",
@@ -25267,16 +25672,18 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Arms",
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
       "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "With a barbell on the floor close to the shins, take an overhand grip just outside the legs. Lower your hips with the weight focused on the heels, back straight, head facing forward, chest up, with your shoulders just in front of the bar. This will be your starting position.",
@@ -25309,13 +25716,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
+      "Legs",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -25387,16 +25796,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
-      "Back"
+      "Arms",
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
       "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Begin with a loaded barbell on the floor. The bar should be close to or touching the shins, and a wide grip should be taken on the bar. The feet should be directly below the hips, with the feet turned out as needed. Lower the hips, with the chest up and the head looking forward. The shoulders should be just in front of the bar. This will be the starting position.",
@@ -25495,13 +25906,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
+      "Legs",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -25719,12 +26132,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Stand with a dumbbell in each hand. Raise the dumbbells to your shoulders with your palms facing forward and your elbows pointed out. This will be your starting position.",
       "Extend one arm to press the dumbbell straight up, keeping your off hand in place. Do not lean or jerk the weight during the movement.",
@@ -25783,12 +26199,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "This exercise is best performed inside a squat rack for easier pick up of the bar. To begin, first set the bar on a rack that best matches your height. Once the correct height is chosen and the bar is loaded, step under the bar and place the back of your shoulders (slightly below the neck) across it.",
       "Hold on to the bar using both arms at each side and lift it off the rack by first pushing with your legs and at the same time straightening your torso.",
@@ -25817,12 +26236,15 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
+    "secondaryBodyParts": [
+      "Shoulders"
+    ],
     "instructions": [
       "With a dumbbell in one hand and the palm facing your torso, bend your knees slightly and bring your torso forward, by bending at the waist, while keeping the back straight until it is almost parallel to the floor. Make sure that you keep the head up.",
       "The upper arm should be close to the torso and parallel to the floor while the forearm is pointing towards the floor as the hand holds the weight. Tip: There should be a 90-degree angle between the forearm and the upper arm. This is your starting position.",
@@ -25913,13 +26335,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Clasp your hands behind your back with your palms together, straighten arms and then rotate them so your palms face downward.",
@@ -25945,12 +26369,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Place a loaded bar at shoulder level in a rack. With a pronated grip at shoulder width, begin with the bar racked across the front of your shoulders. This is your starting position.",
       "Initiate the lift by extending the elbows to press the bar overhead. Avoid locking out the elbow as you move the weight behind your head.",
@@ -25980,13 +26407,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -26015,14 +26444,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "Connect a standard handle on a tower, and move the cable to the lowest pulley position.",
@@ -26054,14 +26483,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Core"
+      "Core",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "Connect a standard handle to a tower, and move the cable to the highest pulley position.",
@@ -26186,12 +26615,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Standing with your feet shoulder width apart, take a dumbbell in each hand. Raise the dumbbells to head height, the elbows out and about 90 degrees. This will be your starting position.",
       "Maintaining strict technique with no leg drive or leaning back, extend through the elbow to raise the weights together directly above your head.",
@@ -26247,10 +26679,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -26312,14 +26744,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Grasp a dumbbell in each hand with a pronated (palms forward) grip that is slightly less than shoulder width. The dumbbells should be resting on top of your thighs. Your arms should be extended with a slight bend at the elbows and your back should be straight. This will be your starting position.",
@@ -26374,10 +26808,10 @@
     ],
     "secondaryMuscles": [],
     "bodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [],
     "instructions": [
@@ -26655,12 +27089,15 @@
       "forearms"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Start by standing to the right side of a low pulley row. Use your left hand to come across the body and grab a single handle attached to the low pulley with a pronated grip (palms facing down). Rest your arm in front of you. Your right hand should grab the machine for better support and balance.",
       "Make sure that your back is erect and your feet are shoulder width apart from each other. This is the starting position.",
@@ -26691,13 +27128,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Grab a single handle with your left arm next to the low pulley machine. Turn away from the machine keeping the handle to the side of your body with your arm fully extended. Now use both hands to elevate the single handle directly above the head with the palm facing forward. Keep your upper arm completely vertical (perpendicular to the floor) and put your right hand on your left elbow to help keep it steady. This is the starting position.",
@@ -26726,12 +27165,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Start by placing a barbell that is about chest high on a squat rack. Once you have selected the weights, grab the barbell using a pronated (palms facing forward) grip. Make sure to grip the bar wider than shoulder width apart from each other.",
       "Slightly bend the knees and place the barbell on your collar bone. Lift the barbell up keeping it lying on your chest. Take a step back and position your feet shoulder width apart from each other.",
@@ -26858,13 +27300,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "To begin, stand up with a dumbbell held in one hand. Your feet should be about shoulder width apart from each other. Now fully extend the arm with the dumbbell over your head. Tip: The small finger of your hand should be facing the ceiling and the palm of your hand should be facing forward. The dumbbell should be above your head.",
@@ -26894,12 +27338,15 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
+    "secondaryBodyParts": [
+      "Shoulders"
+    ],
     "instructions": [
       "To begin, stand up holding a barbell or e-z bar using a pronated grip (palms facing forward) with your hands closer than shoulder width apart from each other. Your feet should be about shoulder width apart.",
       "Now elevate the barbell above your head until your arms are fully extended. Keep your elbows in. This will be your starting position.",
@@ -26927,12 +27374,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Start by having a dumbbell in one hand with your arm fully extended to the side using a neutral grip. Use your other arm to hold on to an incline bench to keep your balance.",
       "Your feet should be shoulder width apart from each other. Now slowly lift the dumbbell up until you create a 90 degree angle with your arm. Note: Your forearm should be perpendicular to the floor. Continue to maintain a neutral grip throughout the entire exercise.",
@@ -26962,12 +27412,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Start by having a dumbbell in each hand with your arm fully extended to the side using a neutral grip. Your feet should be shoulder width apart from each other. Now slowly lift the dumbbells up until you create a 90 degree angle with your arms. Note: Your forearms should be perpendicular to the floor. This the starting position.",
       "Continue to maintain a neutral grip throughout the entire exercise. Slowly lift the dumbbells up until your arms are fully extended.",
@@ -27026,8 +27479,8 @@
       "glutes"
     ],
     "bodyParts": [
-      "Legs",
-      "Back"
+      "Back",
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -27179,12 +27632,12 @@
       "lats"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Chest",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Chest",
@@ -27218,14 +27671,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
+      "Legs",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "Begin in a relaxed stance with your feet shoulder width apart and hold your arms close to the body.",
@@ -27391,8 +27844,8 @@
       "hamstrings"
     ],
     "bodyParts": [
-      "Legs",
-      "Back"
+      "Back",
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -27461,16 +27914,18 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Chest",
-      "Back"
+      "Back",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders",
+      "Arms"
     ],
     "instructions": [
       "Place a dumbbell standing up on a flat bench.",
@@ -27532,8 +27987,8 @@
       "lats"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -27566,11 +28021,11 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Back"
@@ -27642,8 +28097,8 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Arms",
       "Back"
     ],
     "primaryBodyParts": [
@@ -27685,8 +28140,8 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Arms",
       "Back"
     ],
     "primaryBodyParts": [
@@ -27730,8 +28185,8 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
+      "Arms",
       "Back"
     ],
     "primaryBodyParts": [
@@ -27769,8 +28224,8 @@
       "hamstrings"
     ],
     "bodyParts": [
-      "Legs",
-      "Back"
+      "Back",
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -27806,13 +28261,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "This drill is great for chest passes when you lack a partner or a wall of sufficient strength. Lay on the ground on your back with your knees bent.",
@@ -27842,18 +28299,18 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Chest",
       "Back",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
       "Chest",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Lay on the ground on your back with your knees bent. Hold the ball with one hand, extending the arm fully behind your head. This will be your starting position.",
@@ -27882,18 +28339,18 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Chest",
       "Back",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
       "Chest",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Lay on the ground on your back with your knees bent.",
@@ -27923,18 +28380,18 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
+      "Core",
       "Chest",
       "Back",
-      "Core"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Core"
     ],
     "secondaryBodyParts": [
-      "Arms",
       "Chest",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Adjust the straps so the handles are at an appropriate height, below waist level.",
@@ -27964,13 +28421,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -28030,8 +28489,8 @@
       "lats"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -28102,14 +28561,16 @@
       "triceps"
     ],
     "bodyParts": [
+      "Chest",
       "Arms",
-      "Chest"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Begin in a standing position.",
@@ -28138,8 +28599,8 @@
       "lats"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -28176,13 +28637,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "Lie down on a flat bench with a dumbbell in each hand on top of your thighs. The palms of your hand will be facing each other.",
@@ -28315,18 +28778,20 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
       "Legs",
       "Chest",
-      "Back"
+      "Arms",
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms",
       "Chest",
-      "Back"
+      "Arms",
+      "Back",
+      "Shoulders"
     ],
     "instructions": [
       "Begin by gripping the bottom of the tire on the tread, and position your feet back a bit. Your chest should be driving into the tire.",
@@ -28508,12 +28973,15 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
+    "secondaryBodyParts": [
+      "Shoulders"
+    ],
     "instructions": [
       "Bring right arm across your body and over your left shoulder, holding your elbow with your left hand, until you feel a stretch in your tricep. Then repeat for your other arm."
     ],
@@ -28758,12 +29226,12 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Legs",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Legs",
@@ -28796,14 +29264,16 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
-    ],
-    "primaryBodyParts": [
+      "Shoulders",
+      "Legs",
       "Arms"
     ],
+    "primaryBodyParts": [
+      "Shoulders"
+    ],
     "secondaryBodyParts": [
-      "Legs"
+      "Legs",
+      "Arms"
     ],
     "instructions": [
       "Clean two kettlebells to your shoulders. Clean the kettlebells to your shoulders by extending through the legs and hips as you swing the kettlebells towards your shoulders. Rotate your wrists as you do so, so that the palms face forward. Squat down a few inches and reverse the motion rapidly driving both kettlebells overhead. Immediately after the initial push, squat down again and get under the kettlebells. Once the kettlebells are locked out, stand upright to complete the exercise."
@@ -28828,12 +29298,15 @@
       "triceps"
     ],
     "bodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "primaryBodyParts": [
+      "Shoulders"
+    ],
+    "secondaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
     "instructions": [
       "Clean two kettlebells to your shoulders. Clean the kettlebells to your shoulders by extending through the legs and hips as you swing the kettlebells towards your shoulders. Rotate your wrists as you do so, so that the palms face forward.",
       "Press the kettlebells up and out. As the kettlebells pass your head, lean into the weights so that the kettlebells are racked behind your head. Make sure to contract your lats, butt, and stomach for added stability."
@@ -28859,8 +29332,8 @@
       "lats"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -28894,14 +29367,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Sit down on a pull-down machine with a wide bar attached to the top pulley. Adjust the knee pad of the machine to fit your height. These pads will prevent your body from being raised by the resistance attached to the bar.",
@@ -28994,11 +29469,11 @@
       "traps"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Back"
@@ -29029,14 +29504,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "Grasp a straight bar cable attachment that is attached to a low pulley with a pronated (palms facing your thighs) grip that is slightly less than shoulder width. The bar should be resting on top of your thighs. Your arms should be extended with a slight bend at the elbows and your back should be straight. This will be your starting position.",
@@ -29064,14 +29539,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "To begin, stand on an exercise band so that tension begins at arm's length. Grasp the handles using a pronated (palms facing your thighs) grip that is slightly less than shoulder width. The handles should be resting on top of your thighs. Your arms should be extended with a slight bend at the elbows and your back should be straight. This will be your starting position.",
@@ -29100,12 +29575,12 @@
       "lats"
     ],
     "bodyParts": [
-      "Arms",
+      "Shoulders",
       "Chest",
       "Back"
     ],
     "primaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "secondaryBodyParts": [
       "Chest",
@@ -29137,14 +29612,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Sit down on a pull-down machine with a V-Bar attached to the top pulley.",
@@ -29176,14 +29653,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Start by placing the middle of the V-bar in the middle of the pull-up bar (assuming that the pull-up station you are using does not have neutral grip handles). The V-Bar handles will be facing down so that you can hang from the pull-up bar through the use of the handles.",
@@ -29214,14 +29693,14 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms",
-      "Legs"
+      "Legs",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Shoulders"
     ],
     "instructions": [
       "Allow the dumbbell to hang at arms length between your legs, holding it with both hands. Keep your back straight and your head up.",
@@ -29283,8 +29762,8 @@
       "middle back"
     ],
     "bodyParts": [
-      "Legs",
-      "Back"
+      "Back",
+      "Legs"
     ],
     "primaryBodyParts": [
       "Back"
@@ -29353,13 +29832,15 @@
     ],
     "bodyParts": [
       "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
     "secondaryBodyParts": [
-      "Chest"
+      "Chest",
+      "Shoulders"
     ],
     "instructions": [
       "For this exercise you will need to place a bench behind your back and another one in front of you. With the benches perpendicular to your body, hold on to one bench on its edge with the hands close to your body, separated at shoulder width. Your arms should be fully extended.",
@@ -29458,8 +29939,8 @@
       "middle back"
     ],
     "bodyParts": [
-      "Arms",
-      "Back"
+      "Back",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Back"
@@ -29593,13 +30074,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -29629,13 +30112,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -29665,13 +30150,15 @@
       "triceps"
     ],
     "bodyParts": [
-      "Arms",
-      "Chest"
+      "Chest",
+      "Shoulders",
+      "Arms"
     ],
     "primaryBodyParts": [
       "Chest"
     ],
     "secondaryBodyParts": [
+      "Shoulders",
       "Arms"
     ],
     "instructions": [
@@ -29704,14 +30191,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Sit down on a pull-down machine with a wide bar attached to the top pulley. Make sure that you adjust the knee pad of the machine to fit your height. These pads will prevent your body from being raised by the resistance attached to the bar.",
@@ -29743,14 +30232,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Sit down on a pull-down machine with a wide bar attached to the top pulley. Make sure that you adjust the knee pad of the machine to fit your height. These pads will prevent your body from being raised by the resistance attached to the bar.",
@@ -29782,14 +30273,16 @@
       "shoulders"
     ],
     "bodyParts": [
+      "Back",
       "Arms",
-      "Back"
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Back"
     ],
     "secondaryBodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "instructions": [
       "Grab the pull-up bar with the palms facing forward using a wide grip.",
@@ -30052,12 +30545,15 @@
       "shoulders"
     ],
     "bodyParts": [
-      "Arms"
+      "Arms",
+      "Shoulders"
     ],
     "primaryBodyParts": [
       "Arms"
     ],
-    "secondaryBodyParts": [],
+    "secondaryBodyParts": [
+      "Shoulders"
+    ],
     "instructions": [
       "To begin, stand straight up grabbing a wrist roller using a pronated grip (palms facing down). Your feet should be shoulder width apart.",
       "Slowly lift both arms until they are fully extended and parallel to the floor in front of you. Note: Make sure the rope is not wrapped around the roller. Your entire body should be stationary except for the forearms. This is the starting position.",
@@ -30121,15 +30617,15 @@
     ],
     "bodyParts": [
       "Legs",
-      "Back",
-      "Core"
+      "Core",
+      "Back"
     ],
     "primaryBodyParts": [
       "Legs"
     ],
     "secondaryBodyParts": [
-      "Back",
-      "Core"
+      "Core",
+      "Back"
     ],
     "instructions": [
       "The yoke is usually done with a yoke apparatus, but is sometimes seen with refrigerators or other heavy objects.",

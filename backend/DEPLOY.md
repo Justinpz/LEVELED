@@ -48,7 +48,7 @@ After that, every push to `main` auto-deploys. Nothing else to maintain.
 ## Health & smoke checks
 
 - `GET /health` → `{"status":"ok"}` (Render's health check path).
-- `GET /game/shop` → 124 gear items; `GET /programs` → 10 starter programs;
+- `GET /game/shop` → 126 gear items; `GET /programs` → 34 starter programs (10 plans + 24 one-off battles);
   `GET /challenges/warrior` → today's Daily Warrior session. All seeded
   automatically on first boot.
 - `/` serves the web game (the client uses same-origin API calls, so the

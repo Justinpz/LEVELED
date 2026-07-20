@@ -23,11 +23,12 @@
 const prisma = require('../db/prisma');
 
 const BODY_PART_KEYWORDS = {
-  Arms: /\b(arms?|biceps?|triceps?|forearms?|shoulders?|delts?|curls?)\b/i,
+  Arms: /\b(arms?|biceps?|triceps?|forearms?|curls?)\b/i,
   Legs: /\b(legs?|quads?|quadriceps|hamstrings?|glutes?|calv(?:es)?|calf|thighs?|lower body)\b/i,
   Chest: /\b(chest|pecs?|pectorals?|push day|bench)\b/i,
   Back: /\b(back|lats?|traps?|rows?|pull day|pull-?ups?)\b/i,
   Core: /\b(core|abs?|abdominals?|obliques?|six[- ]?pack|stomach)\b/i,
+  Shoulders: /\b(shoulders?|delts?|deltoids?|overhead press|lateral raises?|military press)\b/i,
 };
 
 // Joint guards: trigger phrases → { exclude: name/category patterns, easeParts }.
@@ -43,7 +44,7 @@ const JOINT_GUARDS = {
     trigger: /\bshoulders?\b/i,
     exclude: /overhead|military|press behind|snatch|jerk|handstand|upright row|dips?\b/i,
     excludeCategory: /olympic/i,
-    easeParts: ['Arms', 'Chest'],
+    easeParts: ['Shoulders', 'Arms', 'Chest'],
   },
   back: {
     trigger: /\b(lower )?back\b/i,
@@ -69,11 +70,12 @@ const GOAL_PRESETS = {
 };
 
 const SPLIT_ROTATION = [
-  { name: 'Chest & Arms', bodyParts: ['Chest', 'Arms'] },
+  { name: 'Chest & Shoulders', bodyParts: ['Chest', 'Shoulders'] },
   { name: 'Back & Core', bodyParts: ['Back', 'Core'] },
   { name: 'Legs', bodyParts: ['Legs'] },
   { name: 'Arms & Core', bodyParts: ['Arms', 'Core'] },
   { name: 'Chest & Back', bodyParts: ['Chest', 'Back'] },
+  { name: 'Shoulders & Arms', bodyParts: ['Shoulders', 'Arms'] },
   { name: 'Full Body', bodyParts: ['Legs', 'Chest', 'Back'] },
 ];
 
@@ -86,10 +88,12 @@ function parseRequest(input) {
   for (const [joint, g] of Object.entries(JOINT_GUARDS)) {
     if (g.trigger.test(text) && GUARD_CONTEXT.test(text)) guards.push(joint);
   }
-  // "back" is both a body part and a joint — if the text asks to PROTECT the
-  // back, don't also treat it as a focus target.
+  // "back" and "shoulders" are both body parts and joints — if the text asks
+  // to PROTECT them, don't also treat them as focus targets.
   const guardedParts = new Set(guards.flatMap((j) => JOINT_GUARDS[j].easeParts));
-  const focusFinal = focus.filter((bp) => !(bp === 'Back' && guards.includes('back')));
+  const focusFinal = focus.filter(
+    (bp) => !(bp === 'Back' && guards.includes('back')) && !(bp === 'Shoulders' && guards.includes('shoulders'))
+  );
 
   let perDay = 5;
   if (/\b(quick|short|fast|express|15 ?min|20 ?min)\b/i.test(text)) perDay = 4;

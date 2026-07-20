@@ -16,16 +16,31 @@ const MAX_AGE_MS = 18 * 60 * 60 * 1000;
 const canStore =
   Platform.OS === 'web' && typeof window !== 'undefined' && !!window.localStorage;
 
+const hasLoggedData = (list) =>
+  Array.isArray(list) &&
+  list.some((p) => (p.sets || []).some((s) => (s.weight ?? '') !== '' || (s.reps ?? '') !== ''));
+
+// Returns true when the draft was actually written/cleared, false when the
+// write was refused to protect stored data (callers keep the UI honest).
 export function saveDraft(picked, dayNumber) {
-  if (!canStore) return;
+  if (!canStore) return false;
   try {
-    if (!picked || picked.length === 0) {
-      window.localStorage.removeItem(KEY);
-      return;
+    // A draft holding real logged sets is only ever replaced by another draft
+    // holding real logged sets, or cleared explicitly (clearDraft — submit and
+    // deliberate discard actions). A state hiccup that empties the session
+    // must never destroy gym data.
+    if (!hasLoggedData(picked)) {
+      const existing = loadDraft();
+      if (existing && hasLoggedData(existing.picked)) return false;
+      if (!picked || picked.length === 0) {
+        window.localStorage.removeItem(KEY);
+        return true;
+      }
     }
     window.localStorage.setItem(KEY, JSON.stringify({ picked, dayNumber, ts: Date.now() }));
+    return true;
   } catch {
-    // storage full/blocked — non-fatal
+    return false; // storage full/blocked — non-fatal
   }
 }
 

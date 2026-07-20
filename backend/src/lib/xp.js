@@ -16,7 +16,7 @@
  *    handled by the caller (spending never lowers level).
  */
 
-const CATEGORY_ORDER = ['Arms', 'Legs', 'Chest', 'Back', 'Core'];
+const CATEGORY_ORDER = ['Arms', 'Legs', 'Chest', 'Back', 'Core', 'Shoulders'];
 const BASE_POINTS_PER_EXERCISE = 100;
 const MAX_LEVEL = 100;
 const WARRIOR_BONUS_PARTS = ['Legs', 'Back', 'Chest'];

@@ -16,7 +16,7 @@ export default function OnboardingSplash({ onBegin }) {
         <View style={styles.bottom}>
           <Text style={styles.class}>CLASS · WARRIOR</Text>
           <Text style={styles.blurb}>
-            Battle-hardened. Grounded power. Every lift forges the body — Arms, Legs, Chest, Back, Core —
+            Battle-hardened. Grounded power. Every lift forges the body — Arms, Legs, Chest, Back, Core, Shoulders —
             and the body forges the legend.
           </Text>
           <View style={{ marginTop: 20 }}>

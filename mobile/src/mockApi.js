@@ -16,6 +16,7 @@ const progress = {
   Chest: { lifetimeXp: 95000, spendablePoints: 900 },
   Back: { lifetimeXp: 640000, spendablePoints: 3100 },
   Core: { lifetimeXp: 180000, spendablePoints: 1200 },
+  Shoulders: { lifetimeXp: 120000, spendablePoints: 800 },
 };
 const owned = {}; // gearItemId -> { owned, equipped }
 const completedChallenges = new Set();
