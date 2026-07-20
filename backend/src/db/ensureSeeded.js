@@ -41,6 +41,24 @@ async function ensureSeeded() {
     return;
   }
 
+  // FORCE_RESEED=1: run every idempotent seed regardless of sentinels — the
+  // lever for shipping reference-data updates (exercise remaps, new gear,
+  // new starter programs) to an already-populated database. Unset it after
+  // the deploy that carries the data change.
+  if (process.env.FORCE_RESEED === '1') {
+    console.log('[seed] FORCE_RESEED=1 — re-running all reference seeds...');
+    try {
+      const ex = await seedExercises.run();
+      const gear = await seedGear.run();
+      const ch = await seedChallenges.run();
+      const prog = await seedPrograms.run();
+      console.log('[seed] force reseed complete', { ex, gear, ch, prog });
+    } catch (err) {
+      console.error('[seed] force reseed failed (server still running):', err.message);
+    }
+    return;
+  }
+
   let need;
   try {
     need = await needsSeed();
