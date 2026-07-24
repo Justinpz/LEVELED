@@ -56,11 +56,30 @@ After that, every push to `main` auto-deploys. Nothing else to maintain.
 
 ## Refreshing the web build after app changes
 
+`public/tasks/` holds the separate LEVELED Tasks app (see below) — the copy step must
+not wipe it, so clear everything in `public/` EXCEPT `tasks/` before copying:
+
 ```
-cd mobile && npm run export:web && rm -rf ../backend/public && cp -r dist ../backend/public
+cd mobile && npm run export:web \
+  && find ../backend/public -mindepth 1 -maxdepth 1 ! -name tasks -exec rm -rf {} + \
+  && cp -r dist/. ../backend/public/
 ```
 
 No API URL needs to be baked in — the web client defaults to same-origin.
+
+## Refreshing the LEVELED Tasks app (`/tasks`)
+
+The task manager served at `/tasks` is built from `todoist-app/` in the
+Complete-Python-3-Bootcamp repo and committed here, same pattern as the game bundle:
+
+```
+cd <Complete-Python-3-Bootcamp>/todoist-app \
+  && npm ci && npm run build:leveled \
+  && rm -rf <LEVELED>/backend/public/tasks \
+  && cp -r dist <LEVELED>/backend/public/tasks
+```
+
+Its route mount lives in `backend/src/server.js` (search for `tasksDir`).
 
 ## Moving hosts later
 

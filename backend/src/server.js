@@ -114,6 +114,17 @@ app.use('/admin', adminRoutes);
 const publicDir = path.join(__dirname, '../public');
 const hasWebClient = fs.existsSync(path.join(publicDir, 'index.html'));
 if (hasWebClient) {
+  // LEVELED Tasks (todoist-app in Complete-Python-3-Bootcamp, built with
+  // --base=/tasks/) lives under ./public/tasks. Mounted BEFORE the game's
+  // SPA fallback, which would otherwise answer /tasks with the game.
+  const tasksDir = path.join(publicDir, 'tasks');
+  if (fs.existsSync(path.join(tasksDir, 'index.html'))) {
+    app.use('/tasks', express.static(tasksDir));
+    app.use('/tasks', (req, res, next) => {
+      if (req.method !== 'GET') return next();
+      res.sendFile(path.join(tasksDir, 'index.html'));
+    });
+  }
   app.use(express.static(publicDir));
   // SPA fallback: any non-API GET returns index.html so the app boots on any path.
   // Written as a path-less middleware — Express 5's router rejects a bare '*' route.
