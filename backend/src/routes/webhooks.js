@@ -16,8 +16,22 @@
 
 const crypto = require('crypto');
 const express = require('express');
+const telegram = require('../services/telegram');
 
 const router = express.Router();
+
+// Telegram bot updates → food diary. Secret header (set at webhook
+// registration) authenticates Telegram; everything else is rejected.
+// Local express.json() because the global parser mounts after /webhooks.
+router.post('/telegram', express.json({ limit: '256kb' }), (req, res) => {
+  if (!telegram.verifySecret(req.get('x-telegram-bot-api-secret-token'))) {
+    return res.status(401).json({ error: 'Bad secret' });
+  }
+  // Ack immediately; handling is fire-and-forget so Telegram never retries
+  // a slow DB call into a duplicate log.
+  res.json({ ok: true });
+  telegram.handleUpdate(req.body).catch(() => {});
+});
 
 router.post(
   '/whoop',
