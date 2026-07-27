@@ -156,6 +156,10 @@ const PORT = parseInt(process.env.PORT || '3000', 10);
 // Kick off the idempotent auto-seed once we're listening. Non-blocking so the
 // health check passes immediately; a slow or failing seed never blocks boot.
 function bootTasks() {
+  // Telegram bot: self-registers its webhook when TELEGRAM_BOT_TOKEN is set.
+  require('./services/telegram')
+    .registerWebhook()
+    .catch((err) => console.error('[telegram] register failed:', err.message));
   require('./db/ensureSeeded')
     .ensureSeeded()
     .catch((err) => console.error('[seed] auto-seed crashed (server still up):', err.message));

@@ -310,3 +310,4 @@ router.post('/goals', async (req, res, next) => {
 module.exports = router;
 module.exports.healthMeter = healthMeter; // exported for unit tests
 module.exports.goalsMet = goalsMet;
+module.exports.todayPayload = todayPayload; // reused by the Telegram bot
