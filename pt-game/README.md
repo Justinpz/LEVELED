@@ -1,5 +1,8 @@
 # PT Roulette
 
+**Live at [pt-roulette.higgsfield.app](https://pt-roulette.higgsfield.app)** — share the
+link with the group, or save the page to a phone for offline use.
+
 A randomized bodyweight PT game for group workouts — built for sessions where
 part of the group can't run. One file, no install, no network needed: open
 `index.html` in any browser (works great on a phone) and the deck picks the
