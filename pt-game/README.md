@@ -11,8 +11,8 @@ exercises so nobody has to.
 ## Using it
 
 Send `index.html` to your phone (AirDrop / Files / email attachment) and open
-it, or host it anywhere static. Everything — 117 exercises with instructions —
-is embedded in the file, so it works with zero signal.
+it, or host it anywhere static. Everything — 84 military bodyweight movements
+with form cues — is embedded in the file, so it works with zero signal.
 
 **Draw mode** — tap DRAW, the deck flips a card: exercise + rep count (or hold
 time, with a built-in countdown timer). DONE logs it to the session tally and
@@ -36,16 +36,18 @@ beeps, and a wake-lock so the screen stays on.
 
 ## Where the exercises come from
 
-The pool is the bodyweight (`equipment: "body only"`) slice of the LEVELED
-873-exercise library (`../data/exercises.json`), curated in
-`build_data.py`: entries needing gear we can't assume are tagged (bar/bench)
-or dropped (ball/dumbbell/partner), jumps are flagged for the no-jump filter,
-static holds are marked as timed, per-side moves are labeled, plus a dozen
-group-PT staples the library lacks (burpees, lunges, wall sits, mountain
-climbers, …).
+The pool is a hand-curated military bodyweight PT deck, authored directly in
+`build_data.py`: Army PRT drill exercises by the numbers (Preparation Drill,
+Conditioning Drills 1–2, and the Recovery Drill as the cooldown), ACFT
+movements (hand-release push-ups, leg tucks, the plank), and the formation-PT
+classics — flutter kicks, hello dollies, 8-count bodybuilders, iron mikes,
+side-straddle hops. 4-count movements are labeled and counted the way they're
+called. Jumps are flagged for the no-jump filter, holds are timed, per-side
+moves are labeled, and bar/bench-dependent moves hide behind the equipment
+toggles.
 
-To tweak the pool (rep bases, tags, extra exercises), edit the tables at the
-top of `build_data.py` and run:
+To tweak the pool (rep bases, tags, add or drop movements), edit the `POOL`
+list in `build_data.py` and run:
 
 ```bash
 python3 pt-game/build_data.py

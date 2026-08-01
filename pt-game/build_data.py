@@ -1,227 +1,401 @@
 #!/usr/bin/env python3
 """Regenerate the exercise pool embedded in pt-game/index.html.
 
-Reads ../data/exercises.json, keeps equipment == "body only", applies the
-curation tables below (equipment quirks, jump impact, timed holds, per-side
-moves, rep/time bases), adds a few group-PT staples the library is missing,
-and rewrites the block between PT_DATA_START / PT_DATA_END in index.html.
+The pool is a hand-curated set of bodyweight MILITARY PT movements — Army PRT
+drill exercises (Preparation Drill, Conditioning Drills, Recovery Drill),
+ACFT movements, and the formation-PT classics — written directly in this file
+so names, counts, and form cues match how they're actually called at PT.
+
+Schema per exercise (consumed by the game in index.html):
+  name      display name; "(4-count)" suffix where the movement is counted
+  bucket    push | legs | core | pull | cardio
+  level     beginner | intermediate | expert   (difficulty-ceiling filter)
+  timed     True = seconds instead of reps
+  perSide   count/hold applies to each side
+  impact    jumping movement — hidden by the profile-friendly no-jump filter
+  needs     None | "bar" (pull-up bar / dip station) | "bench" (step/bench)
+  base      base reps (or seconds when timed) at Standard intensity
+  stretch   True = cooldown/Recovery Drill entry
+  instructions  short form cues
 
 Run from anywhere:  python3 pt-game/build_data.py
+It rewrites the block between PT_DATA_START / PT_DATA_END in index.html.
 """
 import json
 import re
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-LIBRARY = HERE.parent / "data" / "exercises.json"
 HTML = HERE / "index.html"
 
-# "body only" entries that actually need gear we can't assume at PT.
-EXCLUDE = {
-    "Crunch - Legs On Exercise Ball",            # exercise ball
-    "Close-Grip Push-Up off of a Dumbbell",      # dumbbell
-    "Standing Towel Triceps Extension",          # towel
-    "Natural Glute Ham Raise",                   # partner anchoring feet
-    "Hyperextensions With No Hyperextension Bench",  # partner anchoring feet
-    "Body Tricep Press",                         # bar racked at chest height
-}
 
-# Needs a pull-up bar or dip station.
-NEEDS_BAR = {
-    "Chin-Up", "Pullups", "V-Bar Pullup", "Wide-Grip Rear Pull-Up",
-    "Hanging Leg Raise", "Hanging Pike", "Gorilla Chin/Crunch",
-    "Wind Sprints", "Dips - Triceps Version",
-}
+def ex(name, bucket, level, base, timed=False, perSide=False, impact=False,
+       needs=None, stretch=False, *instructions):
+    return dict(name=name, bucket=bucket, level=level, timed=timed,
+                perSide=perSide, impact=impact, needs=needs, base=base,
+                stretch=stretch, instructions=list(instructions))
 
-# Needs a bench, step, curb, or similar elevation.
-NEEDS_BENCH = {
-    "Bench Dips", "Bench Jump", "Decline Crunch", "Decline Oblique Crunch",
-    "Decline Reverse Crunch", "Flat Bench Leg Pull-In",
-    "Flat Bench Lying Leg Raise", "Seated Flat Bench Leg Pull-In",
-    "Incline Push-Up", "Incline Push-Up Close-Grip", "Incline Push-Up Medium",
-    "Incline Push-Up Reverse Grip", "Incline Push-Up Wide",
-    "Push-Ups With Feet Elevated", "Step-up with Knee Raise",
-}
 
-# Jumping / high-impact — filtered out by the profile-friendly toggle.
-IMPACT = {
-    "Bench Jump", "Double Leg Butt Kick", "Fast Skipping",
-    "Freehand Jump Squat", "Knee Tuck Jump", "Lateral Bound", "Plyo Push-up",
-    "Rocket Jump", "Scissors Jump", "Single Leg Butt Kick", "Split Jump",
-    "Standing Long Jump", "Star Jump",
-}
+POOL = [
+    # ------------------------------ PUSH ------------------------------
+    ex("Push-up", "push", "beginner", 15, False, False, False, None, False,
+       "Hands slightly wider than shoulder width, body in a straight line from head to heels.",
+       "Lower until your upper arms are parallel to the ground.",
+       "Push back up to full arm extension. Keep your back flat the whole rep."),
+    ex("Wide-Arm Push-up", "push", "beginner", 12, False, False, False, None, False,
+       "Assume the push-up position with hands well outside shoulder width.",
+       "Lower until upper arms are parallel to the ground, elbows tracking out.",
+       "Press back to full extension without sagging the hips."),
+    ex("Diamond Push-up", "push", "intermediate", 10, False, False, False, None, False,
+       "Assume the push-up position with thumbs and index fingers touching, forming a diamond under your chest.",
+       "Lower your chest to your hands, elbows tight to your ribs.",
+       "Press back to full extension."),
+    ex("Hand-Release Push-up", "push", "beginner", 12, False, False, False, None, False,
+       "Lower your chest all the way to the ground.",
+       "Lift both hands briefly off the deck, then replace them.",
+       "Push back up to full arm extension. That's one rep — ACFT standard."),
+    ex("Dive Bomber Push-up", "push", "intermediate", 8, False, False, False, None, False,
+       "Start with hips high in an inverted V, hands and feet on the ground.",
+       "Sweep your chest low over the deck, then arc up until arms are straight and hips are low.",
+       "Reverse the same path back to the start."),
+    ex("Pike Push-up", "push", "intermediate", 8, False, False, False, None, False,
+       "From push-up position, walk your feet in so your hips are high in an inverted V.",
+       "Bend your elbows and lower the top of your head toward the ground.",
+       "Press back up, keeping the hips high the whole time."),
+    ex("Plank-to-Push-up", "push", "intermediate", 10, False, False, False, None, False,
+       "Start in a forearm plank.",
+       "Press up one arm at a time into a full push-up position.",
+       "Lower back to your forearms one arm at a time. Alternate the leading arm."),
+    ex("Incline Push-up", "push", "beginner", 12, False, False, False, "bench", False,
+       "Place your hands on a bench, step, or tailgate, body in a straight line.",
+       "Lower your chest to the edge.",
+       "Press back to full extension."),
+    ex("Decline Push-up", "push", "intermediate", 10, False, False, False, "bench", False,
+       "Put your feet up on a bench or step, hands on the ground at shoulder width.",
+       "Lower your chest to the deck under control.",
+       "Press back to full extension without letting the hips sag."),
+    ex("Dips", "push", "intermediate", 8, False, False, False, "bar", False,
+       "Support yourself on parallel bars or a dip station, arms locked.",
+       "Lower until your upper arms are parallel to the bars.",
+       "Press back to full extension without swinging."),
+    ex("Bench Dips", "push", "beginner", 12, False, False, False, "bench", False,
+       "Hands on the edge of a bench behind you, legs extended out front, hips off the bench.",
+       "Bend your elbows to lower your hips toward the ground.",
+       "Press back up until your arms are straight."),
+    ex("Overhead Arm Clap", "push", "beginner", 20, False, False, False, None, False,
+       "Stand tall, arms straight out to the sides at shoulder height.",
+       "Swing both arms overhead and clap, keeping the elbows locked.",
+       "Return to shoulder height. Each clap is one rep."),
+    ex("Arm Circles (Sun Gods)", "push", "beginner", 30, True, False, False, None, False,
+       "Stand with arms straight out to the sides at shoulder height.",
+       "Make small, tight circles forward for half the time.",
+       "Reverse direction for the second half. Arms stay up the entire time."),
+    ex("Handstand Push-up", "push", "expert", 5, False, False, False, None, False,
+       "Kick up into a handstand against a wall or with a spotter.",
+       "Lower the top of your head toward the ground under control.",
+       "Press back to full arm extension."),
 
-# Static holds measured in seconds, not reps.
-TIMED = {
-    "Plank", "Side Bridge", "Stomach Vacuum", "Isometric Chest Squeezes",
-    "Isometric Wipers", "Isometric Neck Exercise - Front And Back",
-    "Isometric Neck Exercise - Sides", "Superman", "90/90 Hamstring",
-    "All Fours Quad Stretch", "Lower Back Curl", "Lying Crossover",
-    "Lying Glute", "Lying Prone Quadriceps", "Overhead Triceps",
-    "Seated Biceps", "Seated Front Deltoid", "Seated Glute",
-}
+    # ------------------------------ LEGS ------------------------------
+    ex("Squat", "legs", "beginner", 20, False, False, False, None, False,
+       "Feet shoulder-width apart, chest up, arms out front for balance.",
+       "Sit back and down until your thighs are parallel to the ground, heels flat.",
+       "Drive through the heels to stand back up."),
+    ex("Sumo Squat", "legs", "beginner", 15, False, False, False, None, False,
+       "Take a wide stance with toes angled out, hands at your chest.",
+       "Squat until your thighs are parallel, knees tracking over your toes.",
+       "Drive back up, squeezing the glutes at the top."),
+    ex("Squat Bender (4-count)", "legs", "beginner", 10, False, False, False, None, False,
+       "PRT Preparation Drill. Count 1: squat until thighs are parallel, arms out front.",
+       "Count 2: return to the start. Count 3: bend forward at the waist, knees slightly bent, reaching toward the ground.",
+       "Count 4: return to the start. That's one rep."),
+    ex("Forward Lunge", "legs", "beginner", 10, False, True, False, None, False,
+       "Step forward with one leg, keeping your chest up.",
+       "Lower until both knees are bent about 90 degrees; front knee stays over the ankle.",
+       "Push off the front foot to return, then switch legs."),
+    ex("Rear Lunge", "legs", "beginner", 10, False, True, False, None, False,
+       "PRT Preparation Drill. Step straight back with one leg.",
+       "Lower until both knees are bent about 90 degrees, torso upright.",
+       "Drive through the front heel to return, then switch legs."),
+    ex("Side Lunge", "legs", "beginner", 8, False, True, False, None, False,
+       "Take a wide step to one side, other leg straight.",
+       "Sit back into the stepping leg, chest up.",
+       "Push back to the start and repeat on the other side."),
+    ex("Iron Mike (Jumping Lunge)", "legs", "intermediate", 8, False, True, True, None, False,
+       "Start in a lunge, both knees at 90 degrees.",
+       "Jump and switch legs in the air, arms driving for balance.",
+       "Land soft in a lunge with the other leg forward."),
+    ex("Squat Jump", "legs", "intermediate", 12, False, False, True, None, False,
+       "Squat until your thighs are parallel, arms back.",
+       "Explode straight up, swinging the arms overhead.",
+       "Land soft, absorb into the next squat."),
+    ex("Power Jump (4-count)", "legs", "intermediate", 8, False, False, True, None, False,
+       "PRT Conditioning Drill 1. Count 1: squat with arms reaching toward the ground.",
+       "Count 2: jump, swinging arms overhead. Count 3: land and re-squat.",
+       "Count 4: return to standing. That's one rep."),
+    ex("High Jumper (4-count)", "legs", "intermediate", 8, False, False, True, None, False,
+       "PRT Preparation Drill. From a half squat, arms swing back.",
+       "Count 1: small jump, arms to shoulder height. Count 2: land back in the half squat.",
+       "Count 3: big jump, arms driving overhead. Count 4: land in the half squat. That's one rep."),
+    ex("Wall Sit", "legs", "beginner", 45, True, False, False, None, False,
+       "Back flat against a wall or tree.",
+       "Slide down until your thighs are parallel, knees at 90 degrees.",
+       "Hold with your weight through your heels. No hands on the legs."),
+    ex("Squat Hold", "legs", "beginner", 30, True, False, False, None, False,
+       "Squat until your thighs are parallel to the ground.",
+       "Chest up, heels down, arms straight out front.",
+       "Hold the bottom position without standing."),
+    ex("Calf Raise", "legs", "beginner", 20, False, False, False, None, False,
+       "Stand tall, feet hip-width apart.",
+       "Rise as high as you can onto the balls of your feet.",
+       "Lower under control until your heels touch."),
+    ex("Glute Bridge", "legs", "beginner", 15, False, False, False, None, False,
+       "Lie on your back, knees bent, feet flat and close to your seat.",
+       "Drive your hips up until your body is straight from shoulders to knees.",
+       "Squeeze at the top, lower under control."),
+    ex("Single-Leg Glute Bridge", "legs", "intermediate", 10, False, True, False, None, False,
+       "Lie on your back, one knee bent with foot flat, other leg extended straight.",
+       "Drive through the planted heel and lift your hips, keeping the extended leg in line.",
+       "Lower under control. Finish the set, then switch legs."),
+    ex("Donkey Kick", "legs", "beginner", 12, False, True, False, None, False,
+       "Start on hands and knees, back flat.",
+       "Keeping the knee bent 90 degrees, drive one heel up toward the sky.",
+       "Squeeze the glute at the top, return, and finish the set before switching."),
+    ex("Duck Walk", "legs", "intermediate", 20, True, False, False, None, False,
+       "Drop into a deep squat, hands behind your head or out front.",
+       "Walk forward staying low the whole time.",
+       "Keep your chest up; turn around halfway through the time."),
+    ex("Step-up", "legs", "beginner", 10, False, True, False, "bench", False,
+       "Face a bench, step, or bleacher.",
+       "Step up with one foot and drive to a full stand on top.",
+       "Step down under control. Finish the set, then lead with the other leg."),
+    ex("Box Jump", "legs", "intermediate", 8, False, False, True, "bench", False,
+       "Face a sturdy bench or step, feet hip-width apart.",
+       "Swing your arms and jump, landing soft with both feet fully on top.",
+       "Stand tall, then step down — don't jump down."),
 
-# Count (or hold) applies to each side.
-PER_SIDE = {
-    "Side Bridge", "Single Leg Glute Bridge", "Single Leg Butt Kick",
-    "Side Jackknife", "Oblique Crunches", "Oblique Crunches - On The Floor",
-    "Side Leg Raises", "Front Leg Raises", "Rear Leg Raises",
-    "Glute Kickback", "Single-Arm Push-Up", "All Fours Quad Stretch",
-    "90/90 Hamstring", "Lying Crossover", "Lying Glute",
-    "Lying Prone Quadriceps", "Overhead Triceps", "Seated Front Deltoid",
-    "Seated Glute", "Wind Sprints",
-}
+    # ------------------------------ CORE ------------------------------
+    ex("Sit-up", "core", "beginner", 20, False, False, False, None, False,
+       "Lie on your back, knees bent, feet anchored or flat, hands behind your head or crossed on your chest.",
+       "Sit up until your torso is vertical.",
+       "Lower under control until your shoulder blades touch. Keep the neck neutral."),
+    ex("Crunch", "core", "beginner", 25, False, False, False, None, False,
+       "Lie on your back, knees bent, hands behind your head.",
+       "Curl your shoulder blades off the deck, ribs toward hips.",
+       "Lower under control. Don't pull on your neck."),
+    ex("Flutter Kicks (4-count)", "core", "beginner", 15, False, False, False, None, False,
+       "Lie on your back, hands under your hips, legs straight and heels 6 inches off the deck.",
+       "Kick your legs in a small, fast scissor motion: 1, 2, 3 counts one rep.",
+       "Head and shoulders stay up, lower back pressed down. Legs never touch the ground."),
+    ex("Hello Dollies (4-count)", "core", "beginner", 15, False, False, False, None, False,
+       "Lie on your back, hands under your hips, legs straight and heels 6 inches up.",
+       "Spread your legs wide, then bring them back together — out, in, out counts one rep.",
+       "Keep the heels off the deck the whole set."),
+    ex("Scissor Kicks", "core", "beginner", 20, False, False, False, None, False,
+       "Lie on your back, hands under your hips, both legs straight and off the deck.",
+       "Cross one leg over the other, then reverse, in a steady scissor pattern.",
+       "Lower back stays pressed into the ground."),
+    ex("Leg Raises", "core", "beginner", 15, False, False, False, None, False,
+       "Lie flat, hands under your hips, legs straight.",
+       "Raise both legs to vertical, keeping them straight.",
+       "Lower slowly until heels hover just off the deck. Don't let them touch."),
+    ex("V-Up", "core", "intermediate", 12, False, False, False, None, False,
+       "PRT Conditioning Drill 1. Lie flat with arms extended overhead.",
+       "Fold in half — legs straight up as your hands reach for your toes.",
+       "Lower everything under control without touching down fully."),
+    ex("The Rower (4-count)", "core", "beginner", 15, False, False, False, None, False,
+       "PRT Preparation Drill. Lie flat with arms overhead, feet together.",
+       "Count 1: sit up while drawing the knees in, arms rowing forward outside the knees.",
+       "Counts 2-4: return, then repeat. Move as one crisp motion."),
+    ex("Windmill (4-count)", "core", "beginner", 10, False, False, False, None, False,
+       "PRT Preparation Drill. Stand with feet wide, arms out to the sides.",
+       "Count 1: rotate and bend to touch your left foot with your right hand.",
+       "Count 2: return. Counts 3-4: repeat to the other side. That's one rep."),
+    ex("Bend and Reach (4-count)", "core", "beginner", 10, False, False, False, None, False,
+       "PRT Preparation Drill. Feet wide, arms overhead.",
+       "Count 1: squat slightly and reach both arms between your legs.",
+       "Count 2: return upright, arms overhead. Counts 3-4: repeat. That's one rep."),
+    ex("Bent-Leg Body Twist", "core", "beginner", 10, False, True, False, None, False,
+       "PRT. Lie on your back, knees bent 90 degrees and lifted, arms out to the sides, palms down.",
+       "Lower both knees to one side until they nearly touch the deck, shoulders flat.",
+       "Bring them back through center to the other side. Each side is one count."),
+    ex("Supine Bicycle (4-count)", "core", "beginner", 15, False, False, False, None, False,
+       "PRT Conditioning Drill 2. Lie on your back, hands behind your head, legs up.",
+       "Drive one knee in while rotating the opposite elbow to meet it.",
+       "Alternate sides in a steady pedaling rhythm. Left-right-left counts one rep."),
+    ex("Windshield Wipers", "core", "intermediate", 8, False, True, False, None, False,
+       "Lie on your back, arms out wide, legs straight up together.",
+       "Lower both legs to one side under control, shoulders pinned to the deck.",
+       "Sweep them through center to the other side. Each side is one count."),
+    ex("Russian Twist", "core", "intermediate", 20, False, False, False, None, False,
+       "Sit with knees bent, heels light on the deck, torso leaned back 45 degrees.",
+       "Rotate your shoulders to touch both hands to the ground beside one hip.",
+       "Rotate to the other side. Each touch is one rep."),
+    ex("Plank", "core", "beginner", 60, True, False, False, None, False,
+       "Forearms on the deck, elbows under shoulders, body in a straight line — ACFT position.",
+       "Squeeze your glutes and brace your stomach.",
+       "Hold. No sagging hips, no pikes."),
+    ex("Side Plank", "core", "beginner", 30, True, True, False, None, False,
+       "Lie on one side, forearm under your shoulder, feet stacked.",
+       "Lift your hips until your body is one straight line.",
+       "Hold, then switch sides."),
+    ex("Mountain Climbers", "cardio", "beginner", 30, True, False, False, None, False,
+       "High plank, hands under shoulders.",
+       "Drive one knee toward your chest, then switch legs in a running rhythm.",
+       "Hips stay low, core tight, pace steady."),
+    ex("Steam Engine", "core", "beginner", 20, False, False, False, None, False,
+       "Stand tall, hands behind your head, elbows wide.",
+       "Lift one knee and rotate to touch it with the opposite elbow.",
+       "Alternate sides. Each touch is one rep."),
+    ex("Cherry Pickers", "core", "beginner", 15, False, False, False, None, False,
+       "Feet wide, knees slightly bent, bend at the waist with arms hanging.",
+       "Pulse your reach: ground, between the legs, then stand and reach overhead.",
+       "That full sequence is one rep. Keep the movement smooth."),
+    ex("Superman Hold", "core", "beginner", 30, True, False, False, None, False,
+       "Lie face down, arms extended in front like Superman.",
+       "Lift arms, chest, and legs off the deck at the same time.",
+       "Hold steady, squeezing the entire back side."),
+    ex("Swimmers", "core", "beginner", 20, False, False, False, None, False,
+       "Lie face down, arms extended in front, legs straight.",
+       "Flutter opposite arm and leg up together, then switch, like freestyle swimming.",
+       "Chest stays slightly off the deck. Left-right counts one rep."),
+    ex("Back Extension", "core", "beginner", 12, False, False, False, None, False,
+       "Lie face down, hands behind your head, elbows wide.",
+       "Lift your chest off the deck using your lower back, feet staying down.",
+       "Lower under control. That's one rep."),
+    ex("Leg Tuck and Twist", "core", "intermediate", 10, False, False, False, None, False,
+       "PRT Conditioning Drill 1. Sit leaned back on your hands, legs extended and off the deck.",
+       "Tuck both knees toward one shoulder.",
+       "Extend, then tuck toward the other shoulder. Each tuck is one count."),
 
-# Hand-tuned base amounts (reps, or seconds for TIMED entries).
-BASE_OVERRIDES = {
-    "Pushups": 15, "Push-Up Wide": 12, "Pushups (Close and Wide Hand Positions)": 12,
-    "Push-Ups - Close Triceps Position": 10, "Push Up to Side Plank": 10,
-    "Clock Push-Up": 8, "Single-Arm Push-Up": 5, "Handstand Push-Ups": 5,
-    "Bodyweight Squat": 20, "Freehand Jump Squat": 15,
-    "Plank": 45, "Side Bridge": 30, "Superman": 30,
-    "Crunches": 20, "Sit-Up": 15, "3/4 Sit-Up": 15, "Flutter Kicks": 20,
-    "Russian Twist": 20, "Dead Bug": 10, "Air Bike": 20,
-    "Chin-Up": 6, "Pullups": 6, "Dips - Triceps Version": 8,
-    "Bench Dips": 12, "Stomach Vacuum": 20,
-}
+    # ------------------------------ PULL ------------------------------
+    ex("Pull-up", "pull", "intermediate", 6, False, False, False, "bar", False,
+       "Dead hang from the bar, overhand grip, hands just outside the shoulders.",
+       "Pull until your chin clears the bar. No kipping, no swinging.",
+       "Lower to a full dead hang. That's one rep."),
+    ex("Chin-up", "pull", "intermediate", 6, False, False, False, "bar", False,
+       "Dead hang with an underhand grip, hands shoulder-width.",
+       "Pull until your chin clears the bar.",
+       "Lower to a full hang under control."),
+    ex("Leg Tuck", "pull", "intermediate", 5, False, False, False, "bar", False,
+       "ACFT movement. Hang from the bar with an alternating grip, body angled.",
+       "Pull with the arms while tucking your knees until they touch both elbows.",
+       "Lower to a controlled dead hang. That's one rep."),
+    ex("Hanging Knee Raise", "pull", "beginner", 10, False, False, False, "bar", False,
+       "Dead hang from the bar, shoulders engaged.",
+       "Raise both knees to hip height or above without swinging.",
+       "Lower under control."),
+    ex("Hanging Leg Raise", "pull", "expert", 8, False, False, False, "bar", False,
+       "Dead hang from the bar, legs straight.",
+       "Raise both legs, straight, to parallel or higher.",
+       "Lower slowly. No swing between reps."),
+    ex("Dead Hang", "pull", "beginner", 30, True, False, False, "bar", False,
+       "Grip the bar overhand, arms fully extended, feet off the ground.",
+       "Engage the shoulders slightly — don't just hang on the joints.",
+       "Hold for time."),
+    ex("Inverted Row", "pull", "beginner", 8, False, False, False, "bar", False,
+       "Set up under a low bar, body straight, heels on the ground, arms extended.",
+       "Pull your chest to the bar, squeezing the shoulder blades.",
+       "Lower to full extension. Keep the body rigid."),
 
-BUCKETS = {
-    "chest": "push", "triceps": "push", "shoulders": "push",
-    "quadriceps": "legs", "glutes": "legs", "hamstrings": "legs",
-    "calves": "legs", "adductors": "legs", "abductors": "legs",
-    "abdominals": "core", "lower back": "core", "neck": "core",
-    "lats": "pull", "biceps": "pull", "forearms": "pull",
-    "middle back": "pull", "traps": "pull",
-}
+    # ------------------------- CARDIO / TOTAL BODY -------------------------
+    ex("Burpee", "cardio", "intermediate", 10, False, False, True, None, False,
+       "Squat down, hands to the deck.",
+       "Kick back to push-up position, execute one push-up.",
+       "Jump the feet back in and jump straight up, arms overhead."),
+    ex("No-Jump Burpee", "cardio", "beginner", 10, False, False, False, None, False,
+       "Squat down, hands to the deck.",
+       "Step back one foot at a time to a plank, then step back in.",
+       "Stand tall. No jumping at any point — full profile-friendly."),
+    ex("8-Count Bodybuilder", "cardio", "intermediate", 8, False, False, True, None, False,
+       "Count 1: squat, hands down. Count 2: kick back to push-up position.",
+       "Counts 3-4: push-up down and up. Counts 5-6: kick the legs out wide and back together.",
+       "Count 7: feet back to the hands. Count 8: jump up, arms overhead. That's one rep."),
+    ex("Side-Straddle Hop (4-count)", "cardio", "beginner", 15, False, False, True, None, False,
+       "The jumping jack, by the numbers. Count 1: jump feet wide, arms overhead.",
+       "Count 2: back together. Count 3: out again.",
+       "Count 4: together. That's one rep. Stay on the balls of the feet."),
+    ex("Half Jacks (4-count)", "cardio", "beginner", 15, False, False, True, None, False,
+       "PRT Conditioning Drill 2. Like a jumping jack, but the arms only rise to shoulder height.",
+       "Count 1: feet wide, arms to shoulders. Count 2: together.",
+       "Counts 3-4: repeat. That's one rep."),
+    ex("High Knees", "cardio", "beginner", 30, True, False, True, None, False,
+       "Run in place, driving the knees to waist height.",
+       "Stay on the balls of your feet, arms pumping.",
+       "Keep the pace honest for the whole time."),
+    ex("Butt Kickers", "cardio", "beginner", 30, True, False, True, None, False,
+       "Run in place, kicking your heels up to touch your seat.",
+       "Quick, light steps on the balls of the feet.",
+       "Keep the knees pointing down."),
+    ex("Bear Crawl", "cardio", "beginner", 30, True, False, False, None, False,
+       "Hands and feet on the ground, knees bent and hovering low.",
+       "Crawl forward moving opposite hand and foot together.",
+       "Back flat, hips low. Crawl backward to return."),
+    ex("Crab Walk", "cardio", "beginner", 30, True, False, False, None, False,
+       "Sit, then lift your hips with hands behind you and feet flat — belly to the sky.",
+       "Walk on hands and feet, keeping the hips high.",
+       "Turn around halfway through the time."),
+    ex("Inchworm", "cardio", "beginner", 8, False, False, False, None, False,
+       "Stand, bend at the waist, and walk your hands out to a plank.",
+       "Keep the legs as straight as you can.",
+       "Walk your feet up to your hands and stand. That's one rep."),
+    ex("Star Jump", "cardio", "intermediate", 10, False, False, True, None, False,
+       "Start in a quarter squat, arms tucked.",
+       "Explode up, throwing arms and legs out into a star shape.",
+       "Land soft, reset, and go again."),
 
-DEFAULT_REPS = {  # bucket -> {level: reps}
-    "push": {"beginner": 12, "intermediate": 8, "expert": 5},
-    "legs": {"beginner": 20, "intermediate": 12, "expert": 8},
-    "core": {"beginner": 20, "intermediate": 12, "expert": 8},
-    "pull": {"beginner": 8, "intermediate": 5, "expert": 3},
-    "cardio": {"beginner": 15, "intermediate": 10, "expert": 8},
-}
-
-# Group-PT staples the 873-exercise library doesn't carry as "body only".
-EXTRAS = [
-    dict(name="Burpee", bucket="cardio", level="intermediate", timed=False,
-         perSide=False, impact=True, needs=None, base=10, stretch=False,
-         instructions=[
-             "From standing, squat down and place your hands on the ground.",
-             "Kick your feet back into a push-up position and perform one push-up.",
-             "Jump your feet back to your hands, then jump straight up with arms overhead.",
-         ]),
-    dict(name="No-Jump Burpee", bucket="cardio", level="beginner", timed=False,
-         perSide=False, impact=False, needs=None, base=10, stretch=False,
-         instructions=[
-             "From standing, squat down and place your hands on the ground.",
-             "Step one foot back at a time into a plank position.",
-             "Step your feet back in one at a time, then stand tall. No jumping at any point.",
-         ]),
-    dict(name="Mountain Climbers", bucket="cardio", level="beginner", timed=True,
-         perSide=False, impact=False, needs=None, base=30, stretch=False,
-         instructions=[
-             "Start in a high plank with hands under your shoulders.",
-             "Drive one knee toward your chest, then switch legs in a running motion.",
-             "Keep your hips low and core tight the whole time.",
-         ]),
-    dict(name="Bear Crawl", bucket="cardio", level="beginner", timed=True,
-         perSide=False, impact=False, needs=None, base=30, stretch=False,
-         instructions=[
-             "Start on hands and feet with knees bent and hovering just off the ground.",
-             "Crawl forward moving opposite hand and foot together.",
-             "Keep your back flat and hips low; crawl backward to return.",
-         ]),
-    dict(name="Forward Lunge", bucket="legs", level="beginner", timed=False,
-         perSide=True, impact=False, needs=None, base=10, stretch=False,
-         instructions=[
-             "Stand tall, then step forward with one leg.",
-             "Lower until both knees are bent about 90 degrees; keep the front knee over the ankle.",
-             "Push off the front foot to return to standing and switch legs.",
-         ]),
-    dict(name="Reverse Lunge", bucket="legs", level="beginner", timed=False,
-         perSide=True, impact=False, needs=None, base=10, stretch=False,
-         instructions=[
-             "Stand tall, then step backward with one leg.",
-             "Lower until both knees are bent about 90 degrees, keeping your chest up.",
-             "Drive through the front heel to return to standing and switch legs.",
-         ]),
-    dict(name="Side Lunge", bucket="legs", level="beginner", timed=False,
-         perSide=True, impact=False, needs=None, base=8, stretch=False,
-         instructions=[
-             "Stand with feet together, then take a wide step to one side.",
-             "Sit back into the stepping leg, keeping the other leg straight.",
-             "Push back to standing and repeat on the other side.",
-         ]),
-    dict(name="Wall Sit", bucket="legs", level="beginner", timed=True,
-         perSide=False, impact=False, needs=None, base=45, stretch=False,
-         instructions=[
-             "Stand with your back flat against a wall or tree.",
-             "Slide down until your thighs are parallel to the ground, knees at 90 degrees.",
-             "Hold the position with your weight through your heels.",
-         ]),
-    dict(name="Squat Hold", bucket="legs", level="beginner", timed=True,
-         perSide=False, impact=False, needs=None, base=30, stretch=False,
-         instructions=[
-             "Squat down until your thighs are parallel to the ground.",
-             "Keep your chest up, heels down, and arms out front for balance.",
-             "Hold the bottom position without standing up.",
-         ]),
-    dict(name="Standing Calf Raise", bucket="legs", level="beginner", timed=False,
-         perSide=False, impact=False, needs=None, base=20, stretch=False,
-         instructions=[
-             "Stand tall with feet hip-width apart.",
-             "Rise up onto the balls of your feet as high as you can.",
-             "Lower under control until your heels touch the ground.",
-         ]),
-    dict(name="Plank Shoulder Taps", bucket="core", level="beginner", timed=False,
-         perSide=False, impact=False, needs=None, base=20, stretch=False,
-         instructions=[
-             "Start in a high plank with feet slightly wider than hips.",
-             "Tap your left shoulder with your right hand, then switch sides.",
-             "Keep your hips square to the ground; each tap is one rep.",
-         ]),
-    dict(name="Arm Circles", bucket="push", level="beginner", timed=True,
-         perSide=False, impact=False, needs=None, base=30, stretch=False,
-         instructions=[
-             "Stand with arms extended straight out to the sides.",
-             "Make small circles forward, gradually growing larger.",
-             "Reverse direction halfway through the time.",
-         ]),
+    # ------------------- COOLDOWN (PRT Recovery Drill +) -------------------
+    ex("Overhead Arm Pull", "push", "beginner", 20, True, True, False, None, True,
+       "PRT Recovery Drill. Raise one arm overhead, bend the elbow so the hand drops behind your head.",
+       "Grasp the elbow with the other hand and pull gently toward the midline.",
+       "Hold, then switch arms."),
+    ex("Rear Lunge Stretch", "legs", "beginner", 20, True, True, False, None, True,
+       "PRT Recovery Drill. Step back into a deep lunge, rear leg extended.",
+       "Sink the hips forward and down until you feel the stretch in the rear hip and thigh.",
+       "Hold, then switch legs."),
+    ex("Extend and Flex", "core", "beginner", 20, True, False, False, None, True,
+       "PRT Recovery Drill. From the front-leaning rest, sag the hips to the deck and look up (extend).",
+       "Hold, then push the hips up and back like an inverted V, heels driving down (flex).",
+       "Hold the second position for the remaining time."),
+    ex("Thigh Stretch", "legs", "beginner", 20, True, True, False, None, True,
+       "PRT Recovery Drill. Sit on one hip with legs to the side, or stand and grab one ankle.",
+       "Pull the heel toward your seat until the front of the thigh stretches.",
+       "Keep the knees together. Hold, then switch legs."),
+    ex("Single-Leg Over", "legs", "beginner", 20, True, True, False, None, True,
+       "PRT Recovery Drill. Lie on your back, arms out wide.",
+       "Cross one leg over your body, knee bent, until it nears the deck on the far side.",
+       "Shoulders stay flat. Hold, then switch sides."),
+    ex("Toe-Touch Hamstring Stretch", "legs", "beginner", 20, True, False, False, None, True,
+       "Stand with feet together, legs straight but not locked.",
+       "Hinge at the waist and reach for your toes.",
+       "Relax the neck, breathe, and let gravity do the work."),
+    ex("Butterfly Stretch", "legs", "beginner", 20, True, False, False, None, True,
+       "Sit with the soles of your feet together, knees out wide.",
+       "Hold your feet and let the knees sink toward the ground.",
+       "Keep the back tall."),
+    ex("Standing Calf Stretch", "legs", "beginner", 20, True, True, False, None, True,
+       "Stagger your stance, back leg straight with the heel driving into the ground.",
+       "Lean into a wall, tree, or teammate until the calf stretches.",
+       "Hold, then switch legs."),
+    ex("Cross-Arm Shoulder Stretch", "push", "beginner", 20, True, True, False, None, True,
+       "Pull one straight arm across your chest with the opposite forearm.",
+       "Keep the shoulder down away from the ear.",
+       "Hold, then switch arms."),
+    ex("Cobra Stretch", "core", "beginner", 20, True, False, False, None, True,
+       "Lie face down, hands under the shoulders.",
+       "Press the chest up while keeping the hips on the deck.",
+       "Look slightly up and breathe."),
 ]
 
 
-def build():
-    library = json.loads(LIBRARY.read_text())
-    pool = []
-    for e in library:
-        if e.get("equipment") != "body only" or e["name"] in EXCLUDE:
-            continue
-        name = e["name"]
-        muscle = (e.get("primaryMuscles") or ["abdominals"])[0]
-        bucket = "cardio" if e.get("category") == "plyometrics" else BUCKETS.get(muscle, "core")
-        timed = name in TIMED
-        level = e.get("level", "beginner")
-        if name in BASE_OVERRIDES:
-            base = BASE_OVERRIDES[name]
-        elif timed:
-            base = 25 if e.get("category") == "stretching" else 30
-        else:
-            base = DEFAULT_REPS[bucket][level]
-        pool.append(dict(
-            name=name, bucket=bucket, level=level, timed=timed,
-            perSide=name in PER_SIDE, impact=name in IMPACT,
-            needs="bar" if name in NEEDS_BAR else ("bench" if name in NEEDS_BENCH else None),
-            base=base, stretch=e.get("category") == "stretching",
-            instructions=e.get("instructions", []),
-        ))
-    pool.extend(EXTRAS)
-    pool.sort(key=lambda x: x["name"])
-    return pool
-
-
 def main():
-    pool = build()
+    for e in POOL:
+        assert e["bucket"] in {"push", "legs", "core", "pull", "cardio"}, e["name"]
+        assert e["level"] in {"beginner", "intermediate", "expert"}, e["name"]
+        assert e["needs"] in {None, "bar", "bench"}, e["name"]
+    names = [e["name"] for e in POOL]
+    assert len(names) == len(set(names)), "duplicate exercise names"
+
+    pool = sorted(POOL, key=lambda x: x["name"])
     blob = json.dumps(pool, separators=(",", ":"))
     html = HTML.read_text()
     new = re.sub(
@@ -232,7 +406,8 @@ def main():
     HTML.write_text(new)
     counts = {}
     for e in pool:
-        counts[e["bucket"]] = counts.get(e["bucket"], 0) + 1
+        key = "stretch" if e["stretch"] else e["bucket"]
+        counts[key] = counts.get(key, 0) + 1
     print(f"Embedded {len(pool)} exercises: {counts}")
 
 
