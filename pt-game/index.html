@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#14171b">
+<title>PT Roulette — LEVELED</title>
+<style>
+  :root{
+    --bg:#14171b; --panel:#1d2229; --panel2:#242b34; --line:#323b47;
+    --ink:#e8e4d8; --dim:#8b94a1; --olive:#a3b45f; --tan:#d8c9a3; --red:#e05252;
+    --push:#e0a458; --legs:#7fb069; --core:#5bc0be; --pull:#b98fe0; --cardio:#e5625e;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0; padding:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    height:100%; overscroll-behavior:none}
+  body{display:flex; flex-direction:column; min-height:100dvh;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+  header{padding:14px 16px 10px; display:flex; align-items:baseline; justify-content:space-between}
+  h1{margin:0; font-size:20px; letter-spacing:3px; font-weight:800; color:var(--tan)}
+  h1 span{color:var(--olive)}
+  #tally{font-size:12px; color:var(--dim); text-align:right; line-height:1.4}
+  nav{display:flex; gap:6px; padding:0 12px 10px}
+  nav button{flex:1; padding:10px 0; background:var(--panel); color:var(--dim);
+    border:1px solid var(--line); border-radius:10px; font-size:13px; font-weight:700;
+    letter-spacing:1px; cursor:pointer}
+  nav button.on{background:var(--panel2); color:var(--tan); border-color:var(--olive)}
+  main{flex:1; overflow-y:auto; padding:4px 14px 24px}
+  .view{display:none} .view.on{display:block}
+
+  /* ---------- DRAW ---------- */
+  #card{position:relative; margin:6px auto 14px; max-width:420px; min-height:280px;
+    border-radius:18px; border:1px solid var(--line); background:var(--panel);
+    padding:22px 18px 18px; text-align:center; transition:transform .18s}
+  #card.flip{transform:rotateY(90deg)}
+  #card .corner{position:absolute; top:10px; left:14px; font-size:12px; font-weight:800;
+    letter-spacing:1px}
+  #card .corner.br{left:auto; right:14px; top:auto; bottom:10px; transform:rotate(180deg)}
+  .chips{display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin-bottom:10px}
+  .chip{font-size:11px; font-weight:800; letter-spacing:1px; padding:4px 10px;
+    border-radius:999px; background:var(--panel2); color:var(--dim); text-transform:uppercase}
+  .chip.b-push{color:var(--push)} .chip.b-legs{color:var(--legs)} .chip.b-core{color:var(--core)}
+  .chip.b-pull{color:var(--pull)} .chip.b-cardio{color:var(--cardio)}
+  #exName{font-size:26px; font-weight:800; margin:6px 0 4px; line-height:1.15}
+  #exAmt{font-size:52px; font-weight:900; color:var(--olive); margin:8px 0 2px}
+  #exAmt small{font-size:18px; color:var(--dim); font-weight:700}
+  #exSide{font-size:13px; color:var(--tan); font-weight:700; letter-spacing:1px; min-height:18px}
+  details{margin-top:12px; text-align:left; background:var(--panel2); border-radius:10px;
+    padding:10px 12px; font-size:14px; color:var(--dim)}
+  details summary{cursor:pointer; color:var(--tan); font-weight:700; font-size:13px;
+    letter-spacing:1px; list-style:none}
+  details ol{margin:8px 0 2px; padding-left:18px; line-height:1.45}
+  #placeholder{color:var(--dim); font-size:15px; padding:60px 10px; line-height:1.6}
+  .btnrow{display:flex; gap:10px; max-width:420px; margin:0 auto}
+  .big{flex:1; padding:16px 0; border:none; border-radius:14px; font-size:17px;
+    font-weight:800; letter-spacing:2px; cursor:pointer}
+  #drawBtn{background:var(--olive); color:#161a10}
+  #doneBtn{background:var(--panel2); color:var(--olive); border:1px solid var(--olive)}
+  #skipBtn{flex:0 0 92px; background:var(--panel); color:var(--dim); border:1px solid var(--line)}
+  #timerBtn{margin:12px auto 0; display:none; padding:12px 26px; border-radius:12px;
+    border:1px solid var(--core); background:var(--panel2); color:var(--core);
+    font-size:15px; font-weight:800; letter-spacing:1px; cursor:pointer}
+
+  /* ---------- CIRCUIT ---------- */
+  .row{display:flex; align-items:center; justify-content:space-between; gap:10px;
+    background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:12px 14px; margin-bottom:8px}
+  .row label{font-size:14px; font-weight:600}
+  .row .sub{display:block; font-size:11px; color:var(--dim); font-weight:400; margin-top:2px}
+  .stepper{display:flex; align-items:center; gap:10px}
+  .stepper button{width:34px; height:34px; border-radius:9px; border:1px solid var(--line);
+    background:var(--panel2); color:var(--tan); font-size:18px; font-weight:800; cursor:pointer}
+  .stepper b{min-width:26px; text-align:center; font-size:16px}
+  .seg{display:flex; gap:4px}
+  .seg button{padding:7px 12px; border-radius:9px; border:1px solid var(--line);
+    background:var(--panel2); color:var(--dim); font-size:12px; font-weight:700; cursor:pointer}
+  .seg button.on{color:var(--tan); border-color:var(--olive)}
+  #genBtn{width:100%; margin:6px 0 14px; background:var(--olive); color:#161a10}
+  #circuitList .st{display:flex; align-items:center; gap:10px; background:var(--panel);
+    border:1px solid var(--line); border-radius:12px; padding:10px 12px; margin-bottom:6px}
+  #circuitList .st .n{flex:1; font-size:14px; font-weight:600}
+  #circuitList .st .n small{display:block; color:var(--dim); font-weight:400; margin-top:1px}
+  #circuitList .st .amt{font-weight:800; color:var(--olive); font-size:15px; white-space:nowrap}
+  #circuitList .st .re{border:none; background:none; color:var(--dim); font-size:17px; cursor:pointer}
+  .dot{width:8px; height:8px; border-radius:99px; flex:0 0 8px}
+  .d-push{background:var(--push)} .d-legs{background:var(--legs)} .d-core{background:var(--core)}
+  .d-pull{background:var(--pull)} .d-cardio{background:var(--cardio)} .d-stretch{background:var(--tan)}
+  #runBtn{width:100%; background:var(--red); color:#fff; display:none}
+
+  /* ---------- RUN OVERLAY ---------- */
+  #run{position:fixed; inset:0; background:var(--bg); z-index:50; display:none;
+    flex-direction:column; padding:calc(14px + env(safe-area-inset-top)) 18px calc(18px + env(safe-area-inset-bottom))}
+  #run.on{display:flex}
+  #runTop{display:flex; justify-content:space-between; color:var(--dim); font-size:13px;
+    font-weight:700; letter-spacing:1px}
+  #runMid{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; gap:6px}
+  #runPhase{font-size:13px; letter-spacing:3px; font-weight:800; color:var(--dim)}
+  #runName{font-size:30px; font-weight:800; line-height:1.15}
+  #runAmt{font-size:72px; font-weight:900; color:var(--olive)}
+  #runAmt.rest{color:var(--core)}
+  #runSide{font-size:14px; color:var(--tan); font-weight:700; min-height:20px}
+  #runNext{font-size:13px; color:var(--dim)}
+  #runBtns{display:flex; gap:10px}
+  #runGo{flex:1; padding:18px 0; border:none; border-radius:14px; background:var(--olive);
+    color:#161a10; font-size:18px; font-weight:800; letter-spacing:2px; cursor:pointer}
+  #runQuit{flex:0 0 80px; background:none; border:1px solid var(--line); border-radius:14px;
+    color:var(--dim); font-weight:700; cursor:pointer}
+
+  /* ---------- SETTINGS ---------- */
+  .switch{position:relative; width:46px; height:26px; flex:0 0 46px}
+  .switch input{opacity:0; width:0; height:0}
+  .switch i{position:absolute; inset:0; background:var(--panel2); border:1px solid var(--line);
+    border-radius:99px; transition:.15s}
+  .switch i:before{content:""; position:absolute; width:18px; height:18px; left:3px; top:3px;
+    border-radius:99px; background:var(--dim); transition:.15s}
+  .switch input:checked + i{background:#39421f; border-color:var(--olive)}
+  .switch input:checked + i:before{transform:translateX(20px); background:var(--olive)}
+  .focus{display:flex; gap:6px; flex-wrap:wrap}
+  .focus button{padding:8px 13px; border-radius:999px; border:1px solid var(--line);
+    background:var(--panel2); color:var(--dim); font-size:12px; font-weight:800;
+    letter-spacing:1px; cursor:pointer; text-transform:uppercase}
+  .focus button.on.b-push{color:var(--push); border-color:var(--push)}
+  .focus button.on.b-legs{color:var(--legs); border-color:var(--legs)}
+  .focus button.on.b-core{color:var(--core); border-color:var(--core)}
+  .focus button.on.b-pull{color:var(--pull); border-color:var(--pull)}
+  .focus button.on.b-cardio{color:var(--cardio); border-color:var(--cardio)}
+  .note{font-size:12px; color:var(--dim); margin:2px 2px 12px; line-height:1.5}
+  #poolCount{color:var(--olive); font-weight:700}
+</style>
+</head>
+<body>
+<header>
+  <h1>PT<span>ROULETTE</span></h1>
+  <div id="tally">0 exercises<br>0 reps · 0:00 held</div>
+</header>
+<nav>
+  <button id="tab-draw" class="on">DRAW</button>
+  <button id="tab-circuit">CIRCUIT</button>
+  <button id="tab-set">SETTINGS</button>
+</nav>
+<main>
+
+  <section id="view-draw" class="view on">
+    <div id="card">
+      <div id="placeholder">Tap <b style="color:var(--olive)">DRAW</b> and the deck picks your next exercise.<br><br>
+        Everyone does what the card says. No arguing with the deck.</div>
+      <div id="cardInner" style="display:none">
+        <div class="corner" id="cA">♠</div><div class="corner br" id="cB">♠</div>
+        <div class="chips" id="exChips"></div>
+        <div id="exName"></div>
+        <div id="exAmt"></div>
+        <div id="exSide"></div>
+        <button id="timerBtn">▶ START TIMER</button>
+        <details id="exHow"><summary>HOW TO DO IT</summary><ol id="exIns"></ol></details>
+      </div>
+    </div>
+    <div class="btnrow">
+      <button class="big" id="drawBtn">DRAW</button>
+      <button class="big" id="doneBtn" style="display:none">DONE ✓</button>
+      <button class="big" id="skipBtn" style="display:none">SKIP</button>
+    </div>
+  </section>
+
+  <section id="view-circuit" class="view">
+    <div class="row"><label>Stations</label>
+      <div class="stepper"><button data-s="-1">−</button><b id="nSt">6</b><button data-s="1">+</button></div></div>
+    <div class="row"><label>Rounds</label>
+      <div class="stepper"><button data-r="-1">−</button><b id="nRd">2</b><button data-r="1">+</button></div></div>
+    <div class="row"><label>Rest between stations</label>
+      <div class="seg" id="restSeg">
+        <button data-v="0">None</button><button data-v="15" class="on">15s</button><button data-v="30">30s</button>
+      </div></div>
+    <div class="row"><label>Finish with stretches<span class="sub">appends a 4-stretch cooldown</span></label>
+      <label class="switch"><input type="checkbox" id="coolTog"><i></i></label></div>
+    <button class="big" id="genBtn">BUILD CIRCUIT</button>
+    <div id="circuitList"></div>
+    <button class="big" id="runBtn">RUN IT ▶</button>
+  </section>
+
+  <section id="view-set" class="view">
+    <div class="row"><label>Intensity</label>
+      <div class="seg" id="intSeg">
+        <button data-v="0.6">Warm-up</button><button data-v="1" class="on">Standard</button><button data-v="1.5">Smoke</button>
+      </div></div>
+    <div class="row"><label>No jumping<span class="sub">hides all jump/impact moves — profile friendly</span></label>
+      <label class="switch"><input type="checkbox" id="jumpTog" checked><i></i></label></div>
+    <div class="row"><label>Difficulty ceiling</label>
+      <div class="seg" id="lvlSeg">
+        <button data-v="beginner">Basic</button><button data-v="intermediate" class="on">Standard</button><button data-v="expert">All</button>
+      </div></div>
+    <div class="row"><label>Pull-up bar available<span class="sub">adds pull-ups, hanging raises, dips</span></label>
+      <label class="switch"><input type="checkbox" id="barTog"><i></i></label></div>
+    <div class="row"><label>Bench / step available<span class="sub">adds incline push-ups, step-ups, declines</span></label>
+      <label class="switch"><input type="checkbox" id="benchTog"><i></i></label></div>
+    <div class="row"><label>Include stretches in the deck<span class="sub">off = stretches only appear in cooldown</span></label>
+      <label class="switch"><input type="checkbox" id="strTog"><i></i></label></div>
+    <div class="row" style="flex-direction:column; align-items:stretch">
+      <label style="margin-bottom:8px">Target areas</label>
+      <div class="focus" id="focusRow">
+        <button class="on b-push" data-b="push">Push</button>
+        <button class="on b-legs" data-b="legs">Legs</button>
+        <button class="on b-core" data-b="core">Core</button>
+        <button class="on b-pull" data-b="pull">Pull</button>
+        <button class="on b-cardio" data-b="cardio">Cardio</button>
+      </div></div>
+    <p class="note"><span id="poolCount">0</span> exercises in the current deck. Military bodyweight
+      PT pool — Army PRT drill exercises, ACFT movements, and the formation-PT classics, with form
+      cues on every card.</p>
+    <p class="note" style="color:#6e7783">Not medical advice — anyone on a physical profile trains within
+      the limits of that profile. Skip any card that violates it; the deck always has another one.</p>
+  </section>
+</main>
+
+<div id="run">
+  <div id="runTop"><span id="runPos"></span><span id="runRound"></span></div>
+  <div id="runMid">
+    <div id="runPhase"></div>
+    <div id="runName"></div>
+    <div id="runAmt"></div>
+    <div id="runSide"></div>
+    <div id="runNext"></div>
+  </div>
+  <div id="runBtns">
+    <button id="runGo">DONE ✓</button>
+    <button id="runQuit">QUIT</button>
+  </div>
+</div>
+
+<script>
+/*PT_DATA_START*/const POOL=[{"name":"8-Count Bodybuilder","bucket":"cardio","level":"intermediate","timed":false,"perSide":false,"impact":true,"needs":null,"base":8,"stretch":false,"instructions":["Count 1: squat, hands down. Count 2: kick back to push-up position.","Counts 3-4: push-up down and up. Counts 5-6: kick the legs out wide and back together.","Count 7: feet back to the hands. Count 8: jump up, arms overhead. That's one rep."]},{"name":"Arm Circles (Sun Gods)","bucket":"push","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":30,"stretch":false,"instructions":["Stand with arms straight out to the sides at shoulder height.","Make small, tight circles forward for half the time.","Reverse direction for the second half. Arms stay up the entire time."]},{"name":"Back Extension","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":12,"stretch":false,"instructions":["Lie face down, hands behind your head, elbows wide.","Lift your chest off the deck using your lower back, feet staying down.","Lower under control. That's one rep."]},{"name":"Bear Crawl","bucket":"cardio","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":30,"stretch":false,"instructions":["Hands and feet on the ground, knees bent and hovering low.","Crawl forward moving opposite hand and foot together.","Back flat, hips low. Crawl backward to return."]},{"name":"Bench Dips","bucket":"push","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bench","base":12,"stretch":false,"instructions":["Hands on the edge of a bench behind you, legs extended out front, hips off the bench.","Bend your elbows to lower your hips toward the ground.","Press back up until your arms are straight."]},{"name":"Bend and Reach (4-count)","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":10,"stretch":false,"instructions":["PRT Preparation Drill. Feet wide, arms overhead.","Count 1: squat slightly and reach both arms between your legs.","Count 2: return upright, arms overhead. Counts 3-4: repeat. That's one rep."]},{"name":"Bent-Leg Body Twist","bucket":"core","level":"beginner","timed":false,"perSide":true,"impact":false,"needs":null,"base":10,"stretch":false,"instructions":["PRT. Lie on your back, knees bent 90 degrees and lifted, arms out to the sides, palms down.","Lower both knees to one side until they nearly touch the deck, shoulders flat.","Bring them back through center to the other side. Each side is one count."]},{"name":"Box Jump","bucket":"legs","level":"intermediate","timed":false,"perSide":false,"impact":true,"needs":"bench","base":8,"stretch":false,"instructions":["Face a sturdy bench or step, feet hip-width apart.","Swing your arms and jump, landing soft with both feet fully on top.","Stand tall, then step down \u2014 don't jump down."]},{"name":"Burpee","bucket":"cardio","level":"intermediate","timed":false,"perSide":false,"impact":true,"needs":null,"base":10,"stretch":false,"instructions":["Squat down, hands to the deck.","Kick back to push-up position, execute one push-up.","Jump the feet back in and jump straight up, arms overhead."]},{"name":"Butt Kickers","bucket":"cardio","level":"beginner","timed":true,"perSide":false,"impact":true,"needs":null,"base":30,"stretch":false,"instructions":["Run in place, kicking your heels up to touch your seat.","Quick, light steps on the balls of the feet.","Keep the knees pointing down."]},{"name":"Butterfly Stretch","bucket":"legs","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["Sit with the soles of your feet together, knees out wide.","Hold your feet and let the knees sink toward the ground.","Keep the back tall."]},{"name":"Calf Raise","bucket":"legs","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Stand tall, feet hip-width apart.","Rise as high as you can onto the balls of your feet.","Lower under control until your heels touch."]},{"name":"Cherry Pickers","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":15,"stretch":false,"instructions":["Feet wide, knees slightly bent, bend at the waist with arms hanging.","Pulse your reach: ground, between the legs, then stand and reach overhead.","That full sequence is one rep. Keep the movement smooth."]},{"name":"Chin-up","bucket":"pull","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":"bar","base":6,"stretch":false,"instructions":["Dead hang with an underhand grip, hands shoulder-width.","Pull until your chin clears the bar.","Lower to a full hang under control."]},{"name":"Cobra Stretch","bucket":"core","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["Lie face down, hands under the shoulders.","Press the chest up while keeping the hips on the deck.","Look slightly up and breathe."]},{"name":"Crab Walk","bucket":"cardio","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":30,"stretch":false,"instructions":["Sit, then lift your hips with hands behind you and feet flat \u2014 belly to the sky.","Walk on hands and feet, keeping the hips high.","Turn around halfway through the time."]},{"name":"Cross-Arm Shoulder Stretch","bucket":"push","level":"beginner","timed":true,"perSide":true,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["Pull one straight arm across your chest with the opposite forearm.","Keep the shoulder down away from the ear.","Hold, then switch arms."]},{"name":"Crunch","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":25,"stretch":false,"instructions":["Lie on your back, knees bent, hands behind your head.","Curl your shoulder blades off the deck, ribs toward hips.","Lower under control. Don't pull on your neck."]},{"name":"Dead Hang","bucket":"pull","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":"bar","base":30,"stretch":false,"instructions":["Grip the bar overhand, arms fully extended, feet off the ground.","Engage the shoulders slightly \u2014 don't just hang on the joints.","Hold for time."]},{"name":"Decline Push-up","bucket":"push","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":"bench","base":10,"stretch":false,"instructions":["Put your feet up on a bench or step, hands on the ground at shoulder width.","Lower your chest to the deck under control.","Press back to full extension without letting the hips sag."]},{"name":"Diamond Push-up","bucket":"push","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":null,"base":10,"stretch":false,"instructions":["Assume the push-up position with thumbs and index fingers touching, forming a diamond under your chest.","Lower your chest to your hands, elbows tight to your ribs.","Press back to full extension."]},{"name":"Dips","bucket":"push","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":"bar","base":8,"stretch":false,"instructions":["Support yourself on parallel bars or a dip station, arms locked.","Lower until your upper arms are parallel to the bars.","Press back to full extension without swinging."]},{"name":"Dive Bomber Push-up","bucket":"push","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":null,"base":8,"stretch":false,"instructions":["Start with hips high in an inverted V, hands and feet on the ground.","Sweep your chest low over the deck, then arc up until arms are straight and hips are low.","Reverse the same path back to the start."]},{"name":"Donkey Kick","bucket":"legs","level":"beginner","timed":false,"perSide":true,"impact":false,"needs":null,"base":12,"stretch":false,"instructions":["Start on hands and knees, back flat.","Keeping the knee bent 90 degrees, drive one heel up toward the sky.","Squeeze the glute at the top, return, and finish the set before switching."]},{"name":"Duck Walk","bucket":"legs","level":"intermediate","timed":true,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Drop into a deep squat, hands behind your head or out front.","Walk forward staying low the whole time.","Keep your chest up; turn around halfway through the time."]},{"name":"Extend and Flex","bucket":"core","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["PRT Recovery Drill. From the front-leaning rest, sag the hips to the deck and look up (extend).","Hold, then push the hips up and back like an inverted V, heels driving down (flex).","Hold the second position for the remaining time."]},{"name":"Flutter Kicks (4-count)","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":15,"stretch":false,"instructions":["Lie on your back, hands under your hips, legs straight and heels 6 inches off the deck.","Kick your legs in a small, fast scissor motion: 1, 2, 3 counts one rep.","Head and shoulders stay up, lower back pressed down. Legs never touch the ground."]},{"name":"Forward Lunge","bucket":"legs","level":"beginner","timed":false,"perSide":true,"impact":false,"needs":null,"base":10,"stretch":false,"instructions":["Step forward with one leg, keeping your chest up.","Lower until both knees are bent about 90 degrees; front knee stays over the ankle.","Push off the front foot to return, then switch legs."]},{"name":"Glute Bridge","bucket":"legs","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":15,"stretch":false,"instructions":["Lie on your back, knees bent, feet flat and close to your seat.","Drive your hips up until your body is straight from shoulders to knees.","Squeeze at the top, lower under control."]},{"name":"Half Jacks (4-count)","bucket":"cardio","level":"beginner","timed":false,"perSide":false,"impact":true,"needs":null,"base":15,"stretch":false,"instructions":["PRT Conditioning Drill 2. Like a jumping jack, but the arms only rise to shoulder height.","Count 1: feet wide, arms to shoulders. Count 2: together.","Counts 3-4: repeat. That's one rep."]},{"name":"Hand-Release Push-up","bucket":"push","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":12,"stretch":false,"instructions":["Lower your chest all the way to the ground.","Lift both hands briefly off the deck, then replace them.","Push back up to full arm extension. That's one rep \u2014 ACFT standard."]},{"name":"Handstand Push-up","bucket":"push","level":"expert","timed":false,"perSide":false,"impact":false,"needs":null,"base":5,"stretch":false,"instructions":["Kick up into a handstand against a wall or with a spotter.","Lower the top of your head toward the ground under control.","Press back to full arm extension."]},{"name":"Hanging Knee Raise","bucket":"pull","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bar","base":10,"stretch":false,"instructions":["Dead hang from the bar, shoulders engaged.","Raise both knees to hip height or above without swinging.","Lower under control."]},{"name":"Hanging Leg Raise","bucket":"pull","level":"expert","timed":false,"perSide":false,"impact":false,"needs":"bar","base":8,"stretch":false,"instructions":["Dead hang from the bar, legs straight.","Raise both legs, straight, to parallel or higher.","Lower slowly. No swing between reps."]},{"name":"Hello Dollies (4-count)","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":15,"stretch":false,"instructions":["Lie on your back, hands under your hips, legs straight and heels 6 inches up.","Spread your legs wide, then bring them back together \u2014 out, in, out counts one rep.","Keep the heels off the deck the whole set."]},{"name":"High Jumper (4-count)","bucket":"legs","level":"intermediate","timed":false,"perSide":false,"impact":true,"needs":null,"base":8,"stretch":false,"instructions":["PRT Preparation Drill. From a half squat, arms swing back.","Count 1: small jump, arms to shoulder height. Count 2: land back in the half squat.","Count 3: big jump, arms driving overhead. Count 4: land in the half squat. That's one rep."]},{"name":"High Knees","bucket":"cardio","level":"beginner","timed":true,"perSide":false,"impact":true,"needs":null,"base":30,"stretch":false,"instructions":["Run in place, driving the knees to waist height.","Stay on the balls of your feet, arms pumping.","Keep the pace honest for the whole time."]},{"name":"Inchworm","bucket":"cardio","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":8,"stretch":false,"instructions":["Stand, bend at the waist, and walk your hands out to a plank.","Keep the legs as straight as you can.","Walk your feet up to your hands and stand. That's one rep."]},{"name":"Incline Push-up","bucket":"push","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bench","base":12,"stretch":false,"instructions":["Place your hands on a bench, step, or tailgate, body in a straight line.","Lower your chest to the edge.","Press back to full extension."]},{"name":"Inverted Row","bucket":"pull","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bar","base":8,"stretch":false,"instructions":["Set up under a low bar, body straight, heels on the ground, arms extended.","Pull your chest to the bar, squeezing the shoulder blades.","Lower to full extension. Keep the body rigid."]},{"name":"Iron Mike (Jumping Lunge)","bucket":"legs","level":"intermediate","timed":false,"perSide":true,"impact":true,"needs":null,"base":8,"stretch":false,"instructions":["Start in a lunge, both knees at 90 degrees.","Jump and switch legs in the air, arms driving for balance.","Land soft in a lunge with the other leg forward."]},{"name":"Leg Raises","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":15,"stretch":false,"instructions":["Lie flat, hands under your hips, legs straight.","Raise both legs to vertical, keeping them straight.","Lower slowly until heels hover just off the deck. Don't let them touch."]},{"name":"Leg Tuck","bucket":"pull","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":"bar","base":5,"stretch":false,"instructions":["ACFT movement. Hang from the bar with an alternating grip, body angled.","Pull with the arms while tucking your knees until they touch both elbows.","Lower to a controlled dead hang. That's one rep."]},{"name":"Leg Tuck and Twist","bucket":"core","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":null,"base":10,"stretch":false,"instructions":["PRT Conditioning Drill 1. Sit leaned back on your hands, legs extended and off the deck.","Tuck both knees toward one shoulder.","Extend, then tuck toward the other shoulder. Each tuck is one count."]},{"name":"Mountain Climbers","bucket":"cardio","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":30,"stretch":false,"instructions":["High plank, hands under shoulders.","Drive one knee toward your chest, then switch legs in a running rhythm.","Hips stay low, core tight, pace steady."]},{"name":"No-Jump Burpee","bucket":"cardio","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":10,"stretch":false,"instructions":["Squat down, hands to the deck.","Step back one foot at a time to a plank, then step back in.","Stand tall. No jumping at any point \u2014 full profile-friendly."]},{"name":"Overhead Arm Clap","bucket":"push","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Stand tall, arms straight out to the sides at shoulder height.","Swing both arms overhead and clap, keeping the elbows locked.","Return to shoulder height. Each clap is one rep."]},{"name":"Overhead Arm Pull","bucket":"push","level":"beginner","timed":true,"perSide":true,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["PRT Recovery Drill. Raise one arm overhead, bend the elbow so the hand drops behind your head.","Grasp the elbow with the other hand and pull gently toward the midline.","Hold, then switch arms."]},{"name":"Pike Push-up","bucket":"push","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":null,"base":8,"stretch":false,"instructions":["From push-up position, walk your feet in so your hips are high in an inverted V.","Bend your elbows and lower the top of your head toward the ground.","Press back up, keeping the hips high the whole time."]},{"name":"Plank","bucket":"core","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":60,"stretch":false,"instructions":["Forearms on the deck, elbows under shoulders, body in a straight line \u2014 ACFT position.","Squeeze your glutes and brace your stomach.","Hold. No sagging hips, no pikes."]},{"name":"Plank-to-Push-up","bucket":"push","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":null,"base":10,"stretch":false,"instructions":["Start in a forearm plank.","Press up one arm at a time into a full push-up position.","Lower back to your forearms one arm at a time. Alternate the leading arm."]},{"name":"Power Jump (4-count)","bucket":"legs","level":"intermediate","timed":false,"perSide":false,"impact":true,"needs":null,"base":8,"stretch":false,"instructions":["PRT Conditioning Drill 1. Count 1: squat with arms reaching toward the ground.","Count 2: jump, swinging arms overhead. Count 3: land and re-squat.","Count 4: return to standing. That's one rep."]},{"name":"Pull-up","bucket":"pull","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":"bar","base":6,"stretch":false,"instructions":["Dead hang from the bar, overhand grip, hands just outside the shoulders.","Pull until your chin clears the bar. No kipping, no swinging.","Lower to a full dead hang. That's one rep."]},{"name":"Push-up","bucket":"push","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":15,"stretch":false,"instructions":["Hands slightly wider than shoulder width, body in a straight line from head to heels.","Lower until your upper arms are parallel to the ground.","Push back up to full arm extension. Keep your back flat the whole rep."]},{"name":"Rear Lunge","bucket":"legs","level":"beginner","timed":false,"perSide":true,"impact":false,"needs":null,"base":10,"stretch":false,"instructions":["PRT Preparation Drill. Step straight back with one leg.","Lower until both knees are bent about 90 degrees, torso upright.","Drive through the front heel to return, then switch legs."]},{"name":"Rear Lunge Stretch","bucket":"legs","level":"beginner","timed":true,"perSide":true,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["PRT Recovery Drill. Step back into a deep lunge, rear leg extended.","Sink the hips forward and down until you feel the stretch in the rear hip and thigh.","Hold, then switch legs."]},{"name":"Russian Twist","bucket":"core","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Sit with knees bent, heels light on the deck, torso leaned back 45 degrees.","Rotate your shoulders to touch both hands to the ground beside one hip.","Rotate to the other side. Each touch is one rep."]},{"name":"Scissor Kicks","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Lie on your back, hands under your hips, both legs straight and off the deck.","Cross one leg over the other, then reverse, in a steady scissor pattern.","Lower back stays pressed into the ground."]},{"name":"Side Lunge","bucket":"legs","level":"beginner","timed":false,"perSide":true,"impact":false,"needs":null,"base":8,"stretch":false,"instructions":["Take a wide step to one side, other leg straight.","Sit back into the stepping leg, chest up.","Push back to the start and repeat on the other side."]},{"name":"Side Plank","bucket":"core","level":"beginner","timed":true,"perSide":true,"impact":false,"needs":null,"base":30,"stretch":false,"instructions":["Lie on one side, forearm under your shoulder, feet stacked.","Lift your hips until your body is one straight line.","Hold, then switch sides."]},{"name":"Side-Straddle Hop (4-count)","bucket":"cardio","level":"beginner","timed":false,"perSide":false,"impact":true,"needs":null,"base":15,"stretch":false,"instructions":["The jumping jack, by the numbers. Count 1: jump feet wide, arms overhead.","Count 2: back together. Count 3: out again.","Count 4: together. That's one rep. Stay on the balls of the feet."]},{"name":"Single-Leg Glute Bridge","bucket":"legs","level":"intermediate","timed":false,"perSide":true,"impact":false,"needs":null,"base":10,"stretch":false,"instructions":["Lie on your back, one knee bent with foot flat, other leg extended straight.","Drive through the planted heel and lift your hips, keeping the extended leg in line.","Lower under control. Finish the set, then switch legs."]},{"name":"Single-Leg Over","bucket":"legs","level":"beginner","timed":true,"perSide":true,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["PRT Recovery Drill. Lie on your back, arms out wide.","Cross one leg over your body, knee bent, until it nears the deck on the far side.","Shoulders stay flat. Hold, then switch sides."]},{"name":"Sit-up","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Lie on your back, knees bent, feet anchored or flat, hands behind your head or crossed on your chest.","Sit up until your torso is vertical.","Lower under control until your shoulder blades touch. Keep the neck neutral."]},{"name":"Squat","bucket":"legs","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Feet shoulder-width apart, chest up, arms out front for balance.","Sit back and down until your thighs are parallel to the ground, heels flat.","Drive through the heels to stand back up."]},{"name":"Squat Bender (4-count)","bucket":"legs","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":10,"stretch":false,"instructions":["PRT Preparation Drill. Count 1: squat until thighs are parallel, arms out front.","Count 2: return to the start. Count 3: bend forward at the waist, knees slightly bent, reaching toward the ground.","Count 4: return to the start. That's one rep."]},{"name":"Squat Hold","bucket":"legs","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":30,"stretch":false,"instructions":["Squat until your thighs are parallel to the ground.","Chest up, heels down, arms straight out front.","Hold the bottom position without standing."]},{"name":"Squat Jump","bucket":"legs","level":"intermediate","timed":false,"perSide":false,"impact":true,"needs":null,"base":12,"stretch":false,"instructions":["Squat until your thighs are parallel, arms back.","Explode straight up, swinging the arms overhead.","Land soft, absorb into the next squat."]},{"name":"Standing Calf Stretch","bucket":"legs","level":"beginner","timed":true,"perSide":true,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["Stagger your stance, back leg straight with the heel driving into the ground.","Lean into a wall, tree, or teammate until the calf stretches.","Hold, then switch legs."]},{"name":"Star Jump","bucket":"cardio","level":"intermediate","timed":false,"perSide":false,"impact":true,"needs":null,"base":10,"stretch":false,"instructions":["Start in a quarter squat, arms tucked.","Explode up, throwing arms and legs out into a star shape.","Land soft, reset, and go again."]},{"name":"Steam Engine","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Stand tall, hands behind your head, elbows wide.","Lift one knee and rotate to touch it with the opposite elbow.","Alternate sides. Each touch is one rep."]},{"name":"Step-up","bucket":"legs","level":"beginner","timed":false,"perSide":true,"impact":false,"needs":"bench","base":10,"stretch":false,"instructions":["Face a bench, step, or bleacher.","Step up with one foot and drive to a full stand on top.","Step down under control. Finish the set, then lead with the other leg."]},{"name":"Sumo Squat","bucket":"legs","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":15,"stretch":false,"instructions":["Take a wide stance with toes angled out, hands at your chest.","Squat until your thighs are parallel, knees tracking over your toes.","Drive back up, squeezing the glutes at the top."]},{"name":"Superman Hold","bucket":"core","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":30,"stretch":false,"instructions":["Lie face down, arms extended in front like Superman.","Lift arms, chest, and legs off the deck at the same time.","Hold steady, squeezing the entire back side."]},{"name":"Supine Bicycle (4-count)","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":15,"stretch":false,"instructions":["PRT Conditioning Drill 2. Lie on your back, hands behind your head, legs up.","Drive one knee in while rotating the opposite elbow to meet it.","Alternate sides in a steady pedaling rhythm. Left-right-left counts one rep."]},{"name":"Swimmers","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Lie face down, arms extended in front, legs straight.","Flutter opposite arm and leg up together, then switch, like freestyle swimming.","Chest stays slightly off the deck. Left-right counts one rep."]},{"name":"The Rower (4-count)","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":15,"stretch":false,"instructions":["PRT Preparation Drill. Lie flat with arms overhead, feet together.","Count 1: sit up while drawing the knees in, arms rowing forward outside the knees.","Counts 2-4: return, then repeat. Move as one crisp motion."]},{"name":"Thigh Stretch","bucket":"legs","level":"beginner","timed":true,"perSide":true,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["PRT Recovery Drill. Sit on one hip with legs to the side, or stand and grab one ankle.","Pull the heel toward your seat until the front of the thigh stretches.","Keep the knees together. Hold, then switch legs."]},{"name":"Toe-Touch Hamstring Stretch","bucket":"legs","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["Stand with feet together, legs straight but not locked.","Hinge at the waist and reach for your toes.","Relax the neck, breathe, and let gravity do the work."]},{"name":"V-Up","bucket":"core","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":null,"base":12,"stretch":false,"instructions":["PRT Conditioning Drill 1. Lie flat with arms extended overhead.","Fold in half \u2014 legs straight up as your hands reach for your toes.","Lower everything under control without touching down fully."]},{"name":"Wall Sit","bucket":"legs","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":45,"stretch":false,"instructions":["Back flat against a wall or tree.","Slide down until your thighs are parallel, knees at 90 degrees.","Hold with your weight through your heels. No hands on the legs."]},{"name":"Wide-Arm Push-up","bucket":"push","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":12,"stretch":false,"instructions":["Assume the push-up position with hands well outside shoulder width.","Lower until upper arms are parallel to the ground, elbows tracking out.","Press back to full extension without sagging the hips."]},{"name":"Windmill (4-count)","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":10,"stretch":false,"instructions":["PRT Preparation Drill. Stand with feet wide, arms out to the sides.","Count 1: rotate and bend to touch your left foot with your right hand.","Count 2: return. Counts 3-4: repeat to the other side. That's one rep."]},{"name":"Windshield Wipers","bucket":"core","level":"intermediate","timed":false,"perSide":true,"impact":false,"needs":null,"base":8,"stretch":false,"instructions":["Lie on your back, arms out wide, legs straight up together.","Lower both legs to one side under control, shoulders pinned to the deck.","Sweep them through center to the other side. Each side is one count."]}];/*PT_DATA_END*/
+
+const $ = id => document.getElementById(id);
+const SUITS = {push:"♦", legs:"♣", core:"♥", pull:"♠", cardio:"★", stretch:"✿"};
+const BUCKET_NAMES = {push:"Push", legs:"Legs", core:"Core", pull:"Pull", cardio:"Cardio"};
+
+/* ---------- settings (persisted) ---------- */
+const S = Object.assign({
+  intensity:1, noJump:true, maxLevel:"intermediate", bar:false, bench:false,
+  stretches:false, focus:["push","legs","core","pull","cardio"],
+  stations:6, rounds:2, rest:15, cooldown:false
+}, JSON.parse(localStorage.getItem("ptr-settings")||"{}"));
+const save = () => localStorage.setItem("ptr-settings", JSON.stringify(S));
+
+const LVL_ORDER = {beginner:0, intermediate:1, expert:2};
+function activePool(){
+  return POOL.filter(e =>
+    (!e.impact || !S.noJump) &&
+    LVL_ORDER[e.level] <= LVL_ORDER[S.maxLevel] &&
+    (e.needs !== "bar" || S.bar) &&
+    (e.needs !== "bench" || S.bench) &&
+    (!e.stretch || S.stretches) &&
+    S.focus.includes(e.bucket));
+}
+function updatePoolCount(){ $("poolCount").textContent = activePool().length; }
+
+/* ---------- amounts ---------- */
+function rollAmount(e){
+  const jitter = [0.85, 1, 1, 1.15][Math.floor(Math.random()*4)];
+  let raw = e.base * S.intensity * jitter;
+  if (e.timed) return {n: Math.max(10, Math.round(raw/5)*5), timed:true};
+  let n = raw >= 12 ? Math.round(raw/2)*2 : Math.round(raw);
+  return {n: Math.max(3, n), timed:false};
+}
+const amtText = a => a.timed ? `${a.n}<small> sec</small>` : `${a.n}<small> reps</small>`;
+
+/* ---------- session tally ---------- */
+let tally = {ex:0, reps:0, secs:0};
+function bumpTally(e, a){
+  tally.ex++;
+  const mult = e.perSide ? 2 : 1;
+  if (a.timed) tally.secs += a.n * mult; else tally.reps += a.n * mult;
+  const m = Math.floor(tally.secs/60), s = String(tally.secs%60).padStart(2,"0");
+  $("tally").innerHTML = `${tally.ex} exercise${tally.ex===1?"":"s"}<br>${tally.reps} reps · ${m}:${s} held`;
+}
+
+/* ---------- audio / haptics ---------- */
+let AC = null;
+function beep(freq, dur){
+  try{
+    AC = AC || new (window.AudioContext||window.webkitAudioContext)();
+    const o = AC.createOscillator(), g = AC.createGain();
+    o.frequency.value = freq; o.connect(g); g.connect(AC.destination);
+    g.gain.setValueAtTime(0.15, AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, AC.currentTime + dur);
+    o.start(); o.stop(AC.currentTime + dur);
+  }catch(err){}
+}
+const buzz = ms => { if (navigator.vibrate) navigator.vibrate(ms); };
+
+/* ---------- tabs ---------- */
+const tabs = {draw:"tab-draw", circuit:"tab-circuit", set:"tab-set"};
+for (const [view, tab] of Object.entries(tabs)){
+  $(tab).onclick = () => {
+    for (const [v,t] of Object.entries(tabs)){
+      $(t).classList.toggle("on", v===view);
+      $("view-"+v).classList.toggle("on", v===view);
+    }
+  };
+}
+
+/* ---------- DRAW mode (no repeats until deck runs dry) ---------- */
+let deck = [], deckKey = "", current = null, currentAmt = null;
+function drawCard(){
+  const pool = activePool();
+  if (!pool.length){ alert("Deck is empty — loosen the filters in Settings."); return; }
+  const key = pool.map(e=>e.name).join("|");
+  if (key !== deckKey || !deck.length){
+    deck = [...pool].sort(() => Math.random()-0.5);
+    deckKey = key;
+  }
+  current = deck.pop();
+  currentAmt = rollAmount(current);
+  buzz(30);
+  const card = $("card");
+  card.classList.add("flip");
+  setTimeout(() => {
+    $("placeholder").style.display = "none";
+    $("cardInner").style.display = "block";
+    $("cA").textContent = $("cB").textContent = SUITS[current.stretch ? "stretch" : current.bucket];
+    $("cA").style.color = $("cB").style.color =
+      getComputedStyle(document.documentElement).getPropertyValue("--"+(current.stretch?"tan":current.bucket));
+    $("exChips").innerHTML =
+      `<span class="chip b-${current.bucket}">${BUCKET_NAMES[current.bucket]}</span>` +
+      `<span class="chip">${current.level}</span>` +
+      (current.stretch ? `<span class="chip">stretch</span>` : "") +
+      (current.impact ? `<span class="chip" style="color:var(--red)">jump</span>` : "");
+    $("exName").textContent = current.name;
+    $("exAmt").innerHTML = amtText(currentAmt);
+    $("exSide").textContent = current.perSide ? "EACH SIDE" : "";
+    $("exHow").open = false;
+    $("exIns").innerHTML = current.instructions.map(i=>`<li>${i}</li>`).join("");
+    $("exHow").style.display = current.instructions.length ? "block" : "none";
+    $("timerBtn").style.display = currentAmt.timed ? "inline-block" : "none";
+    $("timerBtn").textContent = "▶ START " + currentAmt.n + "s TIMER";
+    $("timerBtn").disabled = false;
+    $("doneBtn").style.display = "block";
+    $("skipBtn").style.display = "block";
+    card.classList.remove("flip");
+  }, 180);
+}
+$("drawBtn").onclick = drawCard;
+$("skipBtn").onclick = drawCard;
+$("doneBtn").onclick = () => {
+  if (!current) return;
+  bumpTally(current, currentAmt);
+  beep(880, .12); buzz(60);
+  drawCard();
+};
+let holdTimer = null;
+$("timerBtn").onclick = () => {
+  if (holdTimer) return;
+  let left = currentAmt.n;
+  $("timerBtn").disabled = true;
+  beep(660, .1);
+  holdTimer = setInterval(() => {
+    left--;
+    $("timerBtn").textContent = left + "s…";
+    if (left <= 3 && left > 0) beep(660, .08);
+    if (left <= 0){
+      clearInterval(holdTimer); holdTimer = null;
+      beep(990, .3); buzz([80,60,80]);
+      $("timerBtn").textContent = "TIME! ✓";
+    }
+  }, 1000);
+};
+
+/* ---------- CIRCUIT mode ---------- */
+let circuit = [];
+function pickBalanced(count){
+  const pool = activePool().filter(e => !e.stretch || S.stretches);
+  const order = ["cardio","legs","push","core","pull"].filter(b => S.focus.includes(b));
+  const byBucket = {};
+  for (const b of order) byBucket[b] = pool.filter(e => e.bucket===b).sort(() => Math.random()-0.5);
+  const out = [];
+  let i = 0, guard = 0;
+  while (out.length < count && guard < count*10){
+    const b = order[i % order.length]; i++; guard++;
+    if (byBucket[b] && byBucket[b].length) out.push(byBucket[b].pop());
+  }
+  // top up from anything left if some buckets ran dry
+  const rest = pool.filter(e => !out.includes(e)).sort(() => Math.random()-0.5);
+  while (out.length < count && rest.length) out.push(rest.pop());
+  return out.sort(() => Math.random()-0.5);
+}
+function cooldownSet(){
+  return POOL.filter(e => e.stretch && (!e.impact || !S.noJump) &&
+      LVL_ORDER[e.level] <= LVL_ORDER[S.maxLevel] &&
+      (e.needs !== "bar" || S.bar) && (e.needs !== "bench" || S.bench))
+    .sort(() => Math.random()-0.5).slice(0,4);
+}
+function renderCircuit(){
+  $("circuitList").innerHTML = circuit.map((st,i) => `
+    <div class="st">
+      <span class="dot d-${st.e.stretch?"stretch":st.e.bucket}"></span>
+      <span class="n">${st.e.name}<small>${st.e.stretch?"cooldown":BUCKET_NAMES[st.e.bucket]}${st.e.perSide?" · each side":""}</small></span>
+      <span class="amt">${st.a.n}${st.a.timed?"s":""}</span>
+      <button class="re" data-i="${i}" title="reroll">↻</button>
+    </div>`).join("");
+  $("runBtn").style.display = circuit.length ? "block" : "none";
+  document.querySelectorAll("#circuitList .re").forEach(btn => btn.onclick = () => {
+    const i = +btn.dataset.i;
+    const used = new Set(circuit.map(s=>s.e.name));
+    const cand = (circuit[i].e.stretch ? cooldownSet() : activePool())
+      .filter(e => !used.has(e.name) && e.stretch === circuit[i].e.stretch);
+    if (cand.length){
+      const e = cand[Math.floor(Math.random()*cand.length)];
+      circuit[i] = {e, a: rollAmount(e)};
+      renderCircuit();
+    }
+  });
+}
+$("genBtn").onclick = () => {
+  const picks = pickBalanced(S.stations);
+  circuit = picks.map(e => ({e, a: rollAmount(e)}));
+  if (S.cooldown) circuit = circuit.concat(cooldownSet().map(e => ({e, a: rollAmount(e)})));
+  renderCircuit();
+};
+
+/* circuit steppers + segments */
+document.querySelectorAll("[data-s]").forEach(b => b.onclick = () => {
+  S.stations = Math.min(10, Math.max(3, S.stations + +b.dataset.s));
+  $("nSt").textContent = S.stations; save();
+});
+document.querySelectorAll("[data-r]").forEach(b => b.onclick = () => {
+  S.rounds = Math.min(5, Math.max(1, S.rounds + +b.dataset.r));
+  $("nRd").textContent = S.rounds; save();
+});
+function segInit(id, get, set){
+  const seg = $(id);
+  seg.querySelectorAll("button").forEach(b => {
+    b.classList.toggle("on", b.dataset.v == get());
+    b.onclick = () => {
+      set(b.dataset.v);
+      seg.querySelectorAll("button").forEach(x => x.classList.toggle("on", x===b));
+      save(); updatePoolCount();
+    };
+  });
+}
+
+/* ---------- RUN overlay ---------- */
+let runSteps = [], runIdx = 0, runTick = null, wakeLock = null;
+async function grabWake(){ try{ wakeLock = await navigator.wakeLock.request("screen"); }catch(err){} }
+function buildRunSteps(){
+  runSteps = [];
+  const main = circuit.filter(s => !s.e.stretch);
+  const cool = circuit.filter(s => s.e.stretch);
+  for (let r = 1; r <= S.rounds; r++){
+    main.forEach((st, i) => {
+      runSteps.push({type:"work", st, round:r, pos:i+1, of:main.length});
+      const last = r === S.rounds && i === main.length-1;
+      if (S.rest > 0 && !last) runSteps.push({type:"rest", secs:S.rest, round:r});
+    });
+  }
+  cool.forEach((st, i) => runSteps.push({type:"work", st, round:0, pos:i+1, of:cool.length}));
+}
+function showRunStep(){
+  clearInterval(runTick); runTick = null;
+  if (runIdx >= runSteps.length){ endRun(true); return; }
+  const step = runSteps[runIdx];
+  const nxt = runSteps.slice(runIdx+1).find(s => s.type==="work");
+  $("runNext").textContent = nxt ? "Next: " + nxt.st.e.name : "Last one — finish strong";
+  if (step.type === "rest"){
+    $("runPhase").textContent = "REST";
+    $("runName").textContent = "";
+    $("runSide").textContent = "";
+    $("runPos").textContent = "";
+    $("runRound").textContent = "ROUND " + step.round + "/" + S.rounds;
+    $("runAmt").className = "rest";
+    let left = step.secs;
+    $("runAmt").textContent = left;
+    $("runGo").textContent = "SKIP REST »";
+    runTick = setInterval(() => {
+      left--;
+      $("runAmt").textContent = left;
+      if (left <= 3 && left > 0) beep(550, .08);
+      if (left <= 0){ beep(990, .25); buzz(80); next(); }
+    }, 1000);
+  } else {
+    const {st} = step;
+    $("runPhase").textContent = st.e.stretch ? "COOLDOWN" :
+      BUCKET_NAMES[st.e.bucket].toUpperCase();
+    $("runName").textContent = st.e.name;
+    $("runSide").textContent = st.e.perSide ? "EACH SIDE" : "";
+    $("runPos").textContent = "STATION " + step.pos + "/" + step.of;
+    $("runRound").textContent = step.round ? "ROUND " + step.round + "/" + S.rounds : "";
+    $("runAmt").className = "";
+    if (st.a.timed){
+      let left = st.a.n;
+      $("runAmt").textContent = left + "s";
+      $("runGo").textContent = "SKIP »";
+      beep(660, .1);
+      runTick = setInterval(() => {
+        left--;
+        $("runAmt").textContent = left + "s";
+        if (left <= 3 && left > 0) beep(660, .08);
+        if (left <= 0){
+          beep(990, .3); buzz([80,60,80]);
+          bumpTally(st.e, st.a);
+          next();
+        }
+      }, 1000);
+    } else {
+      $("runAmt").textContent = st.a.n;
+      $("runGo").textContent = "DONE ✓";
+    }
+  }
+}
+function next(){ runIdx++; showRunStep(); }
+$("runGo").onclick = () => {
+  const step = runSteps[runIdx];
+  if (step && step.type === "work" && !step.st.a.timed) bumpTally(step.st.e, step.st.a);
+  beep(880, .1); buzz(40);
+  next();
+};
+$("runQuit").onclick = () => endRun(false);
+function endRun(finished){
+  clearInterval(runTick); runTick = null;
+  $("run").classList.remove("on");
+  if (wakeLock){ wakeLock.release().catch(()=>{}); wakeLock = null; }
+  if (finished){
+    beep(990, .2); setTimeout(()=>beep(1320, .35), 220); buzz([100,80,100,80,200]);
+    alert("Circuit complete. Good work — hydrate.");
+  }
+}
+$("runBtn").onclick = () => {
+  buildRunSteps();
+  runIdx = 0;
+  $("run").classList.add("on");
+  grabWake();
+  showRunStep();
+};
+
+/* ---------- SETTINGS wiring ---------- */
+function togInit(id, key, cb){
+  const el = $(id);
+  el.checked = S[key];
+  el.onchange = () => { S[key] = el.checked; save(); updatePoolCount(); if (cb) cb(); };
+}
+togInit("jumpTog", "noJump");
+togInit("barTog", "bar");
+togInit("benchTog", "bench");
+togInit("strTog", "stretches");
+togInit("coolTog", "cooldown");
+segInit("intSeg", () => S.intensity, v => S.intensity = +v);
+segInit("lvlSeg", () => S.maxLevel, v => S.maxLevel = v);
+segInit("restSeg", () => S.rest, v => S.rest = +v);
+$("nSt").textContent = S.stations;
+$("nRd").textContent = S.rounds;
+document.querySelectorAll("#focusRow button").forEach(b => {
+  b.classList.toggle("on", S.focus.includes(b.dataset.b));
+  b.onclick = () => {
+    const on = S.focus.includes(b.dataset.b);
+    if (on && S.focus.length === 1) return;         // never allow an empty deck
+    S.focus = on ? S.focus.filter(x => x !== b.dataset.b) : S.focus.concat(b.dataset.b);
+    b.classList.toggle("on", !on);
+    save(); updatePoolCount();
+  };
+});
+updatePoolCount();
+</script>
+</body>
+</html>
