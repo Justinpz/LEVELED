@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#14171b">
+<title>PT Roulette — LEVELED</title>
+<style>
+  :root{
+    --bg:#14171b; --panel:#1d2229; --panel2:#242b34; --line:#323b47;
+    --ink:#e8e4d8; --dim:#8b94a1; --olive:#a3b45f; --tan:#d8c9a3; --red:#e05252;
+    --push:#e0a458; --legs:#7fb069; --core:#5bc0be; --pull:#b98fe0; --cardio:#e5625e;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0; padding:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    height:100%; overscroll-behavior:none}
+  body{display:flex; flex-direction:column; min-height:100dvh;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+  header{padding:14px 16px 10px; display:flex; align-items:baseline; justify-content:space-between}
+  h1{margin:0; font-size:20px; letter-spacing:3px; font-weight:800; color:var(--tan)}
+  h1 span{color:var(--olive)}
+  #tally{font-size:12px; color:var(--dim); text-align:right; line-height:1.4}
+  nav{display:flex; gap:6px; padding:0 12px 10px}
+  nav button{flex:1; padding:10px 0; background:var(--panel); color:var(--dim);
+    border:1px solid var(--line); border-radius:10px; font-size:13px; font-weight:700;
+    letter-spacing:1px; cursor:pointer}
+  nav button.on{background:var(--panel2); color:var(--tan); border-color:var(--olive)}
+  main{flex:1; overflow-y:auto; padding:4px 14px 24px}
+  .view{display:none} .view.on{display:block}
+
+  /* ---------- DRAW ---------- */
+  #card{position:relative; margin:6px auto 14px; max-width:420px; min-height:280px;
+    border-radius:18px; border:1px solid var(--line); background:var(--panel);
+    padding:22px 18px 18px; text-align:center; transition:transform .18s}
+  #card.flip{transform:rotateY(90deg)}
+  #card .corner{position:absolute; top:10px; left:14px; font-size:12px; font-weight:800;
+    letter-spacing:1px}
+  #card .corner.br{left:auto; right:14px; top:auto; bottom:10px; transform:rotate(180deg)}
+  .chips{display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin-bottom:10px}
+  .chip{font-size:11px; font-weight:800; letter-spacing:1px; padding:4px 10px;
+    border-radius:999px; background:var(--panel2); color:var(--dim); text-transform:uppercase}
+  .chip.b-push{color:var(--push)} .chip.b-legs{color:var(--legs)} .chip.b-core{color:var(--core)}
+  .chip.b-pull{color:var(--pull)} .chip.b-cardio{color:var(--cardio)}
+  #exName{font-size:26px; font-weight:800; margin:6px 0 4px; line-height:1.15}
+  #exAmt{font-size:52px; font-weight:900; color:var(--olive); margin:8px 0 2px}
+  #exAmt small{font-size:18px; color:var(--dim); font-weight:700}
+  #exSide{font-size:13px; color:var(--tan); font-weight:700; letter-spacing:1px; min-height:18px}
+  details{margin-top:12px; text-align:left; background:var(--panel2); border-radius:10px;
+    padding:10px 12px; font-size:14px; color:var(--dim)}
+  details summary{cursor:pointer; color:var(--tan); font-weight:700; font-size:13px;
+    letter-spacing:1px; list-style:none}
+  details ol{margin:8px 0 2px; padding-left:18px; line-height:1.45}
+  #placeholder{color:var(--dim); font-size:15px; padding:60px 10px; line-height:1.6}
+  .btnrow{display:flex; gap:10px; max-width:420px; margin:0 auto}
+  .big{flex:1; padding:16px 0; border:none; border-radius:14px; font-size:17px;
+    font-weight:800; letter-spacing:2px; cursor:pointer}
+  #drawBtn{background:var(--olive); color:#161a10}
+  #doneBtn{background:var(--panel2); color:var(--olive); border:1px solid var(--olive)}
+  #skipBtn{flex:0 0 92px; background:var(--panel); color:var(--dim); border:1px solid var(--line)}
+  #timerBtn{margin:12px auto 0; display:none; padding:12px 26px; border-radius:12px;
+    border:1px solid var(--core); background:var(--panel2); color:var(--core);
+    font-size:15px; font-weight:800; letter-spacing:1px; cursor:pointer}
+
+  /* ---------- CIRCUIT ---------- */
+  .row{display:flex; align-items:center; justify-content:space-between; gap:10px;
+    background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:12px 14px; margin-bottom:8px}
+  .row label{font-size:14px; font-weight:600}
+  .row .sub{display:block; font-size:11px; color:var(--dim); font-weight:400; margin-top:2px}
+  .stepper{display:flex; align-items:center; gap:10px}
+  .stepper button{width:34px; height:34px; border-radius:9px; border:1px solid var(--line);
+    background:var(--panel2); color:var(--tan); font-size:18px; font-weight:800; cursor:pointer}
+  .stepper b{min-width:26px; text-align:center; font-size:16px}
+  .seg{display:flex; gap:4px}
+  .seg button{padding:7px 12px; border-radius:9px; border:1px solid var(--line);
+    background:var(--panel2); color:var(--dim); font-size:12px; font-weight:700; cursor:pointer}
+  .seg button.on{color:var(--tan); border-color:var(--olive)}
+  #genBtn{width:100%; margin:6px 0 14px; background:var(--olive); color:#161a10}
+  #circuitList .st{display:flex; align-items:center; gap:10px; background:var(--panel);
+    border:1px solid var(--line); border-radius:12px; padding:10px 12px; margin-bottom:6px}
+  #circuitList .st .n{flex:1; font-size:14px; font-weight:600}
+  #circuitList .st .n small{display:block; color:var(--dim); font-weight:400; margin-top:1px}
+  #circuitList .st .amt{font-weight:800; color:var(--olive); font-size:15px; white-space:nowrap}
+  #circuitList .st .re{border:none; background:none; color:var(--dim); font-size:17px; cursor:pointer}
+  .dot{width:8px; height:8px; border-radius:99px; flex:0 0 8px}
+  .d-push{background:var(--push)} .d-legs{background:var(--legs)} .d-core{background:var(--core)}
+  .d-pull{background:var(--pull)} .d-cardio{background:var(--cardio)} .d-stretch{background:var(--tan)}
+  #runBtn{width:100%; background:var(--red); color:#fff; display:none}
+
+  /* ---------- RUN OVERLAY ---------- */
+  #run{position:fixed; inset:0; background:var(--bg); z-index:50; display:none;
+    flex-direction:column; padding:calc(14px + env(safe-area-inset-top)) 18px calc(18px + env(safe-area-inset-bottom))}
+  #run.on{display:flex}
+  #runTop{display:flex; justify-content:space-between; color:var(--dim); font-size:13px;
+    font-weight:700; letter-spacing:1px}
+  #runMid{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; gap:6px}
+  #runPhase{font-size:13px; letter-spacing:3px; font-weight:800; color:var(--dim)}
+  #runName{font-size:30px; font-weight:800; line-height:1.15}
+  #runAmt{font-size:72px; font-weight:900; color:var(--olive)}
+  #runAmt.rest{color:var(--core)}
+  #runSide{font-size:14px; color:var(--tan); font-weight:700; min-height:20px}
+  #runNext{font-size:13px; color:var(--dim)}
+  #runBtns{display:flex; gap:10px}
+  #runGo{flex:1; padding:18px 0; border:none; border-radius:14px; background:var(--olive);
+    color:#161a10; font-size:18px; font-weight:800; letter-spacing:2px; cursor:pointer}
+  #runQuit{flex:0 0 80px; background:none; border:1px solid var(--line); border-radius:14px;
+    color:var(--dim); font-weight:700; cursor:pointer}
+
+  /* ---------- SETTINGS ---------- */
+  .switch{position:relative; width:46px; height:26px; flex:0 0 46px}
+  .switch input{opacity:0; width:0; height:0}
+  .switch i{position:absolute; inset:0; background:var(--panel2); border:1px solid var(--line);
+    border-radius:99px; transition:.15s}
+  .switch i:before{content:""; position:absolute; width:18px; height:18px; left:3px; top:3px;
+    border-radius:99px; background:var(--dim); transition:.15s}
+  .switch input:checked + i{background:#39421f; border-color:var(--olive)}
+  .switch input:checked + i:before{transform:translateX(20px); background:var(--olive)}
+  .focus{display:flex; gap:6px; flex-wrap:wrap}
+  .focus button{padding:8px 13px; border-radius:999px; border:1px solid var(--line);
+    background:var(--panel2); color:var(--dim); font-size:12px; font-weight:800;
+    letter-spacing:1px; cursor:pointer; text-transform:uppercase}
+  .focus button.on.b-push{color:var(--push); border-color:var(--push)}
+  .focus button.on.b-legs{color:var(--legs); border-color:var(--legs)}
+  .focus button.on.b-core{color:var(--core); border-color:var(--core)}
+  .focus button.on.b-pull{color:var(--pull); border-color:var(--pull)}
+  .focus button.on.b-cardio{color:var(--cardio); border-color:var(--cardio)}
+  .note{font-size:12px; color:var(--dim); margin:2px 2px 12px; line-height:1.5}
+  #poolCount{color:var(--olive); font-weight:700}
+</style>
+</head>
+<body>
+<header>
+  <h1>PT<span>ROULETTE</span></h1>
+  <div id="tally">0 exercises<br>0 reps · 0:00 held</div>
+</header>
+<nav>
+  <button id="tab-draw" class="on">DRAW</button>
+  <button id="tab-circuit">CIRCUIT</button>
+  <button id="tab-set">SETTINGS</button>
+</nav>
+<main>
+
+  <section id="view-draw" class="view on">
+    <div id="card">
+      <div id="placeholder">Tap <b style="color:var(--olive)">DRAW</b> and the deck picks your next exercise.<br><br>
+        Everyone does what the card says. No arguing with the deck.</div>
+      <div id="cardInner" style="display:none">
+        <div class="corner" id="cA">♠</div><div class="corner br" id="cB">♠</div>
+        <div class="chips" id="exChips"></div>
+        <div id="exName"></div>
+        <div id="exAmt"></div>
+        <div id="exSide"></div>
+        <button id="timerBtn">▶ START TIMER</button>
+        <details id="exHow"><summary>HOW TO DO IT</summary><ol id="exIns"></ol></details>
+      </div>
+    </div>
+    <div class="btnrow">
+      <button class="big" id="drawBtn">DRAW</button>
+      <button class="big" id="doneBtn" style="display:none">DONE ✓</button>
+      <button class="big" id="skipBtn" style="display:none">SKIP</button>
+    </div>
+  </section>
+
+  <section id="view-circuit" class="view">
+    <div class="row"><label>Stations</label>
+      <div class="stepper"><button data-s="-1">−</button><b id="nSt">6</b><button data-s="1">+</button></div></div>
+    <div class="row"><label>Rounds</label>
+      <div class="stepper"><button data-r="-1">−</button><b id="nRd">2</b><button data-r="1">+</button></div></div>
+    <div class="row"><label>Rest between stations</label>
+      <div class="seg" id="restSeg">
+        <button data-v="0">None</button><button data-v="15" class="on">15s</button><button data-v="30">30s</button>
+      </div></div>
+    <div class="row"><label>Finish with stretches<span class="sub">appends a 4-stretch cooldown</span></label>
+      <label class="switch"><input type="checkbox" id="coolTog"><i></i></label></div>
+    <button class="big" id="genBtn">BUILD CIRCUIT</button>
+    <div id="circuitList"></div>
+    <button class="big" id="runBtn">RUN IT ▶</button>
+  </section>
+
+  <section id="view-set" class="view">
+    <div class="row"><label>Intensity</label>
+      <div class="seg" id="intSeg">
+        <button data-v="0.6">Warm-up</button><button data-v="1" class="on">Standard</button><button data-v="1.5">Smoke</button>
+      </div></div>
+    <div class="row"><label>No jumping<span class="sub">hides all jump/impact moves — profile friendly</span></label>
+      <label class="switch"><input type="checkbox" id="jumpTog" checked><i></i></label></div>
+    <div class="row"><label>Difficulty ceiling</label>
+      <div class="seg" id="lvlSeg">
+        <button data-v="beginner">Basic</button><button data-v="intermediate" class="on">Standard</button><button data-v="expert">All</button>
+      </div></div>
+    <div class="row"><label>Pull-up bar available<span class="sub">adds pull-ups, hanging raises, dips</span></label>
+      <label class="switch"><input type="checkbox" id="barTog"><i></i></label></div>
+    <div class="row"><label>Bench / step available<span class="sub">adds incline push-ups, step-ups, declines</span></label>
+      <label class="switch"><input type="checkbox" id="benchTog"><i></i></label></div>
+    <div class="row"><label>Include stretches in the deck<span class="sub">off = stretches only appear in cooldown</span></label>
+      <label class="switch"><input type="checkbox" id="strTog"><i></i></label></div>
+    <div class="row" style="flex-direction:column; align-items:stretch">
+      <label style="margin-bottom:8px">Target areas</label>
+      <div class="focus" id="focusRow">
+        <button class="on b-push" data-b="push">Push</button>
+        <button class="on b-legs" data-b="legs">Legs</button>
+        <button class="on b-core" data-b="core">Core</button>
+        <button class="on b-pull" data-b="pull">Pull</button>
+        <button class="on b-cardio" data-b="cardio">Cardio</button>
+      </div></div>
+    <p class="note"><span id="poolCount">0</span> exercises in the current deck. Exercise library and
+      instructions come from the LEVELED 873-exercise database (bodyweight-only pool).</p>
+    <p class="note" style="color:#6e7783">Not medical advice — anyone on a physical profile trains within
+      the limits of that profile. Skip any card that violates it; the deck always has another one.</p>
+  </section>
+</main>
+
+<div id="run">
+  <div id="runTop"><span id="runPos"></span><span id="runRound"></span></div>
+  <div id="runMid">
+    <div id="runPhase"></div>
+    <div id="runName"></div>
+    <div id="runAmt"></div>
+    <div id="runSide"></div>
+    <div id="runNext"></div>
+  </div>
+  <div id="runBtns">
+    <button id="runGo">DONE ✓</button>
+    <button id="runQuit">QUIT</button>
+  </div>
+</div>
+
+<script>
+/*PT_DATA_START*/const POOL=[{"name":"3/4 Sit-Up","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":15,"stretch":false,"instructions":["Lie down on the floor and secure your feet. Your legs should be bent at the knees.","Place your hands behind or to the side of your head. You will begin with your back on the ground. This will be your starting position.","Flex your hips and spine to raise your torso toward your knees.","At the top of the contraction your torso should be perpendicular to the ground. Reverse the motion, going only \u00be of the way down.","Repeat for the recommended amount of repetitions."]},{"name":"90/90 Hamstring","bucket":"legs","level":"beginner","timed":true,"perSide":true,"impact":false,"needs":null,"base":25,"stretch":true,"instructions":["Lie on your back, with one leg extended straight out.","With the other leg, bend the hip and knee to 90 degrees. You may brace your leg with your hands if necessary. This will be your starting position.","Extend your leg straight into the air, pausing briefly at the top. Return the leg to the starting position.","Repeat for 10-20 repetitions, and then switch to the other leg."]},{"name":"Air Bike","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Lie flat on the floor with your lower back pressed to the ground. For this exercise, you will need to put your hands beside your head. Be careful however to not strain with the neck as you perform it. Now lift your shoulders into the crunch position.","Bring knees up to where they are perpendicular to the floor, with your lower legs parallel to the floor. This will be your starting position.","Now simultaneously, slowly go through a cycle pedal motion kicking forward with the right leg and bringing in the knee of the left leg. Bring your right elbow close to your left knee by crunching to the side, as you breathe out.","Go back to the initial position as you breathe in.","Crunch to the opposite side as you cycle your legs and bring closer your left elbow to your right knee and exhale.","Continue alternating in this manner until all of the recommended repetitions for each side have been completed."]},{"name":"All Fours Quad Stretch","bucket":"legs","level":"intermediate","timed":true,"perSide":true,"impact":false,"needs":null,"base":25,"stretch":true,"instructions":["Start off on your hands and knees, then lift your leg off the floor and hold the foot with your hand.","Use your hand to hold the foot or ankle, keeping the knee fully flexed, stretching the quadriceps and hip flexors.","Focus on extending your hips, thrusting them towards the floor. Hold for 10-20 seconds and then switch sides."]},{"name":"Alternate Heel Touchers","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Lie on the floor with the knees bent and the feet on the floor around 18-24 inches apart. Your arms should be extended by your side. This will be your starting position.","Crunch over your torso forward and up about 3-4 inches to the right side and touch your right heel as you hold the contraction for a second. Exhale while performing this movement.","Now go back slowly to the starting position as you inhale.","Now crunch over your torso forward and up around 3-4 inches to the left side and touch your left heel as you hold the contraction for a second. Exhale while performing this movement and then go back to the starting position as you inhale. Now that both heels have been touched, that is considered 1 repetition.","Continue alternating sides in this manner until all prescribed repetitions are done."]},{"name":"Arm Circles","bucket":"push","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":30,"stretch":false,"instructions":["Stand with arms extended straight out to the sides.","Make small circles forward, gradually growing larger.","Reverse direction halfway through the time."]},{"name":"Bear Crawl","bucket":"cardio","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":30,"stretch":false,"instructions":["Start on hands and feet with knees bent and hovering just off the ground.","Crawl forward moving opposite hand and foot together.","Keep your back flat and hips low; crawl backward to return."]},{"name":"Bench Dips","bucket":"push","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bench","base":12,"stretch":false,"instructions":["For this exercise you will need to place a bench behind your back. With the bench perpendicular to your body, and while looking away from it, hold on to the bench on its edge with the hands fully extended, separated at shoulder width. The legs will be extended forward, bent at the waist and perpendicular to your torso. This will be your starting position.","Slowly lower your body as you inhale by bending at the elbows until you lower yourself far enough to where there is an angle slightly smaller than 90 degrees between the upper arm and the forearm. Tip: Keep the elbows as close as possible throughout the movement. Forearms should always be pointing down.","Using your triceps to bring your torso up again, lift yourself back to the starting position.","Repeat for the recommended amount of repetitions."]},{"name":"Bench Jump","bucket":"cardio","level":"intermediate","timed":false,"perSide":false,"impact":true,"needs":"bench","base":10,"stretch":false,"instructions":["Begin with a box or bench 1-2 feet in front of you. Stand with your feet shoulder width apart. This will be your starting position.","Perform a short squat in preparation for the jump; swing your arms behind you.","Rebound out of this position, extending through the hips, knees, and ankles to jump as high as possible. Swing your arms forward and up.","Jump over the bench, landing with the knees bent, absorbing the impact through the legs.","Turn around and face the opposite direction, then jump back over the bench."]},{"name":"Bent-Knee Hip Raise","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Lay flat on the floor with your arms next to your sides.","Now bend your knees at around a 75 degree angle and lift your feet off the floor by around 2 inches.","Using your lower abs, bring your knees in towards you as you maintain the 75 degree angle bend in your legs. Continue this movement until you raise your hips off of the floor by rolling your pelvis backward. Breathe out as you perform this portion of the movement. Tip: At the end of the movement your knees will be over your chest.","Squeeze your abs at the top of the movement for a second and then return to the starting position slowly as you breathe in. Tip: Maintain a controlled motion at all times.","Repeat for the recommended amount of repetitions."]},{"name":"Body-Up","bucket":"push","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":null,"base":8,"stretch":false,"instructions":["Assume a plank position on the ground. You should be supporting your bodyweight on your toes and forearms, keeping your torso straight. Your forearms should be shoulder-width apart. This will be your starting position.","Pressing your palms firmly into the ground, extend through the elbows to raise your body from the ground. Keep your torso rigid as you perform the movement.","Slowly lower your forearms back to the ground by allowing the elbows to flex.","Repeat."]},{"name":"Bodyweight Squat","bucket":"legs","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Stand with your feet shoulder width apart. You can place your hands behind your head. This will be your starting position.","Begin the movement by flexing your knees and hips, sitting back with your hips.","Continue down to full depth if you are able,and quickly reverse the motion until you return to the starting position. As you squat, keep your head and chest up and push your knees out."]},{"name":"Bottoms Up","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Begin by lying on your back on the ground. Your legs should be straight and your arms at your side. This will be your starting position.","To perform the movement, tuck the knees toward your chest by flexing the hips and knees. Following this, extend your legs directly above you so that they are perpendicular to the ground. Rotate and elevate your pelvis to raise your glutes from the floor.","After a brief pause, return to the starting position."]},{"name":"Burpee","bucket":"cardio","level":"intermediate","timed":false,"perSide":false,"impact":true,"needs":null,"base":10,"stretch":false,"instructions":["From standing, squat down and place your hands on the ground.","Kick your feet back into a push-up position and perform one push-up.","Jump your feet back to your hands, then jump straight up with arms overhead."]},{"name":"Butt Lift (Bridge)","bucket":"legs","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Lie flat on the floor on your back with the hands by your side and your knees bent. Your feet should be placed around shoulder width. This will be your starting position.","Pushing mainly with your heels, lift your hips off the floor while keeping your back straight. Breathe out as you perform this part of the motion and hold at the top for a second.","Slowly go back to the starting position as you breathe in."]},{"name":"Butt-Ups","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Begin a pushup position but with your elbows on the ground and resting on your forearms. Your arms should be bent at a 90 degree angle.","Arch your back slightly out rather than keeping your back completely straight.","Raise your glutes toward the ceiling, squeezing your abs tightly to close the distance between your ribcage and hips. The end result will be that you'll end up in a high bridge position. Exhale as you perform this portion of the movement.","Lower back down slowly to your starting position as you breathe in. Tip: Don't let your back sag downwards.","Repeat for the recommended amount of repetitions."]},{"name":"Chin-Up","bucket":"pull","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bar","base":6,"stretch":false,"instructions":["Grab the pull-up bar with the palms facing your torso and a grip closer than the shoulder width.","As you have both arms extended in front of you holding the bar at the chosen grip width, keep your torso as straight as possible while creating a curvature on your lower back and sticking your chest out. This is your starting position. Tip: Keeping the torso as straight as possible maximizes biceps stimulation while minimizing back involvement.","As you breathe out, pull your torso up until your head is around the level of the pull-up bar. Concentrate on using the biceps muscles in order to perform the movement. Keep the elbows close to your body. Tip: The upper torso should remain stationary as it moves through space and only the arms should move. The forearms should do no other work other than hold the bar.","After a second of squeezing the biceps in the contracted position, slowly lower your torso back to the starting position; when your arms are fully extended. Breathe in as you perform this portion of the movement.","Repeat this motion for the prescribed amount of repetitions."]},{"name":"Clock Push-Up","bucket":"push","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":null,"base":8,"stretch":false,"instructions":["Move into a prone position on the floor, supporting your weight on your hands and toes.","Your arms should be fully extended with the hands around shoulder width. Keep your body straight throughout the movement. This will be your starting position.","Descend by flexing at the elbow, lowering your chest toward the ground.","At the bottom, reverse the motion by pushing yourself up through elbow extension as quickly as possible until you are air borne. Aim to \"jump\" 12-18 inches to one side.","As you accelerate up, move your outside foot away from your direction of travel. Leaving the ground, shift your body about 30 degrees for the next repetition.","Return to the starting position and repeat the exercise, working all the way around until you are back where you started."]},{"name":"Cocoons","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Begin by lying on your back on the ground. Your legs should be straight and your arms extended behind your head. This will be your starting position.","To perform the movement, tuck the knees toward your chest, rotating your pelvis to lift your glutes from the floor. As you do so, flex the spine, bringing your arms back over your head to perform a simultaneous crunch motion.","After a brief pause, return to the starting position."]},{"name":"Cross-Body Crunch","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Lie flat on your back and bend your knees about 60 degrees.","Keep your feet flat on the floor and place your hands loosely behind your head. This will be your starting position.","Now curl up and bring your right elbow and shoulder across your body while bring your left knee in toward your left shoulder at the same time. Reach with your elbow and try to touch your knee. Exhale as you perform this movement. Tip: Try to bring your shoulder up towards your knee rather than just your elbow and remember that the key is to contract the abs as you perform the movement; not just to move the elbow.","Now go back down to the starting position as you inhale and repeat with the left elbow and the right knee.","Continue alternating in this manner until all prescribed repetitions are done."]},{"name":"Crunch - Hands Overhead","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Lie on the floor with your back flat and knees bent with around a 60-degree angle between the hamstrings and the calves.","Keep your feet flat on the floor and stretch your arms overhead with your palms crossed. This will be your starting position.","Curl your upper body forward and bring your shoulder blades just off the floor. At all times, keep your arms aligned with your head, neck and shoulder. Don't move them forward from that position. Exhale as you perform this portion of the movement and hold the contraction for a second.","Slowly lower down to the starting position as you inhale.","Repeat for the recommended amount of repetitions."]},{"name":"Crunches","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Lie flat on your back with your feet flat on the ground, or resting on a bench with your knees bent at a 90 degree angle. If you are resting your feet on a bench, place them three to four inches apart and point your toes inward so they touch.","Now place your hands lightly on either side of your head keeping your elbows in. Tip: Don't lock your fingers behind your head.","While pushing the small of your back down in the floor to better isolate your abdominal muscles, begin to roll your shoulders off the floor.","Continue to push down as hard as you can with your lower back as you contract your abdominals and exhale. Your shoulders should come up off the floor only about four inches, and your lower back should remain on the floor. At the top of the movement, contract your abdominals hard and keep the contraction for a second. Tip: Focus on slow, controlled movement - don't cheat yourself by using momentum.","After the one second contraction, begin to come down slowly again to the starting position as you inhale.","Repeat for the recommended amount of repetitions."]},{"name":"Dead Bug","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":10,"stretch":false,"instructions":["Begin lying on your back with your hands extended above you toward the ceiling.","Bring your feet, knees, and hips up to 90 degrees.","Exhale hard to bring your ribcage down and flatten your back onto the floor, rotating your pelvis up and squeezing your glutes. Hold this position throughout the movement. This will be your starting position.","Initiate the exercise by extending one leg, straightening the knee and hip to bring the leg just above the ground.","Maintain the position of your lumbar and pelvis as you perform the movement, as your back is going to want to arch.","Stay tight and return the working leg to the starting position.","Repeat on the opposite side, alternating until the set is complete."]},{"name":"Decline Crunch","bucket":"core","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":"bench","base":12,"stretch":false,"instructions":["Secure your legs at the end of the decline bench and lie down.","Now place your hands lightly on either side of your head keeping your elbows in. Tip: Don't lock your fingers behind your head.","While pushing the small of your back down in the bench to better isolate your abdominal muscles, begin to roll your shoulders off it.","Continue to push down as hard as you can with your lower back as you contract your abdominals and exhale. Your shoulders should come up off the bench only about four inches, and your lower back should remain on the bench. At the top of the movement, contract your abdominals hard and keep the contraction for a second. Tip: Focus on slow, controlled movement - don't cheat yourself by using momentum.","After the one second contraction, begin to come down slowly again to the starting position as you inhale.","Repeat for the recommended amount of repetitions."]},{"name":"Decline Oblique Crunch","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bench","base":20,"stretch":false,"instructions":["Secure your legs at the end of the decline bench and slowly lay down on the bench.","Raise your upper body off the bench until your torso is about 35-45 degrees if measured from the floor.","Put one hand beside your head and the other on your thigh. This will be your starting position.","Raise your upper body slowly from the starting position while turning your torso to the left. Continue crunching up as you exhale until your right elbow touches your left knee. Hold this contracted position for a second. Tip: Focus on keeping your abs tight and keeping the movement slow and controlled.","Lower your body back down slowly to the starting position as you inhale.","After completing one set on the right for the recommended amount of repetitions, switch to your left side. Tip: Focus on really twisting your torso and feeling the contraction when you are in the up position."]},{"name":"Decline Reverse Crunch","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bench","base":20,"stretch":false,"instructions":["Lie on your back on a decline bench and hold on to the top of the bench with both hands. Don't let your body slip down from this position.","Hold your legs parallel to the floor using your abs to hold them there while keeping your knees and feet together. Tip: Your legs should be fully extended with a slight bend on the knee. This will be your starting position.","While exhaling, move your legs towards the torso as you roll your pelvis backwards and you raise your hips off the bench. At the end of this movement your knees will be touching your chest.","Hold the contraction for a second and move your legs back to the starting position while inhaling.","Repeat for the recommended amount of repetitions."]},{"name":"Dips - Triceps Version","bucket":"push","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bar","base":8,"stretch":false,"instructions":["To get into the starting position, hold your body at arm's length with your arms nearly locked above the bars.","Now, inhale and slowly lower yourself downward. Your torso should remain upright and your elbows should stay close to your body. This helps to better focus on tricep involvement. Lower yourself until there is a 90 degree angle formed between the upper arm and forearm.","Then, exhale and push your torso back up using your triceps to bring your body back to the starting position.","Repeat the movement for the prescribed amount of repetitions."]},{"name":"Double Leg Butt Kick","bucket":"cardio","level":"beginner","timed":false,"perSide":false,"impact":true,"needs":null,"base":15,"stretch":false,"instructions":["Begin standing with your knees slightly bent.","Quickly squat a short distance, flexing the hips and knees, and immediately extend to jump for maximum vertical height.","As you go up, tuck your heels by flexing the knees, attempting to touch the buttocks.","Finish the motion by landing with the knees only partially bent, using your legs to absorb the impact."]},{"name":"Elbow to Knee","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Lie on the floor, crossing your right leg across your bent left knee. Clasp your hands behind your head, beginning with your shoulder blades on the ground. This will be your starting position.","Perform the motion by flexing the spine and rotating your torso to bring the left elbow to the right knee.","Return to the starting position and repeat the movement for the desired number of repetitions before switching sides."]},{"name":"Fast Skipping","bucket":"cardio","level":"beginner","timed":false,"perSide":false,"impact":true,"needs":null,"base":15,"stretch":false,"instructions":["Start in a relaxed position with one leg slightly forward. This will be your starting position.","Skip by executing a step-hop pattern of right-right-step to left-left-step, and so on, alternating back and forth.","Perform fast skips by maintaining close contact with the ground and reduce air time, moving as quickly as possible."]},{"name":"Flat Bench Leg Pull-In","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bench","base":20,"stretch":false,"instructions":["Lie on an exercise mat or a flat bench with your legs off the end.","Place your hands either under your glutes with your palms down or by the sides holding on to the bench (or with palms down by the side on an exercise mat). Also extend your legs straight out. This will be your starting position.","Bend your knees and pull your upper thighs into your midsection as you breathe out. Continue this movement until your knees are near your chest. Hold the contracted position for a second.","As you breathe in, slowly return to the starting position.","Repeat for the recommended amount of repetitions."]},{"name":"Flat Bench Lying Leg Raise","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bench","base":20,"stretch":false,"instructions":["Lie with your back flat on a bench and your legs extended in front of you off the end.","Place your hands either under your glutes with your palms down or by the sides holding on to the bench. This will be your starting position.","As you keep your legs extended, straight as possible with your knees slightly bent but locked raise your legs until they make a 90-degree angle with the floor. Exhale as you perform this portion of the movement and hold the contraction at the top for a second.","Now, as you inhale, slowly lower your legs back down to the starting position."]},{"name":"Flutter Kicks","bucket":"legs","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["On a flat bench lie facedown with the hips on the edge of the bench, the legs straight with toes high off the floor and with the arms on top of the bench holding on to the front edge.","Squeeze your glutes and hamstrings and straighten the legs until they are level with the hips. This will be your starting position.","Start the movement by lifting the left leg higher than the right leg.","Then lower the left leg as you lift the right leg.","Continue alternating in this manner (as though you are doing a flutter kick in water) until you have done the recommended amount of repetitions for each leg. Make sure that you keep a controlled movement at all times. Tip: You will breathe normally as you perform this movement."]},{"name":"Forward Lunge","bucket":"legs","level":"beginner","timed":false,"perSide":true,"impact":false,"needs":null,"base":10,"stretch":false,"instructions":["Stand tall, then step forward with one leg.","Lower until both knees are bent about 90 degrees; keep the front knee over the ankle.","Push off the front foot to return to standing and switch legs."]},{"name":"Freehand Jump Squat","bucket":"legs","level":"intermediate","timed":false,"perSide":false,"impact":true,"needs":null,"base":15,"stretch":false,"instructions":["Cross your arms over your chest.","With your head up and your back straight, position your feet at shoulder width.","Keeping your back straight and chest up, squat down as you inhale until your upper thighs are parallel, or lower, to the floor.","Now pressing mainly with the ball of your feet, jump straight up in the air as high as possible, using the thighs like springs. Exhale during this portion of the movement.","When you touch the floor again, immediately squat down and jump again.","Repeat for the recommended amount of repetitions."]},{"name":"Frog Sit-Ups","bucket":"core","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":null,"base":12,"stretch":false,"instructions":["Lie with your back flat on the floor (or exercise mat) and your legs extended in front of you.","Now bend at the knees and place your outer thighs by the floor (or mat) as you make the soles of your feet touch each other.","Now try pushing both soles and bringing them up as near you as possible while you keep the outer thighs on the floor (or at least almost touching it). Tip: In this position your legs should create a diamond shape.","Now, cross your arms in front of you by touching the opposite shoulders. This will be your starting position.","As you exhale flatten your lower back to the floor while curling the torso upwards. Tip: This will be like performing the first 1/4 movement of a sit up. Hold at the top position for a second.","As you inhale, slowly lower back to the starting position.","Repeat for the recommended amount of repetitions."]},{"name":"Front Leg Raises","bucket":"legs","level":"beginner","timed":false,"perSide":true,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["Stand next to a chair or other support, holding on with one hand.","Swing your leg forward, keeping the leg straight. Continue with a downward swing, bringing the leg as far back as your flexibility allows. Repeat 5-10 times, and then switch legs."]},{"name":"Glute Kickback","bucket":"legs","level":"beginner","timed":false,"perSide":true,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Kneel on the floor or an exercise mat and bend at the waist with your arms extended in front of you (perpendicular to the torso) in order to get into a kneeling push-up position but with the arms spaced at shoulder width. Your head should be looking forward and the bend of the knees should create a 90-degree angle between the hamstrings and the calves. This will be your starting position.","As you exhale, lift up your right leg until the hamstrings are in line with the back while maintaining the 90-degree angle bend. Contract the glutes throughout this movement and hold the contraction at the top for a second. Tip: At the end of the movement the upper leg should be parallel to the floor while the calf should be perpendicular to it.","Go back to the initial position as you inhale and now repeat with the left leg.","Continue to alternate legs until all of the recommended repetitions have been performed."]},{"name":"Gorilla Chin/Crunch","bucket":"core","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":"bar","base":12,"stretch":false,"instructions":["Hang from a chin-up bar using an underhand grip (palms facing you) that is slightly wider than shoulder width.","Now bend your knees at a 90 degree angle so that the calves are parallel to the floor while the thighs remain perpendicular to it. This will be your starting position.","As you exhale, pull yourself up while crunching your knees up at the same time until your knees are at chest level. You will stop going up as soon as your nose is at the same level as the bar. Tip: When you get to this point you should also be finishing the crunch at the same time.","Slowly start to inhale as you return to the starting position.","Repeat for the recommended amount of repetitions."]},{"name":"Groiners","bucket":"legs","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":null,"base":12,"stretch":true,"instructions":["Begin in a pushup position on the floor. This will be your starting position.","Using both legs, jump forward landing with your feet next to your hands. Keep your head up as you do so.","Return to the starting position and immediately repeat the movement, continuing for 10-20 repetitions."]},{"name":"Handstand Push-Ups","bucket":"push","level":"expert","timed":false,"perSide":false,"impact":false,"needs":null,"base":5,"stretch":false,"instructions":["With your back to the wall bend at the waist and place both hands on the floor at shoulder width.","Kick yourself up against the wall with your arms straight. Your body should be upside down with the arms and legs fully extended. Keep your whole body as straight as possible. Tip: If doing this for the first time, have a spotter help you. Also, make sure that you keep facing the wall with your head, rather than looking down.","Slowly lower yourself to the ground as you inhale until your head almost touches the floor. Tip: It is of utmost importance that you come down slow in order to avoid head injury.","Push yourself back up slowly as you exhale until your elbows are nearly locked.","Repeat for the recommended amount of repetitions."]},{"name":"Hanging Leg Raise","bucket":"core","level":"expert","timed":false,"perSide":false,"impact":false,"needs":"bar","base":8,"stretch":false,"instructions":["Hang from a chin-up bar with both arms extended at arms length in top of you using either a wide grip or a medium grip. The legs should be straight down with the pelvis rolled slightly backwards. This will be your starting position.","Raise your legs until the torso makes a 90-degree angle with the legs. Exhale as you perform this movement and hold the contraction for a second or so.","Go back slowly to the starting position as you breathe in.","Repeat for the recommended amount of repetitions."]},{"name":"Hanging Pike","bucket":"core","level":"expert","timed":false,"perSide":false,"impact":false,"needs":"bar","base":8,"stretch":false,"instructions":["Hang from a chin-up bar with your legs and feet together using an overhand grip (palms facing away from you) that is slightly wider than shoulder width. Tip: You may use wrist wraps in order to facilitate holding on to the bar.","Now bend your knees at a 90 degree angle and bring the upper legs forward so that the calves are perpendicular to the floor while the thighs remain parallel to it. This will be your starting position.","Pull your legs up as you exhale until you almost touch your shins with the bar above you. Tip: Try to straighten your legs as much as possible while at the top.","Lower your legs as slowly as possible until you reach the starting position. Tip: Avoid swinging and using momentum at all times.","Repeat for the recommended amount of repetitions."]},{"name":"Hip Circles (prone)","bucket":"legs","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["Position yourself on your hands and knees on the ground. Maintaining good posture, raise one bent knee off of the ground. This will be your starting position.","Keeping the knee in a bent position, rotate the femur in an arc, attempting to make a big circle with your knee.","Perform this slowly for a number of repetitions, and repeat on the other side."]},{"name":"Inchworm","bucket":"legs","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["Stand with your feet close together. Keeping your legs straight, stretch down and put your hands on the floor directly in front of you. This will be your starting position.","Begin by walking your hands forward slowly, alternating your left and your right. As you do so, bend only at the hip, keeping your legs straight.","Keep going until your body is parallel to the ground in a pushup position.","Now, keep your hands in place and slowly take short steps with your feet, moving only a few inches at a time.","Continue walking until your feet are by hour hands, keeping your legs straight as you do so."]},{"name":"Incline Push-Up","bucket":"push","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bench","base":12,"stretch":false,"instructions":["Stand facing bench or sturdy elevated platform. Place hands on edge of bench or platform, slightly wider than shoulder width.","Position forefoot back from bench or platform with arms and body straight. Arms should be perpendicular to body. Keeping body straight, lower chest to edge of box or platform by bending arms.","Push body up until arms are extended. Repeat."]},{"name":"Incline Push-Up Close-Grip","bucket":"push","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bench","base":12,"stretch":false,"instructions":["Stand facing a Smith machine bar or sturdy elevated platform at an appropriate height.","Place your hands next to one another on the bar.","Position your feet back from the bar with arms and body straight. This will be your starting position.","Keeping your body straight, lower your chest to the bar by bending the arms.","Return to the starting position by extending the elbows, pressing yourself back up."]},{"name":"Incline Push-Up Medium","bucket":"push","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bench","base":12,"stretch":false,"instructions":["Stand facing a Smith machine bar or sturdy elevated platform at an appropriate height.","Place your hands on the bar, with your hands about shoulder width apart.","Position your feet back from the bar with arms and body straight. This will be your starting position.","Keeping your body straight, lower your chest to the bar by bending the arms.","Return to the starting position by extending the elbows, pressing yourself back up."]},{"name":"Incline Push-Up Reverse Grip","bucket":"push","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bench","base":12,"stretch":false,"instructions":["Stand facing a Smith machine bar or sturdy elevated platform at an appropriate height.","Place your hands on the bar palms up, with your hands about shoulder width apart.","Position your feet back from the bar with arms and body straight. This will be your starting position.","Keeping your body straight, lower your chest to the bar by bending the arms.","Return to the starting position by extending the elbows, pressing yourself back up."]},{"name":"Incline Push-Up Wide","bucket":"push","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bench","base":12,"stretch":false,"instructions":["Stand facing a Smith machine bar or sturdy elevated platform at an appropriate height.","Place your hands on the bar, with your hands wider than shoulder width.","Position your feet back from the bar with arms and body straight. Your arms should be perpendicular to the body. This will be your starting position.","Keeping your body straight, lower your chest to the bar by bending the arms.","Return to the starting position by extending the elbows, pressing yourself back up."]},{"name":"Isometric Chest Squeezes","bucket":"cardio","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":30,"stretch":false,"instructions":["While either seating or standing, bend your arms at a 90-degree angle and place the palms of your hands together in front of your chest. Tip: Your hands should be open with the palms together and fingers facing forward (perpendicular to your torso).","Push both hands against each other as you contract your chest. Start with slow tension and increase slowly. Keep breathing normally as you execute this contraction.","Hold for the recommended number of seconds.","Now release the tension slowly.","Rest for the recommended amount of time and repeat."]},{"name":"Isometric Neck Exercise - Front And Back","bucket":"core","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":30,"stretch":false,"instructions":["With your head and neck in a neutral position (normal position with head erect facing forward), place both of your hands on the front side of your head.","Now gently push forward as you contract the neck muscles but resisting any movement of your head. Start with slow tension and increase slowly. Keep breathing normally as you execute this contraction.","Hold for the recommended number of seconds.","Now release the tension slowly.","Rest for the recommended amount of time and repeat with your hands placed on the back side of your head."]},{"name":"Isometric Neck Exercise - Sides","bucket":"core","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":30,"stretch":false,"instructions":["With your head and neck in a neutral position (normal position with head erect facing forward), place your left hand on the left side of your head.","Now gently push towards the left as you contract the left neck muscles but resisting any movement of your head. Start with slow tension and increase slowly. Keep breathing normally as you execute this contraction.","Hold for the recommended number of seconds.","Now release the tension slowly.","Rest for the recommended amount of time and repeat with your right hand placed on the right side of your head."]},{"name":"Isometric Wipers","bucket":"push","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":30,"stretch":false,"instructions":["Assume a push-up position, supporting your weight on your hands and toes while keeping your body straight. Your hands should be just outside of shoulder width. This will be your starting position.","Begin by shifting your body weight as far to one side as possible, allowing the elbow on that side to flex as you lower your body.","Reverse the motion by extending the flexed arm, pushing yourself up and then dropping to the other side.","Repeat for the desired number of repetitions."]},{"name":"Jackknife Sit-Up","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Lie flat on the floor (or exercise mat) on your back with your arms extended straight back behind your head and your legs extended also. This will be your starting position.","As you exhale, bend at the waist while simultaneously raising your legs and arms to meet in a jackknife position. Tip: The legs should be extended and lifted at approximately a 35-45 degree angle from the floor and the arms should be extended and parallel to your legs. The upper torso should be off the floor.","While inhaling, lower your arms and legs back to the starting position.","Repeat for the recommended amount of repetitions."]},{"name":"Janda Sit-Up","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Position your body on the floor in the basic sit-up position; knees to a ninety degree angle with feet flat on the floor and arms either crossed over your chest or to the sides. This will be your starting position.","As you strongly tighten your glutes and hamstrings, fill your lungs with air and in a slow (three to six second count) ascent, slowly exhale. Tip: It is important to tighten the glutes and hamstrings as this will cause the hip flexors to be inactivated in a process called reciprocal inhibition, which basically means that opposite muscles to the contracted ones will relax.","As you inhale, slowly go back in a controlled manner to the starting position.","Repeat for the recommended amount of repetitions."]},{"name":"Knee Circles","bucket":"legs","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["Stand with your legs together and hands by your waist.","Now move your knees in a circular motion as you breathe normally.","Repeat for the recommended amount of repetitions."]},{"name":"Knee Tuck Jump","bucket":"cardio","level":"beginner","timed":false,"perSide":false,"impact":true,"needs":null,"base":15,"stretch":false,"instructions":["Begin in a comfortable standing position with your knees slightly bent. Hold your hands in front of you, palms down with your fingertips together at chest height. This will be your starting position.","Rapidly dip down into a quarter squat and immediately explode upward. Drive the knees towards the chest, attempting to touch them to the palms of the hands.","Jump as high as you can, raising your knees up, and then ensure a good land be re-extending your legs, absorbing impact through be allowing the knees to rebend."]},{"name":"Lateral Bound","bucket":"cardio","level":"beginner","timed":false,"perSide":false,"impact":true,"needs":null,"base":15,"stretch":false,"instructions":["Assume a half squat position facing 90 degrees from your direction of travel. This will be your starting position.","Allow your lead leg to do a countermovement inward as you shift your weight to the outside leg.","Immediately push off and extend, attempting to bound to the side as far as possible.","Upon landing, immediately push off in the opposite direction, returning to your original start position.","Continue back and forth for several repetitions."]},{"name":"Leg Lift","bucket":"legs","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["While standing up straight with both feet next to each other at around shoulder width, grab a sturdy surface such as the sides of a squat rack or the top of a chair to brace yourself and keep balance.","With or without an ankle weight, lift one leg behind you as if performing a leg curl but standing up while keeping the other leg straight. Breathe out as you perform this movement.","Slowly bring the raised leg back to the floor as you breathe in.","Repeat for the recommended amount of repetitions.","Repeat the movement with the opposite leg."]},{"name":"Leg Pull-In","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Lie on an exercise mat with your legs extended and your hands either palms facing down next to you or under your glutes. Tip: My preference is with the hands next to me. This will be your starting position.","Bend your knees and pull your upper thighs into your midsection as you breathe out. Continue the motion until your knees are around chest level. Contract your abs as you execute this movement and hold for a second at the top. Tip: As you perform the motion, the lower legs (calves) should always remain parallel to the floor.","Return to the starting position as you inhale.","Repeat for the recommended amount of repetitions."]},{"name":"Lower Back Curl","bucket":"core","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":25,"stretch":true,"instructions":["Lie on your stomach with your arms out to your sides. This will be your starting position.","Using your lower back muscles, extend your spine lifting your chest off of the ground. Do not use your arms to push yourself up. Keep your head up during the movement. Repeat for 10-20 repetitions."]},{"name":"Lying Crossover","bucket":"legs","level":"expert","timed":true,"perSide":true,"impact":false,"needs":null,"base":25,"stretch":true,"instructions":["Lie on your back with your legs extended.","Cross one leg over your body with the knee bent, attempting to touch the knee to the ground. Your partner should kneel beside you, holding your shoulder down with one hand and controlling the crossed leg with the other. this will be your starting position.","Attempt to raise the bent knee off of the ground as your partner prevents any actual movement.","After 10-20 seconds, relax the leg as your partner gently presses the knee towards the floor. Repeat with the other side."]},{"name":"Lying Glute","bucket":"legs","level":"expert","timed":true,"perSide":true,"impact":false,"needs":null,"base":25,"stretch":true,"instructions":["Lie on your back with your partner kneeling beside you.","Flex the hip of one leg, raising it off of the floor. Rotate the leg so the foot is over the opposite hip, the lower leg perpendicular to your body. Your partner should hold the knee and ankle in place. This will be your starting position.","Attempt to push your leg towards your partner, who should be preventing any actual movement of the leg.","After 10-20 seconds, completely relax as your partner gently pushes the ankle and knee towards your chest. Be sure to inform your helper when the stretch is adequate to prevent injury or overstretching."]},{"name":"Lying Prone Quadriceps","bucket":"legs","level":"expert","timed":true,"perSide":true,"impact":false,"needs":null,"base":25,"stretch":true,"instructions":["Lay face down on the floor with your partner kneeling beside you. Flex one knee and raise that leg off the ground, attempting to touch your glutes with your foot. Your partner should hold the knee and ankle. This will be your starting position.","Attempt to extend your knee while your partner prevents any actual movement.","After 10-20 seconds, relax your muscles as your partner gently pushes the foot towards your glutes, further stretching the quadriceps and hip flexors.","After 10-20 seconds, switch sides."]},{"name":"Mountain Climbers","bucket":"cardio","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":30,"stretch":false,"instructions":["Start in a high plank with hands under your shoulders.","Drive one knee toward your chest, then switch legs in a running motion.","Keep your hips low and core tight the whole time."]},{"name":"No-Jump Burpee","bucket":"cardio","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":10,"stretch":false,"instructions":["From standing, squat down and place your hands on the ground.","Step one foot back at a time into a plank position.","Step your feet back in one at a time, then stand tall. No jumping at any point."]},{"name":"Oblique Crunches","bucket":"core","level":"beginner","timed":false,"perSide":true,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Lie flat on the floor with your lower back pressed to the ground. For this exercise, you will need to put one hand beside your head and the other to the side against the floor.","Make sure your feet are elevated and resting on a flat surface.","Now lift the shoulder in which your hand is touching your head.","Simply elevate your shoulder and body upward until you touch your knee. For example, if you have your right hand besides your head, then you want to elevate your body upwards until your right elbow touches your left knee. The same variation can be applied doing the inverse and using your left elbow to touch your right knee.","After your knee touches your elbow, lower your body until you have reached the starting position.","Remember to breathe in during the eccentric (lowering) part of the exercise and to breathe out during the concentric (upward) part of the exercise.","Continue alternating in this manner until all of the recommended repetitions for each side have been completed."]},{"name":"Oblique Crunches - On The Floor","bucket":"core","level":"beginner","timed":false,"perSide":true,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Start out by lying on your right side with your legs lying on top of each other. Make sure your knees are bent a little bit.","Place your left hand behind your head.","Once you are in this set position, begin by moving your left elbow up as you would perform a normal crunch except this time the main emphasis is on your obliques.","Crunch as high as you can, hold the contraction for a second and then slowly drop back down into the starting position.","Remember to breathe in during the eccentric (lowering) part of the exercise and to breathe out during the concentric (elevation) part of the exercise."]},{"name":"Overhead Triceps","bucket":"push","level":"expert","timed":true,"perSide":true,"impact":false,"needs":null,"base":25,"stretch":true,"instructions":["Sit upright on the floor with your partner behind you. Raise one arm straight up, and flex the elbow, attempting to touch your hand to your back. Your parner should hold your elbow and wrist. This will be your starting position.","Attempt to extend the arm straight into the air as your partner prevents you from doing actually doing so.","After 10-20 seconds, relax the arm and allow your partner to further stretch the tricep by applying gentle pressure to the wrist. Hold for 10-20 seconds, and then switch sides."]},{"name":"Plank","bucket":"core","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":45,"stretch":false,"instructions":["Get into a prone position on the floor, supporting your weight on your toes and your forearms. Your arms are bent and directly below the shoulder.","Keep your body straight at all times, and hold this position as long as possible. To increase difficulty, an arm or leg can be raised."]},{"name":"Plank Shoulder Taps","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Start in a high plank with feet slightly wider than hips.","Tap your left shoulder with your right hand, then switch sides.","Keep your hips square to the ground; each tap is one rep."]},{"name":"Plyo Push-up","bucket":"cardio","level":"beginner","timed":false,"perSide":false,"impact":true,"needs":null,"base":15,"stretch":false,"instructions":["Move into a prone position on the floor, supporting your weight on your hands and toes.","Your arms should be fully extended with the hands around shoulder width. Keep your body straight throughout the movement. This will be your starting position.","Descend by flexing at the elbow, lowering your chest towards the ground.","At the bottom, reverse the motion by pushing yourself up through elbow extension as quickly as possible. Attempt to push your upper body up until your hands leave the ground.","Return to the starting position and repeat the exercise.","For added difficulty, add claps into the movement while you are air borne."]},{"name":"Pullups","bucket":"pull","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bar","base":6,"stretch":false,"instructions":["Grab the pull-up bar with the palms facing forward using the prescribed grip. Note on grips: For a wide grip, your hands need to be spaced out at a distance wider than your shoulder width. For a medium grip, your hands need to be spaced out at a distance equal to your shoulder width and for a close grip at a distance smaller than your shoulder width.","As you have both arms extended in front of you holding the bar at the chosen grip width, bring your torso back around 30 degrees or so while creating a curvature on your lower back and sticking your chest out. This is your starting position.","Pull your torso up until the bar touches your upper chest by drawing the shoulders and the upper arms down and back. Exhale as you perform this portion of the movement. Tip: Concentrate on squeezing the back muscles once you reach the full contracted position. The upper torso should remain stationary as it moves through space and only the arms should move. The forearms should do no other work other than hold the bar.","After a second on the contracted position, start to inhale and slowly lower your torso back to the starting position when your arms are fully extended and the lats are fully stretched.","Repeat this motion for the prescribed amount of repetitions."]},{"name":"Push Up to Side Plank","bucket":"push","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":10,"stretch":false,"instructions":["Get into pushup position on the toes with your hands just outside of shoulder width.","Perform a pushup by allowing the elbows to flex. As you descend, keep your body straight.","Do one pushup and as you come up, shift your weight on the left side of the body, twist to the side while bringing the right arm up towards the ceiling in a side plank.","Lower the arm back to the floor for another pushup and then twist to the other side.","Repeat the series, alternating each side, for 10 or more reps."]},{"name":"Push-Up Wide","bucket":"push","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":12,"stretch":false,"instructions":["With your hands wide apart, support your body on your toes and hands in a plank position. Your elbows should be extended and your body straight. Do not allow your hips to sag. This will be your starting position.","To begin, allow the elbows to flex, lowering your chest to the floor as you inhale.","Using your pectoral muscles, press your upper body back up to the starting position by extending the elbows. Exhale as you perform this step.","After pausing at the contracted position, repeat the movement for the prescribed amount of repetitions."]},{"name":"Push-Ups - Close Triceps Position","bucket":"push","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":null,"base":10,"stretch":false,"instructions":["Lie on the floor face down and place your hands closer than shoulder width for a close hand position. Make sure that you are holding your torso up at arms' length.","Lower yourself until your chest almost touches the floor as you inhale.","Using your triceps and some of your pectoral muscles, press your upper body back up to the starting position and squeeze your chest. Breathe out as you perform this step.","After a second pause at the contracted position, repeat the movement for the prescribed amount of repetitions."]},{"name":"Push-Ups With Feet Elevated","bucket":"push","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bench","base":12,"stretch":false,"instructions":["Lie on the floor face down and place your hands about 36 inches apart from each other holding your torso up at arms length.","Place your toes on top of a flat bench. This will allow your body to be elevated. Note: The higher the elevation of the flat bench, the higher the resistance of the exercise is.","Lower yourself until your chest almost touches the floor as you inhale.","Using your pectoral muscles, press your upper body back up to the starting position and squeeze your chest. Breathe out as you perform this step.","After a second pause at the contracted position, repeat the movement for the prescribed amount of repetitions."]},{"name":"Pushups","bucket":"push","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":15,"stretch":false,"instructions":["Lie on the floor face down and place your hands about 36 inches apart while holding your torso up at arms length.","Next, lower yourself downward until your chest almost touches the floor as you inhale.","Now breathe out and press your upper body back up to the starting position while squeezing your chest.","After a brief pause at the top contracted position, you can begin to lower yourself downward again for as many repetitions as needed."]},{"name":"Pushups (Close and Wide Hand Positions)","bucket":"push","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":12,"stretch":false,"instructions":["Lie on the floor face down and body straight with your toes on the floor and the hands wider than shoulder width for a wide hand position and closer than shoulder width for a close hand position. Make sure you are holding your torso up at arms length.","Lower yourself until your chest almost touches the floor as you inhale.","Using your pectoral muscles, press your upper body back up to the starting position and squeeze your chest. Breathe out as you perform this step.","After a second pause at the contracted position, repeat the movement for the prescribed amount of repetitions."]},{"name":"Rear Leg Raises","bucket":"legs","level":"beginner","timed":false,"perSide":true,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["Place yourself on your hands knees on an exercise mat. Your head should be looking forward and the bend of the knees should create a 90-degree angle between the hamstrings and the calves. This will be your starting position.","Extend one leg up and behind you. The knee and hip should both extend. Repeat for 5-10 repetitions, and then switch sides."]},{"name":"Reverse Crunch","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Lie down on the floor with your legs fully extended and arms to the side of your torso with the palms on the floor. Your arms should be stationary for the entire exercise.","Move your legs up so that your thighs are perpendicular to the floor and feet are together and parallel to the floor. This is the starting position.","While inhaling, move your legs towards the torso as you roll your pelvis backwards and you raise your hips off the floor. At the end of this movement your knees will be touching your chest.","Hold the contraction for a second and move your legs back to the starting position while exhaling.","Repeat for the recommended amount of repetitions."]},{"name":"Reverse Lunge","bucket":"legs","level":"beginner","timed":false,"perSide":true,"impact":false,"needs":null,"base":10,"stretch":false,"instructions":["Stand tall, then step backward with one leg.","Lower until both knees are bent about 90 degrees, keeping your chest up.","Drive through the front heel to return to standing and switch legs."]},{"name":"Rocket Jump","bucket":"cardio","level":"beginner","timed":false,"perSide":false,"impact":true,"needs":null,"base":15,"stretch":false,"instructions":["Begin in a relaxed stance with your feet shoulder width apart and hold your arms close to the body.","To initiate the move, squat down halfway and explode back up as high as possible.","Fully extend your entire body, reaching overhead as far as possible. As you land, absorb your impact through the legs."]},{"name":"Russian Twist","bucket":"core","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Lie down on the floor placing your feet either under something that will not move or by having a partner hold them. Your legs should be bent at the knees.","Elevate your upper body so that it creates an imaginary V-shape with your thighs. Your arms should be fully extended in front of you perpendicular to your torso and with the hands clasped. This is the starting position.","Twist your torso to the right side until your arms are parallel with the floor while breathing out.","Hold the contraction for a second and move back to the starting position while breathing out. Now move to the opposite side performing the same techniques you applied to the right side.","Repeat for the recommended amount of repetitions."]},{"name":"Scissor Kick","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["To begin, lie down with your back pressed against the floor or on an exercise mat (optional). Your arms should be fully extended to the sides with your palms facing down. Note: The arms should be stationary the entire time.","With a slight bend at the knees, lift your legs up so that your heels are about 6 inches off the ground. This is the starting position.","Now lift your left leg up to about a 45 degree angle while your right leg is lowered until the heel is about 2-3 inches from the ground.","Switch movements by raising your right leg up and lowering your left leg. Remember to breathe while performing this exercise.","Repeat for the recommended amount of repetitions."]},{"name":"Scissors Jump","bucket":"cardio","level":"beginner","timed":false,"perSide":false,"impact":true,"needs":null,"base":15,"stretch":false,"instructions":["Assume a lunge stance position with one foot forward with the knee bent, and the rear knee nearly touching the ground.","Ensure that the front knee is over the midline of the foot. Extending through both legs, jump as high as possible, swinging your arms to gain lift.","As you jump as high as you can, switch the position of your legs, moving your front leg to the back and the rear leg to the front.","As you land, absorb the impact through the legs by adopting the lunge position, and repeat."]},{"name":"Seated Biceps","bucket":"pull","level":"expert","timed":true,"perSide":false,"impact":false,"needs":null,"base":25,"stretch":true,"instructions":["Sit on the floor with your knees bent and your partner standing behind you. Extend your arms straight behind you with your palms facing each other. Your partner will hold your wrists for you. This will be the starting position.","Attempt to flex your elbows, while your partner prevents any actual movement.","After 10-20 seconds, relax your arms while your partner gently pulls your wrists up to stretch your biceps. Be sure to let your partner know when the stretch is appropriate to prevent injury or overstretching."]},{"name":"Seated Flat Bench Leg Pull-In","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bench","base":20,"stretch":false,"instructions":["Sit on a bench with the legs stretched out in front of you slightly below parallel and your arms holding on to the sides of the bench. Your torso should be leaning backwards around a 45-degree angle from the bench. This will be your starting position.","Bring the knees in toward you as you move your torso closer to them at the same time. Breathe out as you perform this movement.","After a second pause, go back to the starting position as you inhale.","Repeat for the recommended amount of repetitions."]},{"name":"Seated Front Deltoid","bucket":"push","level":"expert","timed":true,"perSide":true,"impact":false,"needs":null,"base":25,"stretch":true,"instructions":["Sit upright on the floor with your legs bent, your partner standing behind you. Stick your arms straight out to your sides, with your palms facing the ground. Attempt to move them as far behind you as possible, as your assistant holds your wrists. This will be your starting position.","Keeping your elbows straight, attempt to move your arms to the front, with your partner gently restraining you to prevent any actual movement for 10-20 seconds.","Now, relax your muscles and allow your partner to gently increase the stretch on the shoulders and chest. Hold for 10 to 20 seconds."]},{"name":"Seated Glute","bucket":"legs","level":"expert","timed":true,"perSide":true,"impact":false,"needs":null,"base":25,"stretch":true,"instructions":["In a seated position with your knees bent, cross one ankle over the opposite knee. Your partner will stand behind you. Now, lean forward as your partner braces your shoulders with their hands. This will be your starting position.","Attempt to push your torso back for 10-20 seconds, as your partner prevents any actual movement of your torso.","Now relax your muscles as your partner increases the stretch by gently pushing your torso forward for 10-20 seconds."]},{"name":"Seated Leg Tucks","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Sit on a bench with the legs stretched out in front of you slightly below parallel and your arms holding on to the sides of the bench. Your torso should be leaning backwards around a 45-degree angle from the bench. This will be your starting position.","Bring the knees in toward you as you move your torso closer to them at the same time. Breathe out as you perform this movement.","After a second pause, go back to the starting position as you inhale.","Repeat for the recommended amount of repetitions."]},{"name":"Side Bridge","bucket":"core","level":"beginner","timed":true,"perSide":true,"impact":false,"needs":null,"base":30,"stretch":false,"instructions":[]},{"name":"Side Jackknife","bucket":"core","level":"beginner","timed":false,"perSide":true,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":[]},{"name":"Side Leg Raises","bucket":"legs","level":"beginner","timed":false,"perSide":true,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["Stand next to a chair, which you may hold onto as a support. Stand on one leg. This will be your starting position.","Keeping your leg straight, raise it as far out to the side as possible, and swing it back down, allowing it to cross the opposite leg.","Repeat this swinging motion 5-10 times, increasing the range of motion as you do so."]},{"name":"Side Lunge","bucket":"legs","level":"beginner","timed":false,"perSide":true,"impact":false,"needs":null,"base":8,"stretch":false,"instructions":["Stand with feet together, then take a wide step to one side.","Sit back into the stepping leg, keeping the other leg straight.","Push back to standing and repeat on the other side."]},{"name":"Single Leg Butt Kick","bucket":"cardio","level":"beginner","timed":false,"perSide":true,"impact":true,"needs":null,"base":15,"stretch":false,"instructions":["Begin by standing on one leg, with the bent knee raised. This will be your start position.","Using a countermovement jump, take off upward by extending the hip, knee, and ankle of the grounded leg.","Immediately flex the knee and attempt to touch your butt with the heel of your jumping leg.","Return the leg to a partially bent position underneath the hips and land. Your opposite leg should stay in relatively the same position throughout the drill."]},{"name":"Single Leg Glute Bridge","bucket":"legs","level":"beginner","timed":false,"perSide":true,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Lay on the floor with your feet flat and knees bent.","Raise one leg off of the ground, pulling the knee to your chest. This will be your starting position.","Execute the movement by driving through the heel, extending your hip upward and raising your glutes off of the ground.","Extend as far as possible, pause and then return to the starting position."]},{"name":"Single-Arm Push-Up","bucket":"push","level":"intermediate","timed":false,"perSide":true,"impact":false,"needs":null,"base":5,"stretch":false,"instructions":["Begin laying prone on the ground. Move yourself into a position supporting your weight on your toes and one arm. Your working arm should be placed directly under the shoulder, fully extended. Your legs should be extended, and for this movement you may need a wider base, placing your feet further apart than in a normal push-up.","Maintain good posture, and place your free hand behind your back. This will be your starting position.","Lower yourself by allowing the elbow to flex until you touch the ground.","Descend slowly, and reverse direction be extending the arm to return to the starting position."]},{"name":"Sit-Up","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":15,"stretch":false,"instructions":["Lie down on the floor placing your feet either under something that will not move or by having a partner hold them. Your legs should be bent at the knees.","Place your hands behind your head and lock them together by clasping your fingers. This is the starting position.","Elevate your upper body so that it creates an imaginary V-shape with your thighs. Breathe out when performing this part of the exercise.","Once you feel the contraction for a second, lower your upper body back down to the starting position while inhaling.","Repeat for the recommended amount of repetitions."]},{"name":"Spider Crawl","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Begin in a prone position on the floor. Support your weight on your hands and toes, with your feet together and your body straight. Your arms should be bent to 90 degrees. This will be your starting position.","Initiate the movement by raising one foot off of the ground. Externally rotate the leg and bring the knee toward your elbow, as far forward as possible.","Return this leg to the starting position and repeat on the opposite side."]},{"name":"Split Jump","bucket":"cardio","level":"beginner","timed":false,"perSide":false,"impact":true,"needs":null,"base":15,"stretch":false,"instructions":["Assume a lunge stance position with one foot forward with the knee bent, and the rear knee nearly touching the ground.","Ensure that the front knee is over the midline of the foot.","Extending through both legs, jump as high as possible, swinging your arms to gain lift.","As you jump, bring your feet together, and move them back to their initial positions as you land.","Absorb the impact by reverting back to the starting position."]},{"name":"Squat Hold","bucket":"legs","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":30,"stretch":false,"instructions":["Squat down until your thighs are parallel to the ground.","Keep your chest up, heels down, and arms out front for balance.","Hold the bottom position without standing up."]},{"name":"Standing Calf Raise","bucket":"legs","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["Stand tall with feet hip-width apart.","Rise up onto the balls of your feet as high as you can.","Lower under control until your heels touch the ground."]},{"name":"Standing Hip Circles","bucket":"legs","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["Begin standing on one leg, holding to a vertical support.","Raise the unsupported knee to 90 degrees. This will be your starting position.","Open the hip as far as possible, attempting to make a big circle with your knee.","Perform this movement slowly for a number of repetitions, and repeat on the other side."]},{"name":"Standing Long Jump","bucket":"cardio","level":"beginner","timed":false,"perSide":false,"impact":true,"needs":null,"base":15,"stretch":false,"instructions":["This drill is best done in sand or other soft landing surface. Ensure that you are able to measure distance. Stand in a partial squat stance with feet shoulder width apart.","Utilizing a big arm swing and a countermovement of the legs, jump forward as far as you can.","Attempt to land with your feet out in front you, reaching as far as possible with your legs.","Measure the distance from your landing point to the starting point and track results."]},{"name":"Star Jump","bucket":"cardio","level":"beginner","timed":false,"perSide":false,"impact":true,"needs":null,"base":15,"stretch":false,"instructions":["Begin in a relaxed stance with your feet shoulder width apart and hold your arms close to the body.","To initiate the move, squat down halfway and explode back up as high as possible. Fully extend your entire body, spreading your legs and arms away from the body.","As you land, bring your limbs back in and absorb your impact through the legs."]},{"name":"Step-up with Knee Raise","bucket":"legs","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bench","base":20,"stretch":false,"instructions":["Stand facing a box or bench of an appropriate height with your feet together. This will be your starting position.","Begin the movement by stepping up, putting your left foot on the top of the bench. Extend through the hip and knee of your front leg to stand up on the box. As you stand on the box with your left leg, flex your right knee and hip, bringing your knee as high as you can.","Reverse this motion to step down off the box, and then repeat the sequence on the opposite leg."]},{"name":"Stomach Vacuum","bucket":"core","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["To begin, stand straight with your feet shoulder width apart from each other. Place your hands on your hips. This is the starting position.","Now slowly inhale as much air as possible and then start to exhale as much as possible while bringing your stomach in as much as possible and hold this position. Try to visualize your navel touching your backbone.","One isometric contraction is around 20 seconds. During the 20 second hold, try to breathe normally. Then inhale and bring your stomach back to the starting position.","Once you have practiced this exercise, try to perform this exercise for longer than 20 seconds. Tip: You can work your way up to 40-60 seconds.","Repeat for the recommended amount of sets."]},{"name":"Superman","bucket":"core","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":30,"stretch":true,"instructions":["To begin, lie straight and face down on the floor or exercise mat. Your arms should be fully extended in front of you. This is the starting position.","Simultaneously raise your arms, legs, and chest off of the floor and hold this contraction for 2 seconds. Tip: Squeeze your lower back to get the best results from this exercise. Remember to exhale during this movement. Note: When holding the contracted position, you should look like superman when he is flying.","Slowly begin to lower your arms, legs and chest back down to the starting position while inhaling.","Repeat for the recommended amount of repetitions prescribed in your program."]},{"name":"Toe Touchers","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":true,"instructions":["To begin, lie down on the floor or an exercise mat with your back pressed against the floor. Your arms should be lying across your sides with the palms facing down.","Your legs should be touching each other. Slowly elevate your legs up in the air until they are almost perpendicular to the floor with a slight bend at the knees. Your feet should be parallel to the floor.","Move your arms so that they are fully extended at a 45 degree angle from the floor. This is the starting position.","While keeping your lower back pressed against the floor, slowly lift your torso and use your hands to try and touch your toes. Remember to exhale while perform this part of the exercise.","Slowly begin to lower your torso and arms back down to the starting position while inhaling. Remember to keep your arms straight out pointing towards your toes.","Repeat for the recommended amount of repetitions."]},{"name":"Tuck Crunch","bucket":"core","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":20,"stretch":false,"instructions":["To begin, lie down on the floor or an exercise mat with your back pressed against the floor. Your arms should be lying across your sides with the palms facing down.","Your legs should be crossed by wrapping one ankle around the other. Slowly elevate your legs up in the air until your thighs are perpendicular to the floor with a slight bend at the knees. Note: Your knees and toes should be parallel to the floor as opposed to the thighs.","Move your arms from the floor and cross them so they are resting on your chest. This is the starting position.","While keeping your lower back pressed against the floor, slowly lift your torso. Remember to exhale while perform this part of the exercise.","Slowly begin to lower your torso back down to the starting position while inhaling.","Repeat for the recommended amount of repetitions."]},{"name":"V-Bar Pullup","bucket":"pull","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":"bar","base":8,"stretch":false,"instructions":["Start by placing the middle of the V-bar in the middle of the pull-up bar (assuming that the pull-up station you are using does not have neutral grip handles). The V-Bar handles will be facing down so that you can hang from the pull-up bar through the use of the handles.","Once you securely place the V-bar, take a hold of the bar from each side and hang from it. Stick your chest out and lean yourself back slightly in order to better engage the lats. This will be your starting position.","Using your lats, pull your torso up while leaning your head back slightly so that you do not hit yourself with the chin-up bar. Continue until your chest nearly touches the V-bar. Exhale as you execute this motion.","After a second hold on the contracted position, slowly lower your body back to the starting position as you breathe in.","Repeat for the prescribed number of repetitions."]},{"name":"Wall Sit","bucket":"legs","level":"beginner","timed":true,"perSide":false,"impact":false,"needs":null,"base":45,"stretch":false,"instructions":["Stand with your back flat against a wall or tree.","Slide down until your thighs are parallel to the ground, knees at 90 degrees.","Hold the position with your weight through your heels."]},{"name":"Wide-Grip Rear Pull-Up","bucket":"pull","level":"intermediate","timed":false,"perSide":false,"impact":false,"needs":"bar","base":5,"stretch":false,"instructions":["Grab the pull-up bar with the palms facing forward using a wide grip.","As you have both arms extended in front of you holding the bar, bring your torso forward and head so that there is an imaginary line from the pull-up bar to the back of your neck. This is your starting position.","Pull your torso up until the bar is near the back of your neck. To do this, draw the shoulders and upper arms down and back while slightly leaning your head forward. Exhale as you perform this portion of the movement. Tip: Concentrate on squeezing the back muscles once you reach the full contracted position. The upper torso should remain stationary as it moves through space and only the arms should move. The forearms should do no other work other than hold the bar.","After a second on the contracted position, start to inhale and slowly lower your torso back to the starting position when your arms are fully extended and the lats are fully stretched.","Repeat this motion for the prescribed amount of repetitions."]},{"name":"Wind Sprints","bucket":"core","level":"beginner","timed":false,"perSide":true,"impact":false,"needs":"bar","base":20,"stretch":false,"instructions":["Hang from a pull-up bar using a pronated grip. Your arms and legs should be extended. This will be your starting position.","Begin by quickly raising one knee as high as you can. Do not swing your body or your legs. 3","Immediately reverse the motion, returning that leg to the starting position. Simultaneously raise the opposite knee as high as possible.","Continue alternating between legs until the set is complete."]},{"name":"Wrist Circles","bucket":"pull","level":"beginner","timed":false,"perSide":false,"impact":false,"needs":null,"base":8,"stretch":true,"instructions":["Start by standing straight with your feet being shoulder width apart from each other. Elevate your arms to the side of you until they are fully extended and parallel to the floor at a height that is evenly aligned with your shoulders. Tip: Your torso and arms should form the letter \"T: Your palms should be facing down. This is the starting position.","Keeping your entire body stationary except for the wrists, begin to rotate both wrists forward in a circular motion. Tip: Pretend that you are trying to draw circles by using your hands as the brush. Breathe normally as you perform this exercise.","Repeat for the recommended amount of repetitions."]}];/*PT_DATA_END*/
+
+const $ = id => document.getElementById(id);
+const SUITS = {push:"♦", legs:"♣", core:"♥", pull:"♠", cardio:"★", stretch:"✿"};
+const BUCKET_NAMES = {push:"Push", legs:"Legs", core:"Core", pull:"Pull", cardio:"Cardio"};
+
+/* ---------- settings (persisted) ---------- */
+const S = Object.assign({
+  intensity:1, noJump:true, maxLevel:"intermediate", bar:false, bench:false,
+  stretches:false, focus:["push","legs","core","pull","cardio"],
+  stations:6, rounds:2, rest:15, cooldown:false
+}, JSON.parse(localStorage.getItem("ptr-settings")||"{}"));
+const save = () => localStorage.setItem("ptr-settings", JSON.stringify(S));
+
+const LVL_ORDER = {beginner:0, intermediate:1, expert:2};
+function activePool(){
+  return POOL.filter(e =>
+    (!e.impact || !S.noJump) &&
+    LVL_ORDER[e.level] <= LVL_ORDER[S.maxLevel] &&
+    (e.needs !== "bar" || S.bar) &&
+    (e.needs !== "bench" || S.bench) &&
+    (!e.stretch || S.stretches) &&
+    S.focus.includes(e.bucket));
+}
+function updatePoolCount(){ $("poolCount").textContent = activePool().length; }
+
+/* ---------- amounts ---------- */
+function rollAmount(e){
+  const jitter = [0.85, 1, 1, 1.15][Math.floor(Math.random()*4)];
+  let raw = e.base * S.intensity * jitter;
+  if (e.timed) return {n: Math.max(10, Math.round(raw/5)*5), timed:true};
+  let n = raw >= 12 ? Math.round(raw/2)*2 : Math.round(raw);
+  return {n: Math.max(3, n), timed:false};
+}
+const amtText = a => a.timed ? `${a.n}<small> sec</small>` : `${a.n}<small> reps</small>`;
+
+/* ---------- session tally ---------- */
+let tally = {ex:0, reps:0, secs:0};
+function bumpTally(e, a){
+  tally.ex++;
+  const mult = e.perSide ? 2 : 1;
+  if (a.timed) tally.secs += a.n * mult; else tally.reps += a.n * mult;
+  const m = Math.floor(tally.secs/60), s = String(tally.secs%60).padStart(2,"0");
+  $("tally").innerHTML = `${tally.ex} exercise${tally.ex===1?"":"s"}<br>${tally.reps} reps · ${m}:${s} held`;
+}
+
+/* ---------- audio / haptics ---------- */
+let AC = null;
+function beep(freq, dur){
+  try{
+    AC = AC || new (window.AudioContext||window.webkitAudioContext)();
+    const o = AC.createOscillator(), g = AC.createGain();
+    o.frequency.value = freq; o.connect(g); g.connect(AC.destination);
+    g.gain.setValueAtTime(0.15, AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, AC.currentTime + dur);
+    o.start(); o.stop(AC.currentTime + dur);
+  }catch(err){}
+}
+const buzz = ms => { if (navigator.vibrate) navigator.vibrate(ms); };
+
+/* ---------- tabs ---------- */
+const tabs = {draw:"tab-draw", circuit:"tab-circuit", set:"tab-set"};
+for (const [view, tab] of Object.entries(tabs)){
+  $(tab).onclick = () => {
+    for (const [v,t] of Object.entries(tabs)){
+      $(t).classList.toggle("on", v===view);
+      $("view-"+v).classList.toggle("on", v===view);
+    }
+  };
+}
+
+/* ---------- DRAW mode (no repeats until deck runs dry) ---------- */
+let deck = [], deckKey = "", current = null, currentAmt = null;
+function drawCard(){
+  const pool = activePool();
+  if (!pool.length){ alert("Deck is empty — loosen the filters in Settings."); return; }
+  const key = pool.map(e=>e.name).join("|");
+  if (key !== deckKey || !deck.length){
+    deck = [...pool].sort(() => Math.random()-0.5);
+    deckKey = key;
+  }
+  current = deck.pop();
+  currentAmt = rollAmount(current);
+  buzz(30);
+  const card = $("card");
+  card.classList.add("flip");
+  setTimeout(() => {
+    $("placeholder").style.display = "none";
+    $("cardInner").style.display = "block";
+    $("cA").textContent = $("cB").textContent = SUITS[current.stretch ? "stretch" : current.bucket];
+    $("cA").style.color = $("cB").style.color =
+      getComputedStyle(document.documentElement).getPropertyValue("--"+(current.stretch?"tan":current.bucket));
+    $("exChips").innerHTML =
+      `<span class="chip b-${current.bucket}">${BUCKET_NAMES[current.bucket]}</span>` +
+      `<span class="chip">${current.level}</span>` +
+      (current.stretch ? `<span class="chip">stretch</span>` : "") +
+      (current.impact ? `<span class="chip" style="color:var(--red)">jump</span>` : "");
+    $("exName").textContent = current.name;
+    $("exAmt").innerHTML = amtText(currentAmt);
+    $("exSide").textContent = current.perSide ? "EACH SIDE" : "";
+    $("exHow").open = false;
+    $("exIns").innerHTML = current.instructions.map(i=>`<li>${i}</li>`).join("");
+    $("exHow").style.display = current.instructions.length ? "block" : "none";
+    $("timerBtn").style.display = currentAmt.timed ? "inline-block" : "none";
+    $("timerBtn").textContent = "▶ START " + currentAmt.n + "s TIMER";
+    $("timerBtn").disabled = false;
+    $("doneBtn").style.display = "block";
+    $("skipBtn").style.display = "block";
+    card.classList.remove("flip");
+  }, 180);
+}
+$("drawBtn").onclick = drawCard;
+$("skipBtn").onclick = drawCard;
+$("doneBtn").onclick = () => {
+  if (!current) return;
+  bumpTally(current, currentAmt);
+  beep(880, .12); buzz(60);
+  drawCard();
+};
+let holdTimer = null;
+$("timerBtn").onclick = () => {
+  if (holdTimer) return;
+  let left = currentAmt.n;
+  $("timerBtn").disabled = true;
+  beep(660, .1);
+  holdTimer = setInterval(() => {
+    left--;
+    $("timerBtn").textContent = left + "s…";
+    if (left <= 3 && left > 0) beep(660, .08);
+    if (left <= 0){
+      clearInterval(holdTimer); holdTimer = null;
+      beep(990, .3); buzz([80,60,80]);
+      $("timerBtn").textContent = "TIME! ✓";
+    }
+  }, 1000);
+};
+
+/* ---------- CIRCUIT mode ---------- */
+let circuit = [];
+function pickBalanced(count){
+  const pool = activePool().filter(e => !e.stretch || S.stretches);
+  const order = ["cardio","legs","push","core","pull"].filter(b => S.focus.includes(b));
+  const byBucket = {};
+  for (const b of order) byBucket[b] = pool.filter(e => e.bucket===b).sort(() => Math.random()-0.5);
+  const out = [];
+  let i = 0, guard = 0;
+  while (out.length < count && guard < count*10){
+    const b = order[i % order.length]; i++; guard++;
+    if (byBucket[b] && byBucket[b].length) out.push(byBucket[b].pop());
+  }
+  // top up from anything left if some buckets ran dry
+  const rest = pool.filter(e => !out.includes(e)).sort(() => Math.random()-0.5);
+  while (out.length < count && rest.length) out.push(rest.pop());
+  return out.sort(() => Math.random()-0.5);
+}
+function cooldownSet(){
+  return POOL.filter(e => e.stretch && (!e.impact || !S.noJump) &&
+      LVL_ORDER[e.level] <= LVL_ORDER[S.maxLevel] &&
+      (e.needs !== "bar" || S.bar) && (e.needs !== "bench" || S.bench))
+    .sort(() => Math.random()-0.5).slice(0,4);
+}
+function renderCircuit(){
+  $("circuitList").innerHTML = circuit.map((st,i) => `
+    <div class="st">
+      <span class="dot d-${st.e.stretch?"stretch":st.e.bucket}"></span>
+      <span class="n">${st.e.name}<small>${st.e.stretch?"cooldown":BUCKET_NAMES[st.e.bucket]}${st.e.perSide?" · each side":""}</small></span>
+      <span class="amt">${st.a.n}${st.a.timed?"s":""}</span>
+      <button class="re" data-i="${i}" title="reroll">↻</button>
+    </div>`).join("");
+  $("runBtn").style.display = circuit.length ? "block" : "none";
+  document.querySelectorAll("#circuitList .re").forEach(btn => btn.onclick = () => {
+    const i = +btn.dataset.i;
+    const used = new Set(circuit.map(s=>s.e.name));
+    const cand = (circuit[i].e.stretch ? cooldownSet() : activePool())
+      .filter(e => !used.has(e.name) && e.stretch === circuit[i].e.stretch);
+    if (cand.length){
+      const e = cand[Math.floor(Math.random()*cand.length)];
+      circuit[i] = {e, a: rollAmount(e)};
+      renderCircuit();
+    }
+  });
+}
+$("genBtn").onclick = () => {
+  const picks = pickBalanced(S.stations);
+  circuit = picks.map(e => ({e, a: rollAmount(e)}));
+  if (S.cooldown) circuit = circuit.concat(cooldownSet().map(e => ({e, a: rollAmount(e)})));
+  renderCircuit();
+};
+
+/* circuit steppers + segments */
+document.querySelectorAll("[data-s]").forEach(b => b.onclick = () => {
+  S.stations = Math.min(10, Math.max(3, S.stations + +b.dataset.s));
+  $("nSt").textContent = S.stations; save();
+});
+document.querySelectorAll("[data-r]").forEach(b => b.onclick = () => {
+  S.rounds = Math.min(5, Math.max(1, S.rounds + +b.dataset.r));
+  $("nRd").textContent = S.rounds; save();
+});
+function segInit(id, get, set){
+  const seg = $(id);
+  seg.querySelectorAll("button").forEach(b => {
+    b.classList.toggle("on", b.dataset.v == get());
+    b.onclick = () => {
+      set(b.dataset.v);
+      seg.querySelectorAll("button").forEach(x => x.classList.toggle("on", x===b));
+      save(); updatePoolCount();
+    };
+  });
+}
+
+/* ---------- RUN overlay ---------- */
+let runSteps = [], runIdx = 0, runTick = null, wakeLock = null;
+async function grabWake(){ try{ wakeLock = await navigator.wakeLock.request("screen"); }catch(err){} }
+function buildRunSteps(){
+  runSteps = [];
+  const main = circuit.filter(s => !s.e.stretch);
+  const cool = circuit.filter(s => s.e.stretch);
+  for (let r = 1; r <= S.rounds; r++){
+    main.forEach((st, i) => {
+      runSteps.push({type:"work", st, round:r, pos:i+1, of:main.length});
+      const last = r === S.rounds && i === main.length-1;
+      if (S.rest > 0 && !last) runSteps.push({type:"rest", secs:S.rest, round:r});
+    });
+  }
+  cool.forEach((st, i) => runSteps.push({type:"work", st, round:0, pos:i+1, of:cool.length}));
+}
+function showRunStep(){
+  clearInterval(runTick); runTick = null;
+  if (runIdx >= runSteps.length){ endRun(true); return; }
+  const step = runSteps[runIdx];
+  const nxt = runSteps.slice(runIdx+1).find(s => s.type==="work");
+  $("runNext").textContent = nxt ? "Next: " + nxt.st.e.name : "Last one — finish strong";
+  if (step.type === "rest"){
+    $("runPhase").textContent = "REST";
+    $("runName").textContent = "";
+    $("runSide").textContent = "";
+    $("runPos").textContent = "";
+    $("runRound").textContent = "ROUND " + step.round + "/" + S.rounds;
+    $("runAmt").className = "rest";
+    let left = step.secs;
+    $("runAmt").textContent = left;
+    $("runGo").textContent = "SKIP REST »";
+    runTick = setInterval(() => {
+      left--;
+      $("runAmt").textContent = left;
+      if (left <= 3 && left > 0) beep(550, .08);
+      if (left <= 0){ beep(990, .25); buzz(80); next(); }
+    }, 1000);
+  } else {
+    const {st} = step;
+    $("runPhase").textContent = st.e.stretch ? "COOLDOWN" :
+      BUCKET_NAMES[st.e.bucket].toUpperCase();
+    $("runName").textContent = st.e.name;
+    $("runSide").textContent = st.e.perSide ? "EACH SIDE" : "";
+    $("runPos").textContent = "STATION " + step.pos + "/" + step.of;
+    $("runRound").textContent = step.round ? "ROUND " + step.round + "/" + S.rounds : "";
+    $("runAmt").className = "";
+    if (st.a.timed){
+      let left = st.a.n;
+      $("runAmt").textContent = left + "s";
+      $("runGo").textContent = "SKIP »";
+      beep(660, .1);
+      runTick = setInterval(() => {
+        left--;
+        $("runAmt").textContent = left + "s";
+        if (left <= 3 && left > 0) beep(660, .08);
+        if (left <= 0){
+          beep(990, .3); buzz([80,60,80]);
+          bumpTally(st.e, st.a);
+          next();
+        }
+      }, 1000);
+    } else {
+      $("runAmt").textContent = st.a.n;
+      $("runGo").textContent = "DONE ✓";
+    }
+  }
+}
+function next(){ runIdx++; showRunStep(); }
+$("runGo").onclick = () => {
+  const step = runSteps[runIdx];
+  if (step && step.type === "work" && !step.st.a.timed) bumpTally(step.st.e, step.st.a);
+  beep(880, .1); buzz(40);
+  next();
+};
+$("runQuit").onclick = () => endRun(false);
+function endRun(finished){
+  clearInterval(runTick); runTick = null;
+  $("run").classList.remove("on");
+  if (wakeLock){ wakeLock.release().catch(()=>{}); wakeLock = null; }
+  if (finished){
+    beep(990, .2); setTimeout(()=>beep(1320, .35), 220); buzz([100,80,100,80,200]);
+    alert("Circuit complete. Good work — hydrate.");
+  }
+}
+$("runBtn").onclick = () => {
+  buildRunSteps();
+  runIdx = 0;
+  $("run").classList.add("on");
+  grabWake();
+  showRunStep();
+};
+
+/* ---------- SETTINGS wiring ---------- */
+function togInit(id, key, cb){
+  const el = $(id);
+  el.checked = S[key];
+  el.onchange = () => { S[key] = el.checked; save(); updatePoolCount(); if (cb) cb(); };
+}
+togInit("jumpTog", "noJump");
+togInit("barTog", "bar");
+togInit("benchTog", "bench");
+togInit("strTog", "stretches");
+togInit("coolTog", "cooldown");
+segInit("intSeg", () => S.intensity, v => S.intensity = +v);
+segInit("lvlSeg", () => S.maxLevel, v => S.maxLevel = v);
+segInit("restSeg", () => S.rest, v => S.rest = +v);
+$("nSt").textContent = S.stations;
+$("nRd").textContent = S.rounds;
+document.querySelectorAll("#focusRow button").forEach(b => {
+  b.classList.toggle("on", S.focus.includes(b.dataset.b));
+  b.onclick = () => {
+    const on = S.focus.includes(b.dataset.b);
+    if (on && S.focus.length === 1) return;         // never allow an empty deck
+    S.focus = on ? S.focus.filter(x => x !== b.dataset.b) : S.focus.concat(b.dataset.b);
+    b.classList.toggle("on", !on);
+    save(); updatePoolCount();
+  };
+});
+updatePoolCount();
+</script>
+</body>
+</html>
