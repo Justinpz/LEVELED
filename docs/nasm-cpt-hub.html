@@ -1,0 +1,1029 @@
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  :root{
+    --ink:#16181d;
+    --ink-2:#3d424d;
+    --paper:#ffffff;
+    --panel:#f6f6f4;
+    --panel-2:#eeeeea;
+    --rule:#d6d6d1;
+    --rule-hard:#16181d;
+    --cmd:#1b3a8f;
+    --sag:#0f6e5c;
+    --fro:#8a4a00;
+    --tra:#6b2a8f;
+    --alert:#a81b1b;
+    --ok:#146c2e;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+    --serif:Charter,"Bitstream Charter","Sitka Text",Georgia,Cambria,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  #nasmhub{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.55;
+    font-size:15px;
+    max-width:1180px;
+    margin:0 auto;
+  }
+  #nasmhub h1,#nasmhub h2,#nasmhub h3,#nasmhub h4{font-family:var(--serif);font-weight:700;line-height:1.2;margin:0}
+  #nasmhub p{margin:0 0 .7em}
+  #nasmhub strong{font-weight:700}
+  #nasmhub button{font-family:inherit;font-size:inherit;cursor:pointer}
+  #nasmhub :focus-visible{outline:3px solid var(--cmd);outline-offset:2px}
+
+  /* ---------- masthead ---------- */
+  .nh-mast{border-bottom:3px solid var(--rule-hard);padding:22px 20px 16px}
+  .nh-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .nh-eyebrow b{color:var(--cmd);font-weight:700}
+  .nh-mast h1{font-size:clamp(26px,4.4vw,40px);margin:8px 0 4px;letter-spacing:-.015em}
+  .nh-sub{font-size:14px;color:var(--ink-2);max-width:66ch}
+
+  /* ---------- nav ---------- */
+  .nh-nav{display:flex;gap:0;flex-wrap:wrap;border-bottom:1px solid var(--rule);background:var(--panel);position:sticky;top:0;z-index:20}
+  .nh-tab{background:transparent;border:0;border-right:1px solid var(--rule);border-bottom:3px solid transparent;padding:11px 15px;color:var(--ink-2);font-weight:600;font-size:13.5px;letter-spacing:.01em}
+  .nh-tab:hover{background:var(--panel-2);color:var(--ink)}
+  .nh-tab[aria-selected="true"]{background:var(--paper);color:var(--ink);border-bottom-color:var(--cmd)}
+  .nh-tab .nh-tnum{font-family:var(--mono);font-size:10px;color:var(--cmd);margin-right:6px}
+
+  .nh-panel{padding:26px 20px 60px;display:none}
+  .nh-panel.is-on{display:block}
+
+  .nh-sechead{border-bottom:2px solid var(--rule-hard);padding-bottom:8px;margin-bottom:20px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .nh-sechead h2{font-size:24px}
+  .nh-sechead .nh-count{font-family:var(--mono);font-size:11px;color:var(--ink-2);letter-spacing:.08em;text-transform:uppercase}
+
+  /* ---------- readiness board ---------- */
+  .nh-board{border:2px solid var(--rule-hard);margin-bottom:24px}
+  .nh-board-hd{background:var(--rule-hard);color:#fff;padding:8px 14px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .nh-board-bd{padding:16px 14px}
+  .nh-topicrow{display:grid;grid-template-columns:minmax(150px,1.4fr) 1fr auto;gap:12px;align-items:center;padding:7px 0;border-bottom:1px solid var(--rule)}
+  .nh-topicrow:last-child{border-bottom:0}
+  .nh-topicname{font-size:13.5px;font-weight:600}
+  .nh-pips{display:flex;gap:3px;flex-wrap:wrap}
+  .nh-pip{width:13px;height:13px;border:1px solid var(--rule);background:var(--panel-2)}
+  .nh-pip.hit{background:var(--ok);border-color:var(--ok)}
+  .nh-pip.miss{background:var(--alert);border-color:var(--alert)}
+  .nh-score{font-family:var(--mono);font-size:12px;font-weight:700;white-space:nowrap}
+  .nh-weak{margin-top:16px;border-left:5px solid var(--alert);background:#fdf3f3;padding:12px 14px}
+  .nh-weak h4{font-size:14px;color:var(--alert);margin-bottom:6px}
+  .nh-weak ul{margin:0;padding-left:20px;font-size:13.5px}
+  .nh-weak li{margin-bottom:3px}
+
+  .nh-statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0;border:2px solid var(--rule-hard);margin-bottom:24px}
+  .nh-stat{padding:14px;border-right:1px solid var(--rule)}
+  .nh-stat:last-child{border-right:0}
+  .nh-stat .v{font-family:var(--mono);font-size:26px;font-weight:700;line-height:1;color:var(--cmd)}
+  .nh-stat .k{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-top:5px}
+
+  /* ---------- generic blocks ---------- */
+  .nh-note{border-left:5px solid var(--cmd);background:var(--panel);padding:12px 15px;margin:0 0 18px}
+  .nh-note.alert{border-left-color:var(--alert);background:#fdf3f3}
+  .nh-note.ok{border-left-color:var(--ok);background:#f2f8f3}
+  .nh-note h4{font-size:14px;margin-bottom:5px}
+  .nh-note p:last-child{margin-bottom:0}
+
+  .nh-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+  .nh-input{border:2px solid var(--rule-hard);padding:8px 11px;font-family:inherit;font-size:14px;color:var(--ink);background:#fff;min-width:190px;flex:1}
+  .nh-input::placeholder{color:#5f646e;opacity:1}
+  .nh-btn{border:2px solid var(--rule-hard);background:#fff;color:var(--ink);padding:8px 15px;font-weight:700;font-size:13.5px}
+  .nh-btn:hover{background:var(--panel-2)}
+  .nh-btn.primary{background:var(--cmd);border-color:var(--cmd);color:#fff}
+  .nh-btn.primary:hover{background:#152f75}
+  .nh-btn.danger{background:#fff;border-color:var(--alert);color:var(--alert)}
+  .nh-btn.danger:hover{background:#fdf3f3}
+  .nh-btn:disabled{opacity:.45;cursor:not-allowed}
+  .nh-chip{border:2px solid var(--rule);background:#fff;padding:5px 11px;font-size:12.5px;font-weight:600;color:var(--ink-2)}
+  .nh-chip[aria-pressed="true"]{border-color:var(--rule-hard);background:var(--rule-hard);color:#fff}
+
+  /* plane color coding — carries real info */
+  .pl-sag{color:var(--sag)} .pl-fro{color:var(--fro)} .pl-tra{color:var(--tra)}
+  .nh-tag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;border:1px solid currentColor;padding:2px 6px;white-space:nowrap;font-weight:700}
+
+  /* ---------- terms ---------- */
+  .nh-term{border-bottom:1px solid var(--rule);padding:12px 0;display:grid;grid-template-columns:minmax(170px,1fr) 2.1fr;gap:16px}
+  .nh-term dt{font-weight:700;font-size:14.5px}
+  .nh-term dd{margin:0;font-size:14px;color:var(--ink-2)}
+  .nh-term .nh-lsn{font-family:var(--mono);font-size:10px;color:var(--cmd);letter-spacing:.08em;display:block;margin-top:3px}
+  .nh-empty{padding:26px;text-align:center;color:var(--ink-2);border:2px dashed var(--rule)}
+
+  /* ---------- concepts ---------- */
+  .nh-acc{border:2px solid var(--rule-hard);margin-bottom:-2px}
+  .nh-acc-hd{width:100%;text-align:left;background:#fff;border:0;padding:13px 15px;display:flex;gap:12px;align-items:center;font-weight:700;font-size:15px;font-family:var(--serif)}
+  .nh-acc-hd:hover{background:var(--panel)}
+  .nh-acc-hd .nh-idx{font-family:var(--mono);font-size:11px;color:var(--cmd);font-weight:700}
+  .nh-acc-hd .nh-caret{margin-left:auto;font-family:var(--mono);font-size:15px;color:var(--cmd)}
+  .nh-acc-bd{padding:0 15px 16px;border-top:1px solid var(--rule);display:none}
+  .nh-acc.open .nh-acc-bd{display:block}
+  .nh-lvl{margin-top:13px}
+  .nh-lvl .nh-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--cmd);font-weight:700;display:block;margin-bottom:4px}
+  .nh-lvl p{font-size:14.5px;margin-bottom:0}
+  .nh-lvl.tech .nh-lbl{color:var(--ink-2)}
+
+  table.nh-tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+  table.nh-tbl th{background:var(--rule-hard);color:#fff;text-align:left;padding:8px 10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+  table.nh-tbl td{border:1px solid var(--rule);padding:8px 10px;vertical-align:top}
+  table.nh-tbl tr:nth-child(even) td{background:var(--panel)}
+  .nh-scroll{overflow-x:auto}
+
+  /* ---------- traps ---------- */
+  .nh-trap{border:2px solid var(--alert);margin-bottom:14px}
+  .nh-trap-hd{background:var(--alert);color:#fff;padding:7px 13px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+  .nh-trap-bd{padding:13px}
+  .nh-trap-bd .claim{font-weight:700;font-size:14.5px;margin-bottom:6px}
+  .nh-trap-bd .fix{font-size:14px;color:var(--ink-2)}
+
+  /* ---------- flashcards ---------- */
+  .nh-card{border:2px solid var(--rule-hard);min-height:270px;display:flex;flex-direction:column;background:#fff}
+  .nh-card-hd{background:var(--panel);border-bottom:1px solid var(--rule);padding:8px 14px;display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);font-weight:700;flex-wrap:wrap}
+  .nh-card-bd{padding:26px 22px;flex:1;display:flex;flex-direction:column;justify-content:center}
+  .nh-card-front{font-family:var(--serif);font-size:21px;font-weight:700;line-height:1.32}
+  .nh-card-back{margin-top:16px;border-top:2px solid var(--rule-hard);padding-top:14px}
+  .nh-card-back .ans{font-size:15.5px;font-weight:600;margin-bottom:9px}
+  .nh-card-back .why{font-size:14px;color:var(--ink-2);border-left:4px solid var(--cmd);padding-left:11px}
+  .nh-card-ft{border-top:1px solid var(--rule);padding:11px 14px;display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+  .nh-prog{font-family:var(--mono);font-size:11.5px;color:var(--ink-2);margin-left:auto;font-weight:700}
+
+  /* ---------- quiz ---------- */
+  .nh-q{border:2px solid var(--rule-hard);margin-bottom:16px}
+  .nh-q-hd{background:var(--panel);border-bottom:1px solid var(--rule);padding:8px 13px;display:flex;gap:11px;align-items:center;flex-wrap:wrap}
+  .nh-q-hd .num{font-family:var(--mono);font-size:11.5px;font-weight:700;color:var(--cmd)}
+  .nh-q-hd .topic{font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);border:1px solid var(--rule);padding:2px 6px}
+  .nh-q-bd{padding:14px 13px}
+  .nh-q-stem{font-size:15px;font-weight:600;margin-bottom:12px}
+  .nh-opt{display:block;width:100%;text-align:left;border:2px solid var(--rule);background:#fff;padding:10px 12px;margin-bottom:7px;font-size:14px;color:var(--ink);display:flex;gap:10px;align-items:flex-start}
+  .nh-opt:hover:not(:disabled){border-color:var(--rule-hard);background:var(--panel)}
+  .nh-opt .ltr{font-family:var(--mono);font-weight:700;color:var(--cmd);flex-shrink:0}
+  .nh-opt[aria-pressed="true"]{border-color:var(--cmd);background:#eef2fb}
+  .nh-opt.correct{border-color:var(--ok);background:#f2f8f3}
+  .nh-opt.correct .ltr{color:var(--ok)}
+  .nh-opt.wrong{border-color:var(--alert);background:#fdf3f3}
+  .nh-opt.wrong .ltr{color:var(--alert)}
+  .nh-opt:disabled{cursor:default}
+  .nh-why{font-size:13.5px;padding:9px 12px;margin:-3px 0 9px;border-left:4px solid var(--rule);background:var(--panel);color:var(--ink-2)}
+  .nh-why.c{border-left-color:var(--ok)}
+  .nh-why.w{border-left-color:var(--alert)}
+  .nh-teach{margin-top:11px;border:2px solid var(--cmd);padding:11px 13px;font-size:14px}
+  .nh-teach .nh-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--cmd);font-weight:700;display:block;margin-bottom:4px}
+  .nh-tf{display:flex;gap:9px}
+  .nh-tf .nh-opt{flex:1}
+  .nh-result{border:3px solid var(--rule-hard);padding:18px;margin-bottom:20px}
+  .nh-result h3{font-size:20px;margin-bottom:9px}
+  .nh-result .big{font-family:var(--mono);font-size:38px;font-weight:700;line-height:1;color:var(--cmd)}
+  .nh-sticky{position:sticky;bottom:0;background:#fff;border-top:2px solid var(--rule-hard);padding:12px 0;display:flex;gap:10px;flex-wrap:wrap;align-items:center;z-index:10}
+
+  /* ---------- scenarios ---------- */
+  .nh-scn{border:2px solid var(--rule-hard);margin-bottom:16px}
+  .nh-scn-hd{background:var(--cmd);color:#fff;padding:9px 14px;font-weight:700;font-size:14.5px;font-family:var(--serif)}
+  .nh-scn-bd{padding:14px}
+  .nh-scn-bd .obs{font-size:14.5px;margin-bottom:11px}
+  .nh-scn-bd .ans{border-top:1px solid var(--rule);padding-top:11px;font-size:14px;display:none}
+  .nh-scn.open .nh-scn-bd .ans{display:block}
+  .nh-scn-bd .ans .nh-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--cmd);font-weight:700;display:block;margin:9px 0 3px}
+
+  ul.nh-list{margin:0 0 12px;padding-left:20px;font-size:14px}
+  ul.nh-list li{margin-bottom:5px}
+  .nh-kv{font-family:var(--mono);font-size:13px;background:var(--panel);border:1px solid var(--rule);padding:10px 12px;white-space:pre-wrap;overflow-x:auto;margin:12px 0;line-height:1.5}
+
+  @media (max-width:720px){
+    .nh-term{grid-template-columns:1fr;gap:4px}
+    .nh-topicrow{grid-template-columns:1fr auto}
+    .nh-pips{grid-column:1/-1}
+    .nh-tab{flex:1;min-width:33%;border-bottom:1px solid var(--rule)}
+    .nh-mast{padding:16px 14px 12px}
+    .nh-panel{padding:20px 14px 50px}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .nh-opt,.nh-btn,.nh-tab{transition:background .12s ease,border-color .12s ease}
+  }
+</style>
+
+<div id="nasmhub">
+  <header class="nh-mast">
+    <div class="nh-eyebrow">
+      <span><b>NASM CPT7</b></span>
+      <span id="nh-secode">CH 07</span>
+      <span>Essentials of Personal Fitness Training, 7th Ed.</span>
+      <span id="nh-storemode" style="margin-left:auto"></span>
+    </div>
+    <h1 id="nh-setitle">NASM CPT — Full Exam Prep</h1>
+    <p class="nh-sub">The OPT model, overhead squat assessment, energy systems, planes of motion, flexibility, nutrition, and behavior change &mdash; weighted to the 6-domain CPT exam. Terms, concepts, traps, flashcards, and a randomized quiz engine that reshuffles questions and answer order every run.</p>
+  </header>
+
+  <nav class="nh-nav" role="tablist" id="nh-nav"></nav>
+
+  <main>
+    <div class="nh-panel is-on" id="p-board" role="tabpanel"></div>
+    <div class="nh-panel" id="p-terms" role="tabpanel"></div>
+    <div class="nh-panel" id="p-concepts" role="tabpanel"></div>
+    <div class="nh-panel" id="p-traps" role="tabpanel"></div>
+    <div class="nh-panel" id="p-cards" role="tabpanel"></div>
+    <div class="nh-panel" id="p-quiz" role="tabpanel"></div>
+    <div class="nh-panel" id="p-scen" role="tabpanel"></div>
+  </main>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   SECTION REGISTRY — append new chapters as objects here.
+   Nothing else in the file needs restructuring.
+   ============================================================ */
+const REGISTRY = { activeId:"nasm-cpt", sections:[{
+  id:"nasm-cpt", code:"CPT 7", title:"NASM CPT — Full Exam Prep",
+  lessons:["Science & Anatomy","Cardio & Energy","Assessment & Posture","Program Design (OPT)","Nutrition & Behavior"],
+
+  // [ term, lessonNumber, definition ]
+  terms:[
+    ["OPT Model",4,"Optimum Performance Training model — NASM's programming system. 3 levels, 5 phases. The whole exam is built around it."],
+    ["Level: Stabilization",4,"Goal = muscular ENDURANCE and joint stability. Contains Phase 1."],
+    ["Level: Strength",4,"Goal = build force/muscle. Contains Phases 2, 3, and 4."],
+    ["Level: Power",4,"Goal = rate of force production (speed x strength). Contains Phase 5."],
+    ["Phase 1 — Stabilization Endurance",4,"Endurance + stability on unstable-but-controllable surfaces. 12-20 reps, slow 4/2/1 tempo. Every beginner starts HERE."],
+    ["Phase 2 — Strength Endurance",4,"Superset a strength exercise with a stabilization exercise. NOT hypertrophy."],
+    ["Phase 3 — Hypertrophy (Muscular Development)",4,"Maximal muscle growth. High volume, moderate-heavy load."],
+    ["Phase 4 — Maximal Strength",4,"Highest loads (85-100%), lowest reps (1-5), LONGEST rest (3-5 min)."],
+    ["Phase 5 — Power",4,"A heavy strength move paired with an explosive/light-fast move. Reps 1-10, fast tempo."],
+    ["Acute variables",4,"The specifics you adjust: reps, sets, intensity, tempo, rest, volume, frequency, duration, exercise selection."],
+    ["Periodization",4,"Dividing a training program into progressive phases/cycles over time."],
+    ["Neuron",1,"Nerve cell. 3 parts: cell body, axon, dendrites."],
+    ["Dendrites",1,"Receive incoming signals — bring information TO the cell body."],
+    ["Axon",1,"Carries the signal AWAY from the cell body."],
+    ["Muscle spindle",1,"Senses change in muscle LENGTH -> triggers the STRETCH REFLEX -> causes CONTRACTION. Protects against overstretch."],
+    ["Golgi tendon organ (GTO)",1,"Senses change in muscle TENSION -> causes RELAXATION (autogenic inhibition). At the musculotendinous junction."],
+    ["Epimysium / Perimysium / Endomysium",1,"Muscle connective-tissue layers, OUTER to INNER. Endomysium is DEEPEST, wrapping each individual fiber."],
+    ["Sarcomere",1,"The smallest contractile unit of muscle."],
+    ["Type I (slow-twitch) fiber",1,"More oxygen, SMALLER, LESS force, SLOW to fatigue. Endurance and postural muscles."],
+    ["Type II (fast-twitch) fiber",1,"Less oxygen, LARGER, MORE force, FAST to fatigue. Power and strength."],
+    ["Wolff's Law",1,"BONE remodels along lines of stress. (W = weight-bearing bone.)"],
+    ["Davis's Law",1,"SOFT TISSUE models along lines of stress. Corollary to Wolff's Law."],
+    ["Roll / Slide / Spin",1,"The 3 arthrokinematic (joint-surface) motions."],
+    ["ATP-PC system",2,"~10-15 sec, fastest, NO oxygen, high intensity, short duration."],
+    ["Glycolysis",2,"~30-50 sec, uses CARBOHYDRATES, medium duration, produces lactate."],
+    ["Oxidative (aerobic) system",2,"Slow, uses OXYGEN, long duration. Fuels both fat and carbs."],
+    ["3 stages of the oxidative system",2,"Aerobic glycolysis -> Krebs cycle -> electron transport chain (ETC)."],
+    ["Respiratory Quotient (RQ)",2,"CO2 produced / O2 used. RQ 0.70 = 100% FAT; RQ 1.0 = 100% CARBS. Higher RQ = more carbs."],
+    ["Blood vessels (out to back)",2,"Arteries -> arterioles -> capillaries -> venules -> veins."],
+    ["Radial pulse",2,"Wrist pulse — the recommended site for measuring heart rate."],
+    ["Overhead squat assessment (OHSA)",3,"The signature dynamic postural assessment. Reveals overactive (tight) and underactive (weak) muscles."],
+    ["Pronation distortion syndrome",3,"Foot/ankle/knee distortion — flat feet, knees caving in."],
+    ["Lower crossed syndrome",3,"Anterior pelvic tilt — tight hip flexors/low back, weak abs/glutes."],
+    ["Upper crossed syndrome",3,"Forward head + rounded shoulders — tight chest/upper traps, weak deep neck flexors/lower traps."],
+    ["Overactive / tight",3,"A muscle that is short and pulling the joint out of alignment."],
+    ["Underactive / weak",3,"A muscle that is lengthened/inhibited and failing to do its job."],
+    ["Cumulative injury cycle",3,"Trauma -> inflammation -> muscle spasm -> adhesions -> altered neuromuscular control -> muscle imbalance -> repeat."],
+    ["Essential amino acids",5,"9 of the 20 total. The body cannot make them, so they must be eaten."],
+    ["SMART goals",5,"Specific, Measurable, Attainable, Realistic/Relevant, Timely."],
+    ["Stages of change",5,"Transtheoretical Model: Precontemplation -> Contemplation -> Preparation -> Action -> Maintenance."],
+    ["Scope of practice",5,"The legal boundary of a CPT: no diagnosing, no prescribing meal plans, no treating injury."],
+    ["FITTE principle",5,"Frequency, Intensity, Time, Type, Enjoyment — the variables of a cardio program."]
+  ],
+
+  // { t:title, l:lesson, s:plainLanguage, x:technical, h:optionalHtmlBlock }
+  concepts:[
+    {t:"The OPT Model — spine of the whole exam",l:4,
+     s:"NASM builds every program as a ladder. First teach the body to be stable with endurance, then build strength/muscle, then build explosive power. You never skip rungs — a beginner always starts at Phase 1.",
+     x:"3 levels (Stabilization, Strength, Power) divided into 5 phases. Cardiorespiratory training exists in ALL three levels.",
+     h:"<div class='nh-kv'>LEVEL 1: STABILIZATION      LEVEL 2: STRENGTH               LEVEL 3: POWER\n └ Phase 1                  ├ Phase 2 Strength Endurance   └ Phase 5 Power\n   Stabilization Endurance  ├ Phase 3 Hypertrophy\n                            └ Phase 4 Maximal Strength</div><div class='nh-note ok'><h4>Highest-yield fact on the test</h4><p>Cardio is programmed in every level (Stage I, II, III). Do not think cardio lives in only one phase.</p></div>"},
+    {t:"Acute variables by phase (memorize cold)",l:4,
+     s:"Each OPT phase has its own recipe of reps, sets, load, tempo, and rest. As you climb toward strength, reps go DOWN and load goes UP.",
+     x:"This table is the single most tested item on the exam. Tempo is written eccentric/isometric/concentric (4/2/1 = 4s down, 2s pause, 1s up).",
+     h:"<div class='nh-scroll'><table class='nh-tbl'><tr><th>Phase</th><th>Reps</th><th>Sets</th><th>Intensity</th><th>Tempo</th><th>Rest</th></tr><tr><td>1 Stabilization Endurance</td><td>12-20</td><td>1-3</td><td>50-70%</td><td>Slow 4/2/1</td><td>0-90 sec</td></tr><tr><td>2 Strength Endurance</td><td>8-12</td><td>2-4</td><td>70-80%</td><td>Moderate 2/0/2</td><td>0-60 sec</td></tr><tr><td>3 Hypertrophy</td><td>6-12</td><td>3-5</td><td>75-85%</td><td>Moderate 2/0/2</td><td>0-60 sec</td></tr><tr><td>4 Maximal Strength</td><td>1-5</td><td>4-6</td><td>85-100%</td><td>Fast/explosive</td><td>3-5 min</td></tr><tr><td>5 Power</td><td>1-10</td><td>3-6</td><td>30-45%</td><td>Fast/explosive</td><td>3-5 min</td></tr></table></div>"},
+    {t:"Muscle fibers — the reversible pair",l:1,
+     s:"Slow-twitch is marathon muscle: small, uses lots of oxygen, lasts a long time. Fast-twitch is sprint muscle: big, strong, tires fast.",
+     x:"Type I are smaller, more mitochondria/capillaries, red, fatigue-resistant, postural. Type II are larger, white, high force, quick to fatigue.",
+     h:"<div class='nh-scroll'><table class='nh-tbl'><tr><th></th><th>Type I (slow)</th><th>Type II (fast)</th></tr><tr><td>Oxygen</td><td>More</td><td>Less</td></tr><tr><td>Size</td><td>Smaller</td><td>Larger</td></tr><tr><td>Force</td><td>Less</td><td>More</td></tr><tr><td>Fatigue</td><td>Slow</td><td>Fast</td></tr></table></div>"},
+    {t:"Muscle spindle vs. Golgi tendon organ",l:1,
+     s:"The spindle stops you stretching too far (it fires a contraction). The GTO stops you pulling too hard (it lets the muscle relax). This pair is the #1 thing the exam tries to swap on you.",
+     x:"Muscle spindle: senses change in LENGTH -> stretch reflex -> contraction. GTO: senses change in TENSION -> autogenic inhibition -> relaxation.",
+     h:"<div class='nh-note alert'><h4>Anchor</h4><p>Sp-IN-dle tightens IN (length -> contract). G.T.O. Gives Tension Off (tension -> relax). Foam rolling works via the GTO to release a tight muscle.</p></div>"},
+    {t:"Energy systems — matched to time and fuel",l:2,
+     s:"Short explosive effort = ATP-PC. A hard set to about 50 seconds = glycolysis (burns carbs, makes 'the burn'). Anything long and steady = oxidative (burns fat and carbs with oxygen).",
+     x:"ATP-PC (phosphagen): 10-15s, no O2. Glycolysis: ~30-50s, carbs, lactate. Oxidative: minutes+, needs O2, fat + carbs.",
+     h:"<div class='nh-kv'>0-15s      to ~50s        minutes/hours\n[ATP-PC]  [Glycolysis]  [Oxidative/Aerobic]\nphosphagens  carbs       fat + carbs (needs O2)</div>"},
+    {t:"Planes of motion and their axes",l:1,
+     s:"Three imaginary sheets of glass slice the body. Which plane a movement happens in tells you what the movement is called.",
+     x:"Sagittal = flexion/extension. Frontal = abduction/adduction, lateral flexion, eversion/inversion. Transverse = rotation and horizontal ab/adduction.",
+     h:"<div class='nh-scroll'><table class='nh-tbl'><tr><th>Plane</th><th>Motions</th><th>Example</th></tr><tr><td class='pl-sag'>Sagittal</td><td>Flexion / extension</td><td>Bicep curl, squat, walking</td></tr><tr><td class='pl-fro'>Frontal</td><td>Abduction / adduction, lateral flexion</td><td>Side lunge, lateral raise</td></tr><tr><td class='pl-tra'>Transverse</td><td>Internal/external rotation</td><td>Swinging a bat, cable rotation</td></tr></table></div>"},
+    {t:"The heart and circulation",l:2,
+     s:"Blood with no oxygen comes into the right side and gets pumped to the lungs. Oxygen-rich blood comes into the left side and gets pumped out to the body.",
+     x:"Right atrium -> right ventricle -> lungs -> left atrium -> left ventricle -> body. Right = deoxygenated, Left = oxygenated (left ventricle is the strongest chamber).",
+     h:"<div class='nh-kv'>Body -> Right Atrium (no O2) -> Right Ventricle (no O2) -> LUNGS\n     -> Left Atrium (O2) -> Left Ventricle (O2) -> whole body</div><div class='nh-note'><p>Blood also carries waste, hormones, nutrients, and heat; it clots to protect and fights disease.</p></div>"},
+    {t:"Heart rate zones and intensity",l:2,
+     s:"Estimate your max heart rate as 220 minus your age, then train in one of three zones depending on how hard you want to go.",
+     x:"Zone 1: 65-75% (base/recovery). Zone 2: 76-85% (threshold). Zone 3: 86-95% (high intensity). General-health cardio ~60% of VO2 max.",
+     h:"<div class='nh-note ok'><p>Adults: 150 min/week moderate OR 75 min/week vigorous aerobic exercise. Measure HR at the radial pulse (wrist).</p></div>"},
+    {t:"The Integrated Flexibility Continuum",l:4,
+     s:"Every stretch starts with foam rolling first, then a stretch type that matches the client's training phase.",
+     x:"Corrective = SMR + static (Phase 1). Active = SMR + active-isolated (Phases 2-4). Functional = SMR + dynamic (Phase 5).",
+     h:"<div class='nh-scroll'><table class='nh-tbl'><tr><th>Type</th><th>Pair</th><th>Phase</th></tr><tr><td>Corrective</td><td>SMR + static</td><td>1</td></tr><tr><td>Active</td><td>SMR + active-isolated</td><td>2-4</td></tr><tr><td>Functional</td><td>SMR + dynamic</td><td>5</td></tr></table></div><div class='nh-note'><p>SMR (foam rolling) works via the GTO -> autogenic inhibition -> the muscle relaxes.</p></div>"},
+    {t:"The Overhead Squat Assessment (OHSA)",l:3,
+     s:"The client squats with arms overhead. Wherever the body compensates, it tells you which muscles are too tight and which are too weak. This is the most drilled assessment on the exam.",
+     x:"View anteriorly (feet, ankles, knees) and laterally (LPHC, shoulders, cervical spine). The tight muscle pulls the joint out of line; the weak muscle failed to stop it.",
+     h:"<div class='nh-scroll'><table class='nh-tbl'><tr><th>Compensation</th><th>Tight / Overactive</th><th>Weak / Underactive</th></tr><tr><td>Feet turn out</td><td>Soleus, lateral gastroc, biceps femoris (short)</td><td>Medial gastroc, medial hamstring, gracilis, sartorius, popliteus</td></tr><tr><td>Knees move in</td><td>Adductors, biceps femoris (short), TFL, vastus lateralis</td><td>Glute med/max, VMO</td></tr><tr><td>LPHC leans forward</td><td>Soleus, gastroc, hip flexors, abdominals</td><td>Anterior tibialis, glute max, erector spinae</td></tr><tr><td>Low back arches</td><td>Hip flexors, erector spinae, lats</td><td>Glute max, hamstrings, intrinsic core</td></tr><tr><td>Arms fall forward</td><td>Lats, teres major, pec major/minor</td><td>Mid/lower traps, rhomboids, rotator cuff</td></tr></table></div>"},
+    {t:"The core and stabilization systems",l:4,
+     s:"The deep core muscles wrap the spine and hold it steady — they stabilize, they do not make big movements. The best first core exercise is a plank.",
+     x:"Local stabilization system (Type I): transverse abdominis, internal oblique, lumbar multifidus, pelvic floor, diaphragm. Best beginner core exercise = prone iso-ab (plank). Core progression: stabilization -> strength -> power.",
+     h:"<div class='nh-note'><p>Core progression = no lower-body movement (plank) -> bending at hip/knee (crunch) -> explosive 'hop' (med-ball throw).</p></div>"},
+    {t:"Plyometric (reactive) training — 3 phases",l:4,
+     s:"A jump has three parts: you load down (eccentric), you pause for an instant (amortization), then you explode up (concentric). The shorter that pause, the more powerful the jump.",
+     x:"Eccentric (loading) -> Amortization (transition, SHORTEST) -> Concentric (unloading). A long amortization phase wastes stored elastic energy.",
+     h:"<div class='nh-kv'>1. Eccentric  ->  2. Amortization  ->  3. Concentric\n   (load)         (pause: shortest)    (explode)</div>"},
+    {t:"General Adaptation Syndrome (GAS)",l:4,
+     s:"When you stress the body it reacts (alarm), then adapts and gets stronger (resistance), but too much stress with no recovery breaks it down (exhaustion).",
+     x:"Alarm reaction -> Resistance development -> Exhaustion. This is the rationale for progressive overload and adequate recovery.",
+     h:"<div class='nh-kv'>1. Alarm reaction -> 2. Resistance development -> 3. Exhaustion</div>"},
+    {t:"Resistance training systems",l:4,
+     s:"Different ways to organize sets. Vertical loading moves down the workout card one set each (great for keeping heart rate up); horizontal loading finishes all sets of one exercise first.",
+     x:"Single set, multiple set, pyramid, superset, drop set, circuit, peripheral heart action, split routine, vertical loading, horizontal loading.",
+     h:"<div class='nh-note'><p>Vertical loading = one set of each exercise down the card, then repeat (circuit-style). Horizontal = all sets of one exercise before moving on (classic strength).</p></div>"},
+    {t:"Nutrition — the numbers to memorize",l:5,
+     s:"Fat has more than twice the calories of protein or carbs. Know the calories per gram and the recommended macro ranges.",
+     x:"Protein 4 cal/g, Carbs 4 cal/g, Fat 9 cal/g, Alcohol 7 cal/g. Macros: Protein 10-35%, Carbs 45-65%, Fat 20-35%. Amino acids: 20 total, 9 essential.",
+     h:"<div class='nh-scroll'><table class='nh-tbl'><tr><th>Nutrient</th><th>Cal/gram</th></tr><tr><td>Protein</td><td>4</td></tr><tr><td>Carbohydrate</td><td>4</td></tr><tr><td>Fat</td><td>9</td></tr><tr><td>Alcohol</td><td>7</td></tr></table></div><div class='nh-note alert'><p>Vitamins/minerals toxic in excess: Zinc, Iron, Vitamin D, Vitamin A. Fluids: 6-12 oz every 15-20 min during exercise.</p></div>"},
+    {t:"Behavior change and professional practice",l:5,
+     s:"People move through predictable stages before a habit sticks, and good goals are SMART. A trainer stays inside their scope — no diagnosing or meal plans.",
+     x:"Stages of change: Precontemplation -> Contemplation -> Preparation -> Action -> Maintenance (>6 months). SMART: Specific, Measurable, Attainable, Realistic, Timely.",
+     h:"<div class='nh-note alert'><h4>Scope of practice</h4><p>A CPT does NOT diagnose, prescribe individualized meal plans, or rehab injuries. Refer to a registered dietitian or physician.</p></div>"}
+  ],
+
+  // [ wrongBelief, correctionHtml ]
+  traps:[
+    ["The muscle spindle relaxes the muscle.","FALSE. Spindle = LENGTH -> CONTRACT (stretch reflex). The <strong>GTO</strong> is the one that RELAXES (senses tension). The exam swaps these constantly."],
+    ["SMART's M stands for Motivating (or Immeasurable).","M = <strong>Measurable</strong>. A common cheatsheet even prints 'Immeasurable' — that's a typo. Specific, Measurable, Attainable, Realistic, Timely."],
+    ["An RQ of 1.0 means 100% fat is being burned.","BACKWARDS. RQ 1.0 = 100% <strong>carbohydrate</strong>. RQ 0.70 = 100% fat. Higher RQ = more carbs."],
+    ["A client who wants to build muscle should start in Phase 3 (Hypertrophy).","No. <strong>Everyone starts in Phase 1</strong> (Stabilization Endurance) regardless of goal. Build the foundation first."],
+    ["Fat has 4 calories per gram like protein and carbs.","Fat = <strong>9</strong> cal/g, more than double. Protein and carbs = 4, alcohol = 7."],
+    ["If the knees cave in during a squat, the glutes are tight.","Opposite. Knees caving = <strong>adductors/TFL TIGHT, glutes WEAK</strong>. The weak muscle is the one that failed to hold the joint in place."],
+    ["Cardio only happens during the endurance phase.","Cardiorespiratory training is in <strong>all three OPT levels</strong> (Stage I, II, III)."],
+    ["Wolff's Law is about soft tissue.","<strong>Wolff = bone</strong> (osseous). <strong>Davis = soft tissue</strong>. W is for the harder tissue."],
+    ["Phase 4 (Max Strength) uses short rest to keep intensity high.","No. Max Strength uses the <strong>LONGEST rest, 3-5 minutes</strong> — near-maximal loads need full recovery. Short rest is for endurance/hypertrophy."],
+    ["A longer amortization phase makes a more powerful jump.","Opposite. The amortization pause should be <strong>as SHORT as possible</strong> — a long pause wastes stored elastic energy."],
+    ["A CPT can design a custom meal plan and recommend supplements to fix a deficiency.","Out of scope. CPTs give <strong>general</strong> nutrition guidance only. Meal plans and diagnosing deficiencies = refer to a registered dietitian or physician."],
+    ["Slow-twitch fibers are bigger and produce more force.","BACKWARDS. <strong>Fast-twitch (Type II)</strong> are larger and stronger but fatigue fast. Slow-twitch are smaller, endurance, more oxygen."],
+    ["Abduction happens in the sagittal plane.","No. <strong>Abduction/adduction = frontal plane</strong>. Sagittal is flexion/extension; rotation is transverse."],
+    ["A client who has worked out for 8 months is in the Action stage.","Over <strong>6 months</strong> of consistent behavior = <strong>Maintenance</strong>, not Action. Action is roughly the first 6 months."],
+    ["Phase 2 is the hypertrophy phase.","Phase 2 = <strong>Strength Endurance</strong> (superset strength + stabilization). Phase 3 is Hypertrophy. Order: 1 Stab-endurance, 2 Strength-endurance, 3 Hypertrophy, 4 Max strength, 5 Power."],
+    ["Foam rolling stimulates the GTO and makes the muscle contract.","SMR stimulates the GTO to cause <strong>relaxation</strong> (autogenic inhibition). That's WHY you foam roll to release a tight muscle."],
+    ["Reciprocal inhibition means the target muscle relaxes itself.","Reciprocal inhibition = the <strong>opposite (antagonist)</strong> muscle contracts, causing the target to relax. (Autogenic inhibition is the GTO relaxing the same muscle.)"],
+    ["Endomysium is the outermost muscle layer.","Endomysium is the <strong>DEEPEST</strong> (wraps each fiber). Outside-in: Epimysium -> Perimysium -> Endomysium."]
+  ],
+
+  // [ front, back, reasoning ]
+  cards:[
+    ["What phase does EVERY new client start in, regardless of goal?","Phase 1 — Stabilization Endurance.","You build joint stability and muscular endurance before any strength or power work. Goal doesn't change the starting point."],
+    ["Phase 1 acute variables (reps / intensity / tempo / rest)?","12-20 reps, 50-70% intensity, slow 4/2/1 tempo, 0-90 sec rest.","Slow tempo and higher reps build endurance and motor control on unstable surfaces."],
+    ["Phase 4 (Max Strength) acute variables?","1-5 reps, 85-100% intensity, fast/explosive tempo, 3-5 min rest.","Heavy near-maximal loads need long rest for full ATP-PC recovery — the longest rest in the model."],
+    ["Which OPT phase supersets a strength move with a stabilization move?","Phase 2 — Strength Endurance.","This is the defining feature of Phase 2. Don't confuse it with hypertrophy (Phase 3)."],
+    ["Muscle spindle: what does it sense and what does it cause?","Senses change in LENGTH; causes CONTRACTION (stretch reflex).","Protects against overstretching. The reversible-sounding partner of the GTO."],
+    ["GTO: what does it sense and what does it cause?","Senses change in TENSION; causes RELAXATION (autogenic inhibition).","Protects against too much force. This is why static stretching and foam rolling release a muscle."],
+    ["Order of muscle connective tissue layers, outside to inside?","Epimysium -> Perimysium -> Endomysium.","Endomysium is deepest, wrapping each individual fiber. 'Every Person Eats.'"],
+    ["Type II (fast-twitch) fibers: size, force, fatigue, oxygen?","Larger, more force, fast to fatigue, less oxygen.","Sprint/power muscle. The mirror image of Type I slow-twitch."],
+    ["Wolff's Law vs. Davis's Law?","Wolff = bone remodels along stress. Davis = soft tissue models along stress.","W for weight-bearing bone; Davis is the soft-tissue corollary."],
+    ["ATP-PC system: duration, oxygen, intensity?","10-15 sec, no oxygen, highest intensity.","The phosphagen system for short, explosive, all-out effort."],
+    ["Glycolysis: duration and primary fuel?","~30-50 sec, carbohydrates.","Produces lactate; fuels hard sets in the 'burn' range."],
+    ["The 3 stages of the oxidative system?","Aerobic glycolysis -> Krebs cycle -> electron transport chain.","The aerobic pathway for long-duration, oxygen-fueled work."],
+    ["RQ of 1.0 means what? RQ of 0.70?","1.0 = 100% carbs; 0.70 = 100% fat.","Higher RQ = more carbohydrate. A classic swap trap."],
+    ["Which plane are abduction and adduction in?","Frontal plane.","Sagittal = flexion/extension; transverse = rotation. Frontal = out-to-the-side movement."],
+    ["Which plane is rotation (internal/external) in?","Transverse plane.","Longitudinal axis. Think swinging a bat or a cable rotation."],
+    ["Path of blood through the heart (deoxygenated first)?","Right atrium -> right ventricle -> lungs -> left atrium -> left ventricle -> body.","Right side = no oxygen (to lungs). Left side = oxygenated (to body)."],
+    ["Order of blood vessels, arteries to veins?","Arteries -> arterioles -> capillaries -> venules -> veins.","Capillaries in the middle are where gas/nutrient exchange happens."],
+    ["Estimated maximum heart rate formula?","220 - age.","The basis for calculating training heart-rate zones."],
+    ["The 3 HR training zones (% of max)?","Zone 1: 65-75%; Zone 2: 76-85%; Zone 3: 86-95%.","Zone 1 base/recovery, Zone 2 threshold, Zone 3 high intensity."],
+    ["Flexibility continuum: corrective pairs with which stretch, in which phase?","Static stretching (+ SMR), in Phase 1.","Corrective flexibility fixes imbalances. Active = active-isolated (2-4); Functional = dynamic (5)."],
+    ["Which mechanism does SMR (foam rolling) use to release a muscle?","The GTO -> autogenic inhibition -> relaxation.","Sustained pressure raises tension sensed by the GTO, which relaxes the muscle."],
+    ["Overhead squat: knees move in. Tight vs. weak?","Tight: adductors, TFL. Weak: glute med/max, VMO.","Foam-roll/stretch the adductors and TFL; strengthen the glutes. Don't stretch the weak glutes."],
+    ["Overhead squat: arms fall forward. Tight vs. weak?","Tight: lats, teres major, pecs. Weak: mid/lower traps, rhomboids, rotator cuff.","Upper-crossed pattern shown dynamically. Release the chest/lats, strengthen the mid-back."],
+    ["Overhead squat: low back arches. Tight vs. weak?","Tight: hip flexors, erector spinae, lats. Weak: glute max, hamstrings, intrinsic core.","Anterior pelvic tilt pattern (lower crossed)."],
+    ["Best core exercise for a beginner?","Prone iso-ab (plank).","A drawing-in/bracing stabilization exercise with no lower-body joint movement."],
+    ["Name the local (deep) core stabilizers.","Transverse abdominis, internal oblique, lumbar multifidus, pelvic floor, diaphragm.","Type I, slow-twitch. They stabilize the spine rather than produce large movement."],
+    ["The 3 phases of a plyometric movement?","Eccentric -> amortization -> concentric.","Amortization is the pause; the shorter it is, the more powerful the jump."],
+    ["The 3 stages of General Adaptation Syndrome?","Alarm reaction -> resistance development -> exhaustion.","The rationale for progressive overload plus recovery."],
+    ["Calories per gram: protein, carbs, fat, alcohol?","4, 4, 9, 7.","Fat is the calorie-dense one at 9; alcohol sits at 7. Protein and carbs are both 4."],
+    ["Recommended macronutrient percentages?","Protein 10-35%, Carbs 45-65%, Fat 20-35%.","Carbohydrate is the largest share for most clients."],
+    ["Total amino acids and how many are essential?","20 total, 9 essential.","Essential ones must come from the diet — the body cannot synthesize them."],
+    ["The 5 stages of change in order?","Precontemplation, Contemplation, Preparation, Action, Maintenance.","Match your coaching to the stage. Over 6 months of consistency = Maintenance."],
+    ["What does SMART stand for?","Specific, Measurable, Attainable, Realistic/Relevant, Timely.","M is Measurable — not 'motivating' or 'immeasurable.'"],
+    ["Two things clearly OUTSIDE a CPT's scope?","Diagnosing conditions and prescribing individualized meal plans (also treating/rehabbing injury).","Refer these to a physician or registered dietitian."],
+    ["The cumulative injury cycle, in order?","Trauma -> inflammation -> spasm -> adhesions -> altered neuromuscular control -> muscle imbalance -> repeat.","Explains why an untreated imbalance snowballs."],
+    ["Cardiorespiratory training appears in how many OPT levels?","All three (Stabilization, Strength, Power).","Cardio is not confined to one phase — a common distractor."],
+    ["Vertical vs. horizontal loading?","Vertical = one set of each exercise down the card, then repeat. Horizontal = all sets of one exercise first.","Vertical keeps heart rate up (circuit-style); horizontal is classic strength."],
+    ["FITTE principle stands for?","Frequency, Intensity, Time, Type, Enjoyment.","The variables you manipulate in a cardiorespiratory program."]
+  ],
+
+  // { tp:topicTag, q:stem, o:[[text, isCorrect(1|0), whyRightOrWrong] x4], tch:teachingPoint }
+  questions:[
+    {tp:"OPT Phases",q:"A sedentary new client whose goal is fat loss should begin in which OPT phase?",o:[
+      ["Phase 1 — Stabilization Endurance",1,"Correct. Every new/deconditioned client starts in Phase 1 regardless of their stated goal."],
+      ["Phase 3 — Hypertrophy",0,"Wrong. Jumping to hypertrophy skips the stability and endurance foundation. Goal doesn't change the starting phase."],
+      ["Phase 2 — Strength Endurance",0,"Wrong. Phase 2 comes after a base of stabilization is built in Phase 1."],
+      ["Phase 5 — Power",0,"Wrong. Power is the top of the ladder and requires prior stabilization and strength work."]],
+     tch:"Regardless of goal, the OPT model always starts at Phase 1. Fat loss is achieved through the whole program, not by starting higher."},
+    {tp:"Energy Systems",q:"Which energy system dominates a maximal 12-second sprint?",o:[
+      ["ATP-PC (phosphagen)",1,"Correct. The ATP-PC system fuels the first ~10-15 seconds of all-out effort with no oxygen."],
+      ["Glycolysis",0,"Wrong. Glycolysis dominates roughly 30-50 second efforts, not the first 12 seconds."],
+      ["Oxidative system",0,"Wrong. The oxidative system fuels long-duration, lower-intensity work."],
+      ["Krebs cycle",0,"Wrong. The Krebs cycle is a stage of the slow oxidative system, not a short-sprint fuel."]],
+     tch:"Match system to clock: ATP-PC ~15s, glycolysis ~30-50s, oxidative for minutes and beyond."},
+    {tp:"Planes of Motion",q:"Abduction and adduction occur primarily in which plane of motion?",o:[
+      ["Frontal",1,"Correct. Frontal-plane motions include abduction/adduction, lateral flexion, and eversion/inversion."],
+      ["Sagittal",0,"Wrong. The sagittal plane governs flexion and extension."],
+      ["Transverse",0,"Wrong. The transverse plane governs rotation and horizontal ab/adduction."],
+      ["Coronal",0,"Wrong. Coronal is another name for the frontal plane's axis, not a separate motion plane here — and the motion described is frontal."]],
+     tch:"Sagittal = flexion/extension, frontal = abduction/adduction, transverse = rotation."},
+    {tp:"Proprioceptors",q:"The muscle spindle responds to a change in ______ and causes the muscle to ______.",o:[
+      ["length; contract",1,"Correct. The spindle senses stretch (length) and fires the stretch reflex to contract."],
+      ["tension; relax",0,"Wrong — that describes the Golgi tendon organ, not the spindle."],
+      ["length; relax",0,"Wrong. It senses length correctly, but the spindle causes contraction, not relaxation."],
+      ["tension; contract",0,"Wrong on both counts — the spindle senses length, and tension-sensing (GTO) causes relaxation."]],
+     tch:"Spindle = length -> contract. GTO = tension -> relax. The exam loves to swap these."},
+    {tp:"Acute Variables",q:"Which set of acute variables matches Phase 4 (Maximal Strength)?",o:[
+      ["1-5 reps, 85-100% intensity, rest 3-5 min",1,"Correct. Max strength uses the heaviest loads, fewest reps, and the longest rest."],
+      ["12-20 reps, 50-70%, rest 0-90 sec",0,"Wrong — those are Phase 1 (Stabilization Endurance) variables."],
+      ["6-12 reps, 75-85%, rest 0-60 sec",0,"Wrong — those are Phase 3 (Hypertrophy) variables."],
+      ["8-12 reps, 70-80%, rest 0-60 sec",0,"Wrong — those are Phase 2 (Strength Endurance) variables."]],
+     tch:"Max strength = heaviest load, lowest reps, longest rest (3-5 min) for full ATP-PC recovery."},
+    {tp:"Macronutrients",q:"How many calories are in one gram of fat?",o:[
+      ["9",1,"Correct. Fat is the most calorie-dense macronutrient at 9 cal/g."],
+      ["4",0,"Wrong. 4 cal/g applies to protein and carbohydrate, not fat."],
+      ["7",0,"Wrong. 7 cal/g is alcohol."],
+      ["2",0,"Wrong. No macronutrient is 2 cal/g."]],
+     tch:"4-4-9, and booze is 7: protein 4, carbs 4, fat 9, alcohol 7."},
+    {tp:"OHS Assessment",q:"During an overhead squat the client's knees move inward. Which muscles are MOST likely underactive?",o:[
+      ["Gluteus medius and VMO",1,"Correct. Weak glutes and VMO allow the knees to collapse into valgus."],
+      ["Adductors and TFL",0,"Wrong — those are the OVERactive (tight) muscles pulling the knees in."],
+      ["Soleus and gastrocnemius",0,"Wrong. Calf tightness is associated with forward lean, not knee valgus."],
+      ["Hip flexors",0,"Wrong. Tight hip flexors are linked to forward lean or low-back arch, not knees caving."]],
+     tch:"Knees in: adductors/TFL tight, glutes/VMO weak. The weak muscle is the failed stabilizer."},
+    {tp:"Wolff & Davis",q:"Wolff's Law describes the remodeling of which tissue?",o:[
+      ["Bone",1,"Correct. Wolff's Law: bone remodels along the lines of mechanical stress."],
+      ["Soft tissue",0,"Wrong — that's Davis's Law, the soft-tissue corollary."],
+      ["Nervous tissue",0,"Wrong. Neither law concerns nervous tissue remodeling."],
+      ["Cartilage only",0,"Wrong. Wolff's Law is about bone broadly, not cartilage specifically."]],
+     tch:"W = weight-bearing bone (Wolff). Davis = soft tissue."},
+    {tp:"Plyometrics",q:"What is the correct order of the three plyometric phases?",o:[
+      ["Eccentric -> amortization -> concentric",1,"Correct. Load down, brief pause, then explode up."],
+      ["Concentric -> amortization -> eccentric",0,"Wrong. That reverses the loading and unloading phases."],
+      ["Amortization -> eccentric -> concentric",0,"Wrong. Amortization is the transition in the middle, not the start."],
+      ["Eccentric -> concentric -> amortization",0,"Wrong. Amortization sits between the eccentric and concentric phases."]],
+     tch:"Shorter amortization = more powerful jump, because less stored elastic energy is lost."},
+    {tp:"Behavior Change",q:"A client has exercised consistently for 9 months. Which stage of change are they in?",o:[
+      ["Maintenance",1,"Correct. Sustaining the behavior beyond ~6 months places a client in Maintenance."],
+      ["Action",0,"Wrong. Action is roughly the first 6 months of consistent behavior."],
+      ["Preparation",0,"Wrong. Preparation is intending to start soon, not 9 months of consistency."],
+      ["Contemplation",0,"Wrong. Contemplation is thinking about changing, not already doing it for months."]],
+     tch:"Action = up to ~6 months; Maintenance = beyond ~6 months of the sustained behavior."},
+    {tp:"Heart Rate Zones",q:"How is estimated maximum heart rate calculated?",o:[
+      ["220 - age",1,"Correct. This is the standard age-predicted max HR formula NASM uses."],
+      ["200 - age",0,"Wrong number. The formula uses 220, not 200."],
+      ["220 + age",0,"Wrong. Max HR decreases with age, so you subtract."],
+      ["age x 0.7",0,"Wrong. 0.7 relates to a training-zone percentage, not the max HR formula."]],
+     tch:"220 - age gives estimated max HR; multiply by a zone percentage to get a target."},
+    {tp:"Flexibility",q:"Which stretching type pairs with Corrective flexibility in the continuum?",o:[
+      ["Static stretching",1,"Correct. Corrective flexibility uses SMR plus static stretching (Phase 1)."],
+      ["Dynamic stretching",0,"Wrong — dynamic pairs with Functional flexibility (Phase 5)."],
+      ["Active-isolated stretching",0,"Wrong — active-isolated pairs with Active flexibility (Phases 2-4)."],
+      ["Ballistic stretching",0,"Wrong. Ballistic stretching is not part of the NASM corrective continuum."]],
+     tch:"Corrective->static (P1), Active->active-isolated (P2-4), Functional->dynamic (P5). All begin with SMR."},
+    {tp:"Core Training",q:"Which muscle belongs to the local (deep) core stabilization system?",o:[
+      ["Transverse abdominis",1,"Correct. The transverse abdominis is a key local stabilizer that attaches to the spine."],
+      ["Rectus abdominis",0,"Wrong. The rectus abdominis is a movement-system (global) muscle."],
+      ["External oblique",0,"Wrong. The external oblique is part of the global/movement system."],
+      ["Latissimus dorsi",0,"Wrong. The lats are large movement-system muscles, not local stabilizers."]],
+     tch:"Local stabilizers: transverse abdominis, internal oblique, multifidus, pelvic floor, diaphragm."},
+    {tp:"Resistance Systems",q:"In vertical loading, the client:",o:[
+      ["Moves through one set of each exercise down the card, then repeats",1,"Correct. Vertical loading cycles down the workout card, keeping heart rate elevated."],
+      ["Completes all sets of one exercise before the next",0,"Wrong — that is horizontal loading, the classic strength approach."],
+      ["Rests 5 minutes between every set",0,"Wrong. Long fixed rest is not what defines vertical loading."],
+      ["Only trains one muscle group per session",0,"Wrong. That describes a split routine, not vertical loading."]],
+     tch:"Vertical = down the card (circuit-style, HR stays up). Horizontal = finish one exercise first."},
+    {tp:"Proprioceptors",q:"The Golgi tendon organ responds to increased ______ and causes ______.",o:[
+      ["tension; relaxation",1,"Correct. The GTO senses tension and triggers autogenic inhibition (relaxation)."],
+      ["length; contraction",0,"Wrong — that's the muscle spindle."],
+      ["tension; contraction",0,"Wrong. It senses tension correctly, but causes relaxation, not contraction."],
+      ["length; relaxation",0,"Wrong. The GTO senses tension, not length."]],
+     tch:"GTO Gives Tension Off: tension -> relaxation. This underlies static stretching and SMR."},
+    {tp:"Nutrition",q:"Which macronutrient distribution matches NASM's recommendations?",o:[
+      ["Protein 10-35%, Carbs 45-65%, Fat 20-35%",1,"Correct. Carbohydrate makes up the largest share for most clients."],
+      ["Protein 45-65%, Carbs 10-35%, Fat 20-35%",0,"Wrong. Protein is not the largest share; carbs are."],
+      ["Protein 20-35%, Carbs 20-35%, Fat 45-65%",0,"Wrong. Fat should be the smallest of the three ranges, not the largest."],
+      ["Protein 35%, Carbs 35%, Fat 30%",0,"Wrong. These are single figures, not the accepted ranges."]],
+     tch:"Carbs 45-65% (largest), Protein 10-35%, Fat 20-35%."},
+    {tp:"Muscle Fibers",q:"Which best describes fast-twitch (Type II) muscle fibers?",o:[
+      ["Large, low oxygen, fast to fatigue",1,"Correct. Type II fibers are larger, use less oxygen, and fatigue quickly — built for force."],
+      ["Small, high oxygen, slow to fatigue",0,"Wrong — that describes Type I (slow-twitch) fibers."],
+      ["Small, low force, endurance-oriented",0,"Wrong. That is again the Type I profile."],
+      ["Red, postural, fatigue-resistant",0,"Wrong. Red, postural, and fatigue-resistant all describe Type I."]],
+     tch:"Type II = big, strong, quick to tire (sprint). Type I = small, oxygen-rich, endurance (posture)."},
+    {tp:"Assessment Basics",q:"A client's BMI is 32. Which category does that place them in?",o:[
+      ["Obese",1,"Correct. A BMI of 30.0 or above is classified as obese."],
+      ["Overweight",0,"Wrong. Overweight is 25.0-29.9; 32 exceeds that range."],
+      ["Normal",0,"Wrong. Normal weight tops out well below 32."],
+      ["Underweight",0,"Wrong. Underweight is a low BMI, the opposite end."]],
+     tch:"BMI: 25.0-29.9 overweight, 30.0+ obese."},
+    {tp:"Scope of Practice",q:"Which of the following is OUTSIDE a CPT's scope of practice?",o:[
+      ["Prescribing an individualized meal plan to treat anemia",1,"Correct. Diagnosing and treating a condition with a meal plan requires a physician or dietitian."],
+      ["Teaching proper squat technique",0,"Wrong — coaching exercise technique is core to the CPT role."],
+      ["Providing general nutrition guidelines",0,"Wrong. General, public-guideline nutrition information is within scope."],
+      ["Conducting an overhead squat assessment",0,"Wrong. Fitness assessments are a standard CPT responsibility."]],
+     tch:"CPTs give general guidance and coach exercise; they do not diagnose or prescribe meal plans."},
+    {tp:"Flexibility",q:"Self-myofascial release (foam rolling) creates a release primarily by stimulating the:",o:[
+      ["Golgi tendon organ",1,"Correct. Sustained pressure raises tension sensed by the GTO, causing autogenic inhibition."],
+      ["Muscle spindle",0,"Wrong. Stimulating the spindle would cause contraction, not release."],
+      ["Pacinian corpuscle",0,"Wrong. Pacinian corpuscles sense deep pressure/vibration, not the SMR release mechanism taught here."],
+      ["Dendrite",0,"Wrong. A dendrite is a neuron structure, not a proprioceptor that releases muscle tension."]],
+     tch:"SMR -> GTO -> autogenic inhibition -> relaxation. Same mechanism as a held static stretch."},
+    {tp:"OPT Model",q:"Cardiorespiratory training is programmed in which level(s) of the OPT model?",o:[
+      ["All three levels",1,"Correct. Stabilization, Strength, and Power all include a cardio component (Stage I, II, III)."],
+      ["Only the Stabilization level",0,"Wrong. Cardio is not confined to stabilization."],
+      ["Only the Power level",0,"Wrong. Power is not the only place cardio appears."],
+      ["Only the Strength level",0,"Wrong. Every level includes cardiorespiratory training."]],
+     tch:"Cardio spans all three OPT levels — a frequently used distractor says otherwise."},
+    {tp:"Anatomy Basics",q:"What is the correct order of muscle connective tissue from outermost to innermost?",o:[
+      ["Epimysium -> perimysium -> endomysium",1,"Correct. Epimysium wraps the whole muscle; endomysium wraps each fiber."],
+      ["Endomysium -> perimysium -> epimysium",0,"Wrong. That is inside-out; endomysium is the deepest layer."],
+      ["Perimysium -> epimysium -> endomysium",0,"Wrong ordering. Epimysium is outermost, not in the middle."],
+      ["Epimysium -> endomysium -> perimysium",0,"Wrong. Perimysium sits between epimysium and endomysium."]],
+     tch:"Outside-in: Epi -> Peri -> Endo. Endomysium is deepest ('Every Person Eats')."},
+    {tp:"Heart & Circulation",q:"Which statement about blood flow through the heart is correct?",o:[
+      ["The right side carries deoxygenated blood to the lungs",1,"Correct. The right atrium and ventricle handle deoxygenated blood, sending it to the lungs."],
+      ["The right side carries oxygenated blood to the body",0,"Wrong. The LEFT side handles oxygenated blood going to the body."],
+      ["The left atrium receives deoxygenated blood from the body",0,"Wrong. The RIGHT atrium receives deoxygenated blood; the left atrium receives oxygenated blood from the lungs."],
+      ["The left ventricle is the weakest chamber",0,"Wrong. The left ventricle is the strongest chamber — it pumps to the whole body."]],
+     tch:"Right = no oxygen (to lungs); Left = oxygenated (to body). Left ventricle is strongest."},
+    {tp:"Behavior Change",q:"A client says, 'I don't really see why I'd need to exercise.' Which stage of change is this?",o:[
+      ["Precontemplation",1,"Correct. No intention to change and not seeing a need is the Precontemplation stage."],
+      ["Preparation",0,"Wrong. Preparation means intending to act soon, often with small steps already taken."],
+      ["Action",0,"Wrong. Action means actively performing the new behavior."],
+      ["Maintenance",0,"Wrong. Maintenance is sustaining the behavior beyond ~6 months."]],
+     tch:"Precontemplation = no intent; don't hand this client a full program yet — build awareness first."},
+    {tp:"OPT Phases",q:"Which OPT phase is defined by supersetting a strength exercise with a stabilization exercise?",o:[
+      ["Phase 2 — Strength Endurance",1,"Correct. Pairing a strength move with a stabilization move is the hallmark of Phase 2."],
+      ["Phase 3 — Hypertrophy",0,"Wrong. Phase 3 focuses on high-volume muscle growth, not stabilization supersets."],
+      ["Phase 1 — Stabilization Endurance",0,"Wrong. Phase 1 uses stabilization work but not paired with heavier strength sets."],
+      ["Phase 5 — Power",0,"Wrong. Phase 5 supersets a strength move with an explosive/power move, not a stabilization move."]],
+     tch:"Phase 2 superset = strength + stabilization. Phase 5 superset = strength + power."},
+    {tp:"Nutrition",q:"How many of the 20 amino acids are considered essential?",o:[
+      ["9",1,"Correct. 9 of the 20 amino acids are essential and must come from the diet."],
+      ["20",0,"Wrong. Not all 20 are essential; the body can synthesize the non-essential ones."],
+      ["11",0,"Wrong. 11 are non-essential; 9 are essential."],
+      ["4",0,"Wrong. That is the calories per gram of protein, not the count of essential amino acids."]],
+     tch:"20 total amino acids, 9 essential (diet-dependent)."},
+    {tp:"GAS",q:"What are the three phases of General Adaptation Syndrome, in order?",o:[
+      ["Alarm reaction -> resistance development -> exhaustion",1,"Correct. The body reacts, adapts, then breaks down if overstressed."],
+      ["Resistance -> alarm -> exhaustion",0,"Wrong. Alarm comes first, as the initial reaction to a new stressor."],
+      ["Alarm -> exhaustion -> resistance",0,"Wrong. Exhaustion is the final phase, not the middle one."],
+      ["Exhaustion -> alarm -> resistance",0,"Wrong ordering entirely — alarm is first, exhaustion last."]],
+     tch:"Alarm -> resistance -> exhaustion is the rationale for progressive overload plus recovery."},
+    {tp:"OHS Assessment",q:"During an overhead squat the client's arms fall forward. Which muscles are most likely OVERactive?",o:[
+      ["Latissimus dorsi and pectorals",1,"Correct. Tight lats and pecs pull the arms forward — an upper-crossed pattern."],
+      ["Mid and lower trapezius",0,"Wrong — those are the UNDERactive muscles in this compensation."],
+      ["Rhomboids",0,"Wrong. Rhomboids are weak/underactive when the arms fall forward."],
+      ["Rotator cuff",0,"Wrong. The rotator cuff is underactive in this pattern, not overactive."]],
+     tch:"Arms fall forward: lats/pecs tight, mid-back and rotator cuff weak."},
+    {tp:"SMART Goals",q:"Which element does the 'M' in SMART goals represent?",o:[
+      ["Measurable",1,"Correct. A SMART goal must be Measurable so progress can be tracked."],
+      ["Motivating",0,"Wrong. Motivating is not part of the SMART acronym."],
+      ["Manageable",0,"Wrong. The M is Measurable, not manageable."],
+      ["Meaningful",0,"Wrong. Meaningful is not one of the five SMART elements."]],
+     tch:"SMART = Specific, Measurable, Attainable, Realistic, Timely."}
+  ],
+
+  // { t:title, o:observation, a:answerHtml }
+  scenarios:[
+    {t:"The sedentary new client who wants to 'get toned'",
+     o:"A 40-year-old who hasn't trained in years asks for a program to look more defined. Where do you start, and with what variables?",
+     a:"<span class='nh-lbl'>Phase</span><p>Phase 1 — Stabilization Endurance, regardless of the aesthetic goal.</p><span class='nh-lbl'>Variables</span><p>12-20 reps, 1-3 sets, 50-70% intensity, slow 4/2/1 tempo, 0-90 sec rest, on unstable-but-controllable surfaces.</p><span class='nh-lbl'>What NOT to do</span><p>Don't jump to hypertrophy just because the goal is appearance. Definition comes from the whole progression, not from starting higher.</p>"},
+    {t:"Knees cave in on the overhead squat",
+     o:"From the front, the client's knees collapse inward during the descent.",
+     a:"<span class='nh-lbl'>Overactive (tight)</span><p>Adductor complex and TFL.</p><span class='nh-lbl'>Underactive (weak)</span><p>Gluteus medius/maximus and VMO.</p><span class='nh-lbl'>Action</span><p>Foam-roll and stretch the adductors/TFL; activate and strengthen the glutes (e.g., lateral tube walks). Do NOT stretch the glutes — they're already weak and lengthened.</p>"},
+    {t:"Arms fall forward on the overhead squat",
+     o:"From the side, the client's arms drift forward out of line with the torso.",
+     a:"<span class='nh-lbl'>Overactive (tight)</span><p>Latissimus dorsi, teres major, pectorals.</p><span class='nh-lbl'>Underactive (weak)</span><p>Mid/lower trapezius, rhomboids, rotator cuff.</p><span class='nh-lbl'>Action</span><p>Release the chest and lats; strengthen the mid-back. This is upper-crossed syndrome showing up dynamically.</p>"},
+    {t:"The precontemplative client",
+     o:"A new client says, 'My doctor cleared me, but honestly I'm not sure this is worth my time — maybe someday.'",
+     a:"<span class='nh-lbl'>Stage</span><p>Precontemplation — no intention to change, doesn't yet see the need.</p><span class='nh-lbl'>Coaching focus</span><p>Build awareness and rapport; explore their reasons and ambivalence (motivational interviewing). Raise the perceived benefits and lower the perceived barriers.</p><span class='nh-lbl'>What NOT to do</span><p>Do not hand them a 5-day program. Prescribing hard before they're ready predicts drop-out.</p>"},
+    {t:"The out-of-scope nutrition request",
+     o:"A client asks you to write a detailed meal plan and recommend supplements to fix a suspected iron deficiency.",
+     a:"<span class='nh-lbl'>Assessment</span><p>Individualized meal planning and diagnosing/treating a deficiency are outside CPT scope.</p><span class='nh-lbl'>Action</span><p>Share general, public-guideline nutrition information only, and refer to a registered dietitian and/or physician for the deficiency and the meal plan.</p>"},
+    {t:"Training for a higher vertical jump",
+     o:"A recreational basketball player wants to jump higher for the coming season.",
+     a:"<span class='nh-lbl'>End target</span><p>Phase 5 — Power: a heavy strength lift supersetted with an explosive plyometric (e.g., box jump).</p><span class='nh-lbl'>Sequence</span><p>Progress through stabilization and strength first; don't start with max-effort plyometrics.</p><span class='nh-lbl'>Cue</span><p>Coach a SHORT amortization phase on landings — minimal ground-contact time transfers more power.</p>"},
+    {t:"Time-crunched circuit for an overweight client",
+     o:"An overweight client has 30 minutes and wants to keep working the whole time.",
+     a:"<span class='nh-lbl'>System</span><p>Vertical loading / circuit — one set of each exercise down the card with minimal rest, keeping heart rate elevated.</p><span class='nh-lbl'>Cardio</span><p>Zone 1-2 (65-85% of max HR).</p><span class='nh-lbl'>Hydration</span><p>6-12 oz of fluid every 15-20 minutes of exercise.</p>"},
+    {t:"Power drops after ~12 seconds of all-out effort",
+     o:"During repeated max-effort sprints the client's output falls off sharply after about 12 seconds and takes a while to return.",
+     a:"<span class='nh-lbl'>Mechanism</span><p>The ATP-PC (phosphagen) system is depleting — it only fuels ~10-15 seconds of maximal work.</p><span class='nh-lbl'>Action</span><p>Program near-full recovery between efforts (about 3 minutes restores ATP-PC to roughly full) so true power output can be repeated.</p>"}
+  ]
+}]};
+
+/* ============================================================
+   STORAGE — artifact persistence with in-memory fallback
+   ============================================================ */
+const Store = (function(){
+  let mem = {}, mode = "session only";
+  const has = (typeof window !== "undefined" && window.storage && typeof window.storage.get === "function");
+  return {
+    mode(){ return mode; },
+    async init(){
+      if(!has) return;
+      try{ await window.storage.list("nasm:"); mode = "progress saved"; }
+      catch(e){ mode = "session only"; }
+    },
+    async get(k){
+      if(has){ try{ const r = await window.storage.get(k); if(r && r.value) return JSON.parse(r.value); }catch(e){} }
+      return (k in mem) ? mem[k] : null;
+    },
+    async set(k,v){
+      mem[k] = v;
+      if(has){ try{ await window.storage.set(k, JSON.stringify(v)); }catch(e){} }
+    }
+  };
+})();
+
+const SEC = REGISTRY.sections.find(s=>s.id===REGISTRY.activeId);
+const KEY = "nasm:"+SEC.id+":progress";
+let P = { attempts:0, best:0, runs:0, topics:{}, known:{} };
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function shuffle(a){ const r=a.slice(); for(let i=r.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [r[i],r[j]]=[r[j],r[i]]; } return r; }
+function lsnLabel(n){ return SEC.lessons[n-1] || ("L"+n); }
+async function save(){ await Store.set(KEY, P); }
+
+/* ============================================================
+   NAV
+   ============================================================ */
+const TABS = [
+  ["board","Readiness"],["terms","Key terms"],["concepts","Concepts"],
+  ["traps","Traps"],["cards","Flashcards"],["quiz","Quiz"],["scen","Scenarios"]
+];
+function buildNav(){
+  $("nh-nav").innerHTML = TABS.map((t,i)=>
+    `<button class="nh-tab" role="tab" data-t="${t[0]}" aria-selected="${i===0}" id="tab-${t[0]}">
+      <span class="nh-tnum">${String(i+1).padStart(2,"0")}</span>${t[1]}</button>`).join("");
+  $("nh-nav").addEventListener("click", e=>{
+    const b = e.target.closest(".nh-tab"); if(!b) return;
+    TABS.forEach(t=>{
+      const on = t[0]===b.dataset.t;
+      $("tab-"+t[0]).setAttribute("aria-selected", on);
+      $("p-"+t[0]).classList.toggle("is-on", on);
+    });
+    if(b.dataset.t==="board") renderBoard();
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+}
+
+/* ============================================================
+   READINESS BOARD
+   ============================================================ */
+function renderBoard(){
+  const topics = [...new Set(SEC.questions.map(q=>q.tp))].sort();
+  const rows = topics.map(t=>{
+    const d = P.topics[t] || {c:0,w:0};
+    const tot = d.c + d.w;
+    const pct = tot ? Math.round(d.c/tot*100) : 0;
+    const pips = [];
+    for(let i=0;i<d.c;i++) pips.push('<span class="nh-pip hit"></span>');
+    for(let i=0;i<d.w;i++) pips.push('<span class="nh-pip miss"></span>');
+    for(let i=pips.length;i<5;i++) pips.push('<span class="nh-pip"></span>');
+    return `<div class="nh-topicrow">
+      <span class="nh-topicname">${esc(t)}</span>
+      <span class="nh-pips">${pips.slice(0,14).join("")}</span>
+      <span class="nh-score" style="color:${tot? (pct>=80?"var(--ok)":pct>=60?"var(--fro)":"var(--alert)") : "var(--ink-2)"}">${tot? pct+"%" : "&mdash;"}</span>
+    </div>`;
+  }).join("");
+
+  const weak = topics.map(t=>{
+    const d = P.topics[t]||{c:0,w:0}; const tot=d.c+d.w;
+    return {t, pct: tot? d.c/tot : null, tot};
+  }).filter(x=>x.tot>=2 && x.pct<0.7).sort((a,b)=>a.pct-b.pct);
+
+  const knownCt = Object.values(P.known).filter(Boolean).length;
+
+  $("p-board").innerHTML = `
+    <div class="nh-sechead"><h2>Readiness board</h2><span class="nh-count">${SEC.code} &middot; ${SEC.lessons.length} topic groups</span></div>
+
+    <div class="nh-statgrid">
+      <div class="nh-stat"><div class="v">${SEC.terms.length}</div><div class="k">Key terms</div></div>
+      <div class="nh-stat"><div class="v">${SEC.cards.length}</div><div class="k">Flashcards</div></div>
+      <div class="nh-stat"><div class="v">${SEC.questions.length}</div><div class="k">Quiz bank</div></div>
+      <div class="nh-stat"><div class="v">${SEC.traps.length}</div><div class="k">Trap alerts</div></div>
+    </div>
+
+    <div class="nh-board">
+      <div class="nh-board-hd"><span>Mastery by topic</span><span>${P.runs} quiz run${P.runs===1?"":"s"} &middot; best ${P.best}%</span></div>
+      <div class="nh-board-bd">
+        ${rows}
+        ${weak.length ? `<div class="nh-weak"><h4>Weak areas &mdash; re-test these</h4><ul>${weak.map(w=>`<li><strong>${esc(w.t)}</strong> &mdash; ${Math.round(w.pct*100)}% across ${w.tot} attempts</li>`).join("")}</ul></div>` : ``}
+        ${P.runs===0 ? `<p style="margin-top:14px;color:var(--ink-2);font-size:13.5px">No quiz data yet. Run a quiz and this board fills in per topic. Green pips are correct answers, red are misses.</p>` : ``}
+      </div>
+    </div>
+
+    <div class="nh-note"><h4>Flashcard progress</h4><p><strong>${knownCt}</strong> of ${SEC.cards.length} cards marked known. Marking a card "Needs work" keeps it in rotation.</p></div>
+
+    <div class="nh-note alert">
+      <h4>Highest-miss items &mdash; drill these until automatic</h4>
+      <p>The pairs the exam most often swaps: <strong>muscle spindle (length&rarr;contract) vs. GTO (tension&rarr;relax)</strong>, <strong>Phase 2 = Strength Endurance, not hypertrophy</strong>, <strong>Max Strength rest = 3-5 min (longest)</strong>, <strong>knees cave = adductors tight / glutes weak</strong>, <strong>Wolff = bone, Davis = soft tissue</strong>, and <strong>RQ 1.0 = carbs, 0.70 = fat</strong>.</p>
+    </div>
+
+    <div class="nh-note">
+      <h4>Cross-topic seams NASM writes questions across</h4>
+      <p><strong>Assessment &rarr; Program Design:</strong> an overhead-squat finding must drive a Phase 1 corrective program (inhibit the tight muscle, activate the weak one). <strong>Anatomy &rarr; Flexibility:</strong> the GTO is the mechanism behind SMR and static stretching. <strong>Energy systems &rarr; Acute variables:</strong> ATP-PC needs ~3 min to recover, which is why Phase 4/5 rest is 3-5 min. <strong>Behavior change &rarr; everything:</strong> a client's stage of change sets how hard you program.</p>
+    </div>
+
+    <div style="margin-top:20px"><button class="nh-btn danger" id="nh-reset">Reset all progress</button></div>`;
+
+  $("nh-reset").addEventListener("click", async ()=>{
+    if(!confirm("Reset all quiz and flashcard progress for this chapter?")) return;
+    P = { attempts:0, best:0, runs:0, topics:{}, known:{} };
+    await save(); renderBoard(); renderCards();
+  });
+}
+
+/* ============================================================
+   TERMS
+   ============================================================ */
+let termFilter = 0, termQuery = "";
+function renderTerms(){
+  const list = SEC.terms.filter(t=>{
+    if(termFilter && t[1]!==termFilter) return false;
+    if(!termQuery) return true;
+    const q = termQuery.toLowerCase();
+    return t[0].toLowerCase().includes(q) || t[2].toLowerCase().includes(q);
+  });
+  $("nh-termlist").innerHTML = list.length
+    ? list.map(t=>`<div class="nh-term"><dt>${esc(t[0])}<span class="nh-lsn">${esc(lsnLabel(t[1]))}</span></dt><dd>${esc(t[2])}</dd></div>`).join("")
+    : `<div class="nh-empty">No terms match that filter.</div>`;
+  $("nh-termct").innerHTML = list.length + " of " + SEC.terms.length + " shown";
+}
+function buildTerms(){
+  $("p-terms").innerHTML = `
+    <div class="nh-sechead"><h2>Key terms</h2><span class="nh-count" id="nh-termct"></span></div>
+    <div class="nh-toolbar">
+      <input class="nh-input" id="nh-termsearch" placeholder="Search terms and definitions" aria-label="Search terms">
+      <button class="nh-chip" data-l="0" aria-pressed="true">All</button>
+      ${SEC.lessons.map((name,i)=>`<button class="nh-chip" data-l="${i+1}" aria-pressed="false">${esc(name)}</button>`).join("")}
+    </div>
+    <dl id="nh-termlist" style="margin:0"></dl>`;
+  $("nh-termsearch").addEventListener("input", e=>{ termQuery = e.target.value; renderTerms(); });
+  $("p-terms").querySelectorAll(".nh-chip").forEach(c=>{
+    c.addEventListener("click", ()=>{
+      termFilter = +c.dataset.l;
+      $("p-terms").querySelectorAll(".nh-chip").forEach(x=>x.setAttribute("aria-pressed", x===c));
+      renderTerms();
+    });
+  });
+  renderTerms();
+}
+
+/* ============================================================
+   CONCEPTS
+   ============================================================ */
+function buildConcepts(){
+  $("p-concepts").innerHTML = `
+    <div class="nh-sechead"><h2>Concepts</h2><span class="nh-count">${SEC.concepts.length} sections &middot; plain language first, technical second</span></div>
+    <div class="nh-toolbar">
+      <button class="nh-btn" id="nh-openall">Expand all</button>
+      <button class="nh-btn" id="nh-closeall">Collapse all</button>
+    </div>
+    <div id="nh-acclist">${SEC.concepts.map((c,i)=>`
+      <div class="nh-acc" data-i="${i}">
+        <button class="nh-acc-hd" aria-expanded="false">
+          <span class="nh-idx">${String(i+1).padStart(2,"0")}</span>
+          <span>${esc(c.t)}</span>
+          <span class="nh-caret">+</span>
+        </button>
+        <div class="nh-acc-bd">
+          <div class="nh-lvl"><span class="nh-lbl">Plain language</span><p>${esc(c.s)}</p></div>
+          <div class="nh-lvl tech"><span class="nh-lbl">Technical</span><p>${esc(c.x)}</p></div>
+          ${c.h ? `<div style="margin-top:14px">${c.h}</div>` : ``}
+        </div>
+      </div>`).join("")}</div>`;
+
+  $("nh-acclist").addEventListener("click", e=>{
+    const hd = e.target.closest(".nh-acc-hd"); if(!hd) return;
+    const acc = hd.parentElement, open = acc.classList.toggle("open");
+    hd.setAttribute("aria-expanded", open);
+    hd.querySelector(".nh-caret").textContent = open ? "−" : "+";
+  });
+  $("nh-openall").addEventListener("click", ()=>{
+    $("p-concepts").querySelectorAll(".nh-acc").forEach(a=>{
+      a.classList.add("open");
+      a.querySelector(".nh-acc-hd").setAttribute("aria-expanded", true);
+      a.querySelector(".nh-caret").textContent = "−";
+    });
+  });
+  $("nh-closeall").addEventListener("click", ()=>{
+    $("p-concepts").querySelectorAll(".nh-acc").forEach(a=>{
+      a.classList.remove("open");
+      a.querySelector(".nh-acc-hd").setAttribute("aria-expanded", false);
+      a.querySelector(".nh-caret").textContent = "+";
+    });
+  });
+}
+
+/* ============================================================
+   TRAPS
+   ============================================================ */
+function buildTraps(){
+  $("p-traps").innerHTML = `
+    <div class="nh-sechead"><h2>Trap alerts</h2><span class="nh-count">${SEC.traps.length} places NASM writes distractors</span></div>
+    <p style="color:var(--ink-2);max-width:70ch;margin-bottom:18px">Each card states the wrong belief first, then the correction. If the claim on the left ever feels right to you mid-exam, that is the signal to slow down.</p>
+    ${SEC.traps.map((t,i)=>`
+      <div class="nh-trap">
+        <div class="nh-trap-hd">Trap ${String(i+1).padStart(2,"0")}</div>
+        <div class="nh-trap-bd">
+          <div class="claim">&ldquo;${esc(t[0])}&rdquo;</div>
+          <div class="fix">${t[1]}</div>
+        </div>
+      </div>`).join("")}`;
+}
+
+/* ============================================================
+   FLASHCARDS
+   ============================================================ */
+let deck = [], di = 0, flipped = false;
+function newDeck(onlyUnknown){
+  let pool = SEC.cards.map((c,i)=>({c,i}));
+  if(onlyUnknown) pool = pool.filter(x=>!P.known[x.i]);
+  if(!pool.length) pool = SEC.cards.map((c,i)=>({c,i}));
+  deck = shuffle(pool); di = 0; flipped = false;
+}
+function renderCards(){
+  if(!deck.length) newDeck(false);
+  const cur = deck[di], c = cur.c, isKnown = !!P.known[cur.i];
+  const knownCt = Object.values(P.known).filter(Boolean).length;
+  $("nh-cardwrap").innerHTML = `
+    <div class="nh-card">
+      <div class="nh-card-hd"><span>Card ${di+1} of ${deck.length}</span><span>${isKnown?"Marked known":"In rotation"}</span></div>
+      <div class="nh-card-bd">
+        <div class="nh-card-front">${esc(c[0])}</div>
+        ${flipped ? `<div class="nh-card-back">
+            <div class="ans">${c[1]}</div>
+            <div class="why">${c[2]}</div>
+          </div>` : ``}
+      </div>
+      <div class="nh-card-ft">
+        <button class="nh-btn primary" id="nh-flip">${flipped?"Hide answer":"Show answer"}</button>
+        <button class="nh-btn" id="nh-known">${isKnown?"Return to rotation":"Mark known"}</button>
+        <button class="nh-btn" id="nh-prev" ${di===0?"disabled":""}>Back</button>
+        <button class="nh-btn" id="nh-next" ${di===deck.length-1?"disabled":""}>Next</button>
+        <span class="nh-prog">${knownCt}/${SEC.cards.length} known</span>
+      </div>
+    </div>`;
+  $("nh-flip").onclick = ()=>{ flipped=!flipped; renderCards(); };
+  $("nh-known").onclick = async ()=>{ P.known[cur.i] = !P.known[cur.i]; await save(); renderCards(); };
+  $("nh-prev").onclick = ()=>{ if(di>0){ di--; flipped=false; renderCards(); } };
+  $("nh-next").onclick = ()=>{ if(di<deck.length-1){ di++; flipped=false; renderCards(); } };
+}
+function buildCards(){
+  $("p-cards").innerHTML = `
+    <div class="nh-sechead"><h2>Flashcards</h2><span class="nh-count">${SEC.cards.length} cards &middot; shuffled every deal</span></div>
+    <div class="nh-toolbar">
+      <button class="nh-btn primary" id="nh-shuffle">Shuffle full deck</button>
+      <button class="nh-btn" id="nh-unknown">Drill unknown only</button>
+    </div>
+    <div id="nh-cardwrap"></div>`;
+  $("nh-shuffle").onclick = ()=>{ newDeck(false); renderCards(); };
+  $("nh-unknown").onclick = ()=>{ newDeck(true); renderCards(); };
+  newDeck(false); renderCards();
+}
+
+/* ============================================================
+   QUIZ ENGINE — shuffles question selection AND option order
+   ============================================================ */
+let quiz = [], picked = {}, graded = false, qLen = 15;
+function buildQuizRun(){
+  const pool = shuffle(SEC.questions).slice(0, Math.min(qLen, SEC.questions.length));
+  quiz = pool.map(q=>({ ...q, opts: shuffle(q.o.map((o,idx)=>({txt:o[0], ok:!!o[1], why:o[2], src:idx}))) }));
+  picked = {}; graded = false;
+}
+function renderQuiz(){
+  const L = ["A","B","C","D","E"];
+  const body = quiz.map((q,i)=>{
+    const sel = picked[i];
+    const opts = q.opts.map((o,j)=>{
+      let cls = "nh-opt";
+      if(graded){ if(o.ok) cls+=" correct"; else if(sel===j) cls+=" wrong"; }
+      const why = graded && (o.ok || sel===j)
+        ? `<div class="nh-why ${o.ok?"c":"w"}">${o.why}</div>` : "";
+      return `<button class="${cls}" data-q="${i}" data-o="${j}" aria-pressed="${sel===j}" ${graded?"disabled":""}>
+                <span class="ltr">${L[j]}</span><span>${o.txt}</span></button>${why}`;
+    }).join("");
+    return `<div class="nh-q">
+      <div class="nh-q-hd"><span class="num">Q${String(i+1).padStart(2,"0")}</span><span class="topic">${esc(q.tp)}</span>
+        ${graded ? (picked[i]!==undefined && q.opts[picked[i]].ok ? `<span class="topic" style="color:var(--ok);border-color:var(--ok)">Correct</span>` : `<span class="topic" style="color:var(--alert);border-color:var(--alert)">Missed</span>`) : ``}</div>
+      <div class="nh-q-bd">
+        <div class="nh-q-stem">${q.q}</div>
+        ${opts}
+        ${graded ? `<div class="nh-teach"><span class="nh-lbl">Teaching point</span>${q.tch}</div>` : ``}
+      </div></div>`;
+  }).join("");
+
+  const answered = Object.keys(picked).length;
+  let head = "";
+  if(graded){
+    const correct = quiz.reduce((n,q,i)=> n + (picked[i]!==undefined && q.opts[picked[i]].ok ? 1:0), 0);
+    const pct = Math.round(correct/quiz.length*100);
+    const missedTopics = [...new Set(quiz.filter((q,i)=>!(picked[i]!==undefined && q.opts[picked[i]].ok)).map(q=>q.tp))];
+    head = `<div class="nh-result">
+      <h3>Run complete</h3>
+      <div class="big">${pct}%</div>
+      <p style="margin-top:8px"><strong>${correct} of ${quiz.length}</strong> correct. ${pct>=80?"Passing range for this material.":pct>=70?"Borderline &mdash; tighten the misses below.":"Below target. Work the misses before your next run."}</p>
+      ${missedTopics.length? `<p style="margin-bottom:0"><strong>Topics to re-drill:</strong> ${missedTopics.map(esc).join(" &middot; ")}</p>`:`<p style="margin-bottom:0">Clean run. Reshuffle for a different draw.</p>`}
+    </div>`;
+  }
+
+  $("nh-quizbody").innerHTML = head + body;
+  $("nh-submit").disabled = graded || answered < quiz.length;
+  $("nh-submit").textContent = graded ? "Graded" : (answered < quiz.length ? `Answer all ${quiz.length} to submit (${answered}/${quiz.length})` : "Submit and grade");
+}
+function buildQuiz(){
+  $("p-quiz").innerHTML = `
+    <div class="nh-sechead"><h2>Quiz</h2><span class="nh-count">${SEC.questions.length}-question bank &middot; questions and answer order reshuffle every run</span></div>
+    <div class="nh-toolbar">
+      <span style="font-size:13.5px;font-weight:600">Length</span>
+      <button class="nh-chip" data-n="10" aria-pressed="false">10</button>
+      <button class="nh-chip" data-n="15" aria-pressed="true">15</button>
+      <button class="nh-chip" data-n="25" aria-pressed="false">25</button>
+      <button class="nh-chip" data-n="99" aria-pressed="false">Full bank</button>
+      <button class="nh-btn primary" id="nh-newquiz">New quiz</button>
+    </div>
+    <div class="nh-note"><p style="margin:0">Answers stay hidden until you submit. On grading you get the correct option, why your selection was wrong if you missed it, and a teaching point. Results feed the readiness board.</p></div>
+    <div id="nh-quizbody"></div>
+    <div class="nh-sticky"><button class="nh-btn primary" id="nh-submit">Submit and grade</button><button class="nh-btn" id="nh-again">Reshuffle</button></div>`;
+
+  $("p-quiz").querySelectorAll(".nh-chip").forEach(c=>{
+    c.addEventListener("click", ()=>{
+      qLen = +c.dataset.n;
+      $("p-quiz").querySelectorAll(".nh-chip").forEach(x=>x.setAttribute("aria-pressed", x===c));
+      buildQuizRun(); renderQuiz();
+    });
+  });
+  $("nh-quizbody").addEventListener("click", e=>{
+    const b = e.target.closest(".nh-opt"); if(!b || graded) return;
+    picked[+b.dataset.q] = +b.dataset.o; renderQuiz();
+  });
+  $("nh-newquiz").onclick = ()=>{ buildQuizRun(); renderQuiz(); window.scrollTo({top:0,behavior:"smooth"}); };
+  $("nh-again").onclick = ()=>{ buildQuizRun(); renderQuiz(); window.scrollTo({top:0,behavior:"smooth"}); };
+  $("nh-submit").onclick = async ()=>{
+    if(Object.keys(picked).length < quiz.length) return;
+    graded = true;
+    let correct = 0;
+    quiz.forEach((q,i)=>{
+      const ok = picked[i]!==undefined && q.opts[picked[i]].ok;
+      if(ok) correct++;
+      if(!P.topics[q.tp]) P.topics[q.tp] = {c:0,w:0};
+      P.topics[q.tp][ok?"c":"w"]++;
+    });
+    const pct = Math.round(correct/quiz.length*100);
+    P.runs++; P.attempts += quiz.length; P.best = Math.max(P.best, pct);
+    await save(); renderQuiz(); window.scrollTo({top:0,behavior:"smooth"});
+  };
+  buildQuizRun(); renderQuiz();
+}
+
+/* ============================================================
+   SCENARIOS
+   ============================================================ */
+function buildScen(){
+  $("p-scen").innerHTML = `
+    <div class="nh-sechead"><h2>Client scenarios</h2><span class="nh-count">${SEC.scenarios.length} cases &middot; think first, then reveal</span></div>
+    <p style="color:var(--ink-2);max-width:70ch;margin-bottom:18px">Scenario items are where points get lost. Work the answer out loud before revealing &mdash; name the concept, then the mechanism, then the action.</p>
+    ${SEC.scenarios.map((s,i)=>`
+      <div class="nh-scn" data-i="${i}">
+        <div class="nh-scn-hd">${esc(s.t)}</div>
+        <div class="nh-scn-bd">
+          <div class="obs">${esc(s.o)}</div>
+          <button class="nh-btn" data-r="${i}">Reveal the NASM-aligned answer</button>
+          <div class="ans">${s.a}</div>
+        </div>
+      </div>`).join("")}`;
+  $("p-scen").addEventListener("click", e=>{
+    const b = e.target.closest("[data-r]"); if(!b) return;
+    const card = b.closest(".nh-scn"), open = card.classList.toggle("open");
+    b.textContent = open ? "Hide answer" : "Reveal the NASM-aligned answer";
+  });
+}
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+(async function(){
+  $("nh-secode").textContent = SEC.code;
+  $("nh-setitle").textContent = SEC.title;
+  await Store.init();
+  const saved = await Store.get(KEY);
+  if(saved && typeof saved === "object") P = Object.assign(P, saved);
+  $("nh-storemode").textContent = Store.mode();
+  buildNav(); buildTerms(); buildConcepts(); buildTraps(); buildCards(); buildQuiz(); buildScen(); renderBoard();
+})();
+
+})();
+</script>
