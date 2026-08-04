@@ -14,10 +14,10 @@ export default function OnboardingSplash({ onBegin }) {
           <Text style={styles.sub}>Train in the real world. Ascend in this one.</Text>
         </View>
         <View style={styles.bottom}>
-          <Text style={styles.class}>CLASS · WARRIOR</Text>
+          <Text style={styles.class}>THE PACT · FEED THE BEAST</Text>
           <Text style={styles.blurb}>
-            Battle-hardened. Grounded power. Every lift forges the body — Arms, Legs, Chest, Back, Core, Shoulders —
-            and the body forges the legend.
+            A beast is bound to you. Every rep feeds it. Slay the daily mob, watch it evolve —
+            from ember hatchling to mythic apex. Miss a day, and it hungers.
           </Text>
           <View style={{ marginTop: 20 }}>
             <PixelButton label="Begin the Ascent" onPress={onBegin} />

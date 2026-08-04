@@ -1,55 +1,51 @@
-import React, { useState, useCallback, useRef } from 'react';
-import { View, Text, ScrollView, StyleSheet, RefreshControl, ActivityIndicator, Image, Pressable, Animated } from 'react-native';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { View, Text, ScrollView, StyleSheet, RefreshControl, ActivityIndicator, Pressable, Animated } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { api } from '../api';
-import { colors, spacing, fonts, glass, tierColors } from '../theme';
+import { colors, spacing, fonts, glass } from '../theme';
 import { Panel, SectionTitle } from '../components/ui';
-import XPBar from '../components/XPBar';
 import ScreenBackground from '../components/ScreenBackground';
-import { gearImage } from '../assets';
-import WarriorFigure from '../components/WarriorFigure';
+import CreatureFigure from '../components/CreatureFigure';
+import PowerLevel from '../components/PowerLevel';
+import BalanceHex from '../components/BalanceHex';
+import { stageFor } from '../creature';
 import { barkFor } from '../barks';
 import { useSettings } from '../settingsStore';
 
-const SLOT_ORDER_LEFT = ['arms', 'shoulders', 'chest'];
-const SLOT_ORDER_RIGHT = ['back', 'legs', 'core'];
-const SLOT_ICONS = { arms: '🥊', shoulders: '🛡', chest: '⛨', back: '🎒', legs: '🥾', core: '⚙' };
-
-// Home hub — the living character (tap him!), his worn gear, five progression
-// tracks, today's quests, and the food-driven health meter.
+// Home hub — the beast. One creature that evolves with your lifetime
+// training, one climbing Power Level, one balance hex. Feed it by lifting.
 export default function HomeScreen() {
   const settings = useSettings();
   const [progress, setProgress] = useState(null);
   const [daily, setDaily] = useState(null);
   const [weekly, setWeekly] = useState(null);
   const [food, setFood] = useState(null);
-  const [equipped, setEquipped] = useState({}); // slot -> gear item
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [bark, setBark] = useState(null);
+  const [flare, setFlare] = useState(0);
 
   const bounce = useRef(new Animated.Value(0)).current;
   const barkTimer = useRef(null);
+  const prevTotal = useRef(null);
 
   const load = useCallback(async () => {
     try {
       setError(null);
-      const [p, d, w, f, shop] = await Promise.all([
+      const [p, d, w, f] = await Promise.all([
         api.getProgress(),
         api.getDailyChallenge().catch(() => null),
         api.getWeeklyChallenge().catch(() => null),
         api.getFoodToday().catch(() => null),
-        api.getShop().catch(() => null),
       ]);
       setProgress(p);
       setDaily(d);
       setWeekly(w);
       setFood(f);
-      if (shop) {
-        const bySlot = {};
-        for (const it of shop.items) if (it.equipped) bySlot[it.slot] = it;
-        setEquipped(bySlot);
-      }
+      const total = p.progress.reduce((s, x) => s + x.lifetimeXp, 0);
+      // Came back stronger than last look → the beast visibly feeds.
+      if (prevTotal.current != null && total > prevTotal.current) setFlare(Date.now());
+      prevTotal.current = total;
     } catch (e) {
       setError(e.message);
     } finally {
@@ -58,15 +54,10 @@ export default function HomeScreen() {
   }, []);
 
   useFocusEffect(useCallback(() => { load(); }, [load]));
+  useEffect(() => () => { if (barkTimer.current) clearTimeout(barkTimer.current); }, []);
 
-  const overall = progress ? Math.round(progress.progress.reduce((s, p) => s + p.level, 0) / progress.progress.length) : 1;
-  const tier = Math.min(5, Math.max(1, Math.ceil(overall / 20)));
-  const streak = (progress && progress.currentStreak) || 0;
-  const equippedSlots = Object.keys(equipped);
-
-  const pokeAvatar = () => {
+  const pokeBeast = (tier) => {
     if (settings.animations) {
-      // Flex bounce: quick squash-and-jump, like he's hitting a rep.
       bounce.setValue(0);
       Animated.sequence([
         Animated.timing(bounce, { toValue: 1, duration: 120, useNativeDriver: true }),
@@ -74,7 +65,7 @@ export default function HomeScreen() {
       ]).start();
     }
     if (settings.barks) {
-      setBark(barkFor(tier, streak));
+      setBark(barkFor(tier, (progress && progress.currentStreak) || 0));
       if (barkTimer.current) clearTimeout(barkTimer.current);
       barkTimer.current = setTimeout(() => setBark(null), 3500);
     }
@@ -83,8 +74,12 @@ export default function HomeScreen() {
   if (loading) return <Centered><ActivityIndicator color={colors.accent} /></Centered>;
   if (error) return <Centered><Text style={styles.err}>Can't reach the realm.{'\n'}{error}</Text></Centered>;
 
-  const translateY = bounce.interpolate({ inputRange: [0, 1], outputRange: [0, -14] });
-  const scaleX = bounce.interpolate({ inputRange: [0, 1], outputRange: [1, 1.06] });
+  const totalXp = progress.progress.reduce((s, p) => s + p.lifetimeXp, 0);
+  const stage = stageFor(totalXp);
+  const streak = progress.currentStreak || 0;
+  const tier = Math.min(5, Math.max(1, stage.stage)); // barks scale with stage
+  const translateY = bounce.interpolate({ inputRange: [0, 1], outputRange: [0, -12] });
+  const scaleX = bounce.interpolate({ inputRange: [0, 1], outputRange: [1, 1.05] });
 
   const dailyList = (daily && (daily.challenges || (daily.challenge ? [daily.challenge] : []))) || [];
   const weeklyList = (weekly && (weekly.challenges || (weekly.challenge ? [weekly.challenge] : []))) || [];
@@ -102,42 +97,35 @@ export default function HomeScreen() {
             <Text style={styles.barkText}>{bark}</Text>
           </View>
         ) : null}
-        <View style={styles.dollRow}>
-          <View style={styles.slotColumn}>
-            {SLOT_ORDER_LEFT.map((slot) => <GearSlot key={slot} slot={slot} item={equipped[slot]} />)}
+        <Pressable onPress={() => pokeBeast(tier)} hitSlop={8}>
+          <Animated.View style={[styles.beastBox, { transform: [{ translateY }, { scaleX }] }]}>
+            <CreatureFigure art={stage.art} width={196} height={260} animate={settings.animations} flare={flare} />
+          </Animated.View>
+        </Pressable>
+        <PowerLevel value={totalXp} />
+        <Text style={styles.stageName}>STAGE {stage.stage} · {stage.name}</Text>
+        {settings.displayName ? <Text style={styles.displayName}>bound to {settings.displayName}</Text> : null}
+        {stage.next ? (
+          <View style={styles.evoWrap}>
+            <View style={styles.evoTrack}>
+              <View style={[styles.evoFill, { width: `${stage.progress * 100}%` }]} />
+            </View>
+            <Text style={styles.evoText}>
+              {(stage.next.minXp - totalXp).toLocaleString()} power until it becomes the {stage.next.name}
+            </Text>
           </View>
-          <Pressable onPress={pokeAvatar} hitSlop={8}>
-            <Animated.View style={[styles.avatarBox, { transform: [{ translateY }, { scaleX }] }]}>
-              <WarriorFigure tier={tier} equippedSlots={equippedSlots} width={176} height={236} animate={settings.animations} />
-            </Animated.View>
-          </Pressable>
-          <View style={styles.slotColumn}>
-            {SLOT_ORDER_RIGHT.map((slot) => <GearSlot key={slot} slot={slot} item={equipped[slot]} />)}
-          </View>
-        </View>
-        <Text style={styles.className}>WARRIOR</Text>
-        {settings.displayName ? <Text style={styles.displayName}>{settings.displayName}</Text> : null}
-        <Text style={styles.overall}>
-          Avg Level {overall}{streak > 0 ? `  ·  🔥 ${streak} day${streak === 1 ? '' : 's'}` : ''}
-        </Text>
-        <Text style={styles.tapHint}>tap him</Text>
+        ) : (
+          <Text style={styles.evoText}>final form — keep it fed</Text>
+        )}
+        <Text style={styles.overall}>{streak > 0 ? `🔥 ${streak} day streak — it hungers daily` : 'it hungers — train today'}</Text>
+      </Panel>
+
+      <Panel>
+        <SectionTitle>Balance</SectionTitle>
+        <BalanceHex progress={progress.progress} />
       </Panel>
 
       {food ? <HealthMeter food={food} /> : null}
-
-      <Panel>
-        <SectionTitle>Body</SectionTitle>
-        {progress.progress.map((p) => (
-          <XPBar
-            key={p.bodyPart}
-            label={p.bodyPart}
-            level={p.level}
-            lifetimeXp={p.lifetimeXp}
-            nextLevelXp={p.nextLevelXp}
-            color={colors[p.bodyPart]}
-          />
-        ))}
-      </Panel>
 
       <Panel>
         <SectionTitle>Quests</SectionTitle>
@@ -152,19 +140,8 @@ export default function HomeScreen() {
   );
 }
 
-// One paper-doll slot: the worn item's art (tier-colored border) or a dim empty socket.
-function GearSlot({ slot, item }) {
-  const img = item ? gearImage(item.tier, item.slot, item.id) : null;
-  return (
-    <View style={[styles.gearSlot, item && { borderColor: tierColors[item.tier] || colors.border }]}>
-      {img ? (
-        <Image source={img} style={styles.gearSlotImg} resizeMode="contain" />
-      ) : (
-        <Text style={styles.gearSlotEmpty}>{SLOT_ICONS[slot]}</Text>
-      )}
-      <Text style={styles.gearSlotLabel} numberOfLines={1}>{item ? item.name : slot}</Text>
-    </View>
-  );
+function Centered({ children }) {
+  return <View style={styles.centered}>{children}</View>;
 }
 
 function HealthMeter({ food }) {
@@ -206,10 +183,6 @@ function QuestLine({ kind, challenge }) {
   );
 }
 
-function Centered({ children }) {
-  return <View style={styles.centered}>{children}</View>;
-}
-
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: 'transparent' },
   centered: { flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center', padding: spacing.lg },
@@ -221,28 +194,17 @@ const styles = StyleSheet.create({
     maxWidth: 300,
   },
   barkText: { fontFamily: fonts.body, color: colors.text, fontSize: 12, textAlign: 'center' },
-  dollRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  slotColumn: { justifyContent: 'center', gap: 8, width: 64 },
-  gearSlot: {
-    width: 64, alignItems: 'center', paddingVertical: 4,
-    backgroundColor: glass.deep, borderRadius: 8,
-    borderWidth: 1, borderColor: colors.border,
-  },
-  gearSlotImg: { width: 44, height: 44 },
-  gearSlotEmpty: { fontSize: 22, color: colors.textDim, opacity: 0.35, lineHeight: 44 },
-  gearSlotLabel: { fontFamily: fonts.body, color: colors.textDim, fontSize: 7, marginTop: 2, maxWidth: 58 },
-  avatarBox: {
-    width: 180, height: 240, alignItems: 'center', justifyContent: 'center',
-    // Matches the avatar art's near-black background for seamless compositing.
-    backgroundColor: colors.ink, borderRadius: 8, marginBottom: spacing.sm,
+  beastBox: { alignItems: 'center', justifyContent: 'center', marginBottom: 4 },
+  stageName: { fontFamily: fonts.body, color: colors.accentAlt, fontSize: 12, fontWeight: '700', letterSpacing: 2, marginTop: 2 },
+  displayName: { fontFamily: fonts.body, color: colors.textDim, fontSize: 11, marginTop: 2 },
+  evoWrap: { width: '100%', marginTop: 10 },
+  evoTrack: {
+    height: 8, backgroundColor: colors.ink, borderRadius: 4,
     borderWidth: 1, borderColor: colors.border, overflow: 'hidden',
   },
-  avatar: { width: '100%', height: '100%' },
-  avatarPlaceholder: { fontSize: 72, color: colors.textDim },
-  className: { fontFamily: fonts.heading, fontSize: 22, fontWeight: '700', color: colors.accent, letterSpacing: 3 },
-  displayName: { fontFamily: fonts.body, color: colors.text, fontSize: 13, marginTop: 1 },
-  overall: { fontFamily: fonts.body, color: colors.textDim, marginTop: 2 },
-  tapHint: { fontFamily: fonts.body, color: colors.textDim, fontSize: 9, marginTop: 4, opacity: 0.6 },
+  evoFill: { height: '100%', backgroundColor: colors.accentAlt },
+  evoText: { fontFamily: fonts.body, color: colors.textDim, fontSize: 10, marginTop: 4, textAlign: 'center' },
+  overall: { fontFamily: fonts.body, color: colors.textDim, marginTop: 8 },
   meterTrack: {
     height: 14, backgroundColor: colors.bgPanelAlt, borderRadius: 7,
     borderWidth: 2, borderColor: colors.border, overflow: 'hidden',

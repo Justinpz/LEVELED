@@ -40,7 +40,7 @@ export default function QuestsScreen() {
     try {
       const res = await api.completeChallenge(challengeId);
       const parts = res.targets.join(', ');
-      setMsg(`+${res.rewardPts} pts to ${parts}${res.streakShopUnlocked ? ' · Streak Shop unlocked!' : ''}`);
+      setMsg(`+${res.rewardPts} pts to ${parts}${res.streakShopUnlocked ? ' · 7-day streak — the beast burns brighter!' : ''}`);
       await load();
     } catch (e) { setError(e.message); } finally { setBusy(null); }
   };

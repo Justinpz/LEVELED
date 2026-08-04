@@ -173,7 +173,7 @@ export default function SettingsScreen() {
         {section === 'about' ? (
           <Text style={styles.hint}>
             LEVELED — dark-fantasy fitness RPG.{'\n'}
-            Every rep is XP. Six body parts, five gear tiers, one warrior.{'\n\n'}
+            Every rep is power. Six body parts, one evolving beast, a new mob to slay every day.{'\n\n'}
             AI program forging runs on the built-in generator; connect an Anthropic API key on the
             server to upgrade it to a full AI coach.
           </Text>
