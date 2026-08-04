@@ -8,6 +8,14 @@ import ScreenBackground from '../components/ScreenBackground';
 import LevelUpModal from '../components/LevelUpModal';
 import { useSettings } from '../settingsStore';
 import { saveDraft, loadDraft, clearDraft } from '../workoutDraft';
+import MobBanner from '../components/MobBanner';
+import { dailyMob, mobHpFrom, setScore } from '../mobs';
+
+// Local calendar day — the mob rolls over at the player's midnight, not UTC's.
+const localDayKey = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+};
 
 // The session tracker.
 //
@@ -73,8 +81,13 @@ function vibrate(pattern) {
   try { if (navigator.vibrate) navigator.vibrate(pattern); } catch {}
 }
 
-const hasSetData = (s) => s.weight !== '' || s.reps !== '';
-const setVolume = (s) => (parseFloat(s.weight) || 0) * (parseFloat(s.reps) || 0);
+// A set is LOGGED when the user confirmed it (✓ strike). Legacy drafts predate
+// the done flag — for those, typed numbers still count.
+const hasSetData = (s) => s.done === true || (s.done === undefined && (s.weight !== '' || s.reps !== ''));
+// A set is worth PROTECTING when it's logged OR the user typed/stepped values
+// by hand (touched) — machine-prefilled numbers are neither.
+const hasEffort = (s) => hasSetData(s) || (s.touched === true && (s.weight !== '' || s.reps !== ''));
+const setVolume = (s) => setScore(s.weight, s.reps);
 
 export default function WorkoutScreen() {
   const settings = useSettings();
@@ -107,6 +120,13 @@ export default function WorkoutScreen() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
+  // Daily mob: identity from the local date, HP sized from your own recent
+  // volume. dayKey refreshes on focus so a kept-open app rolls to the new mob.
+  const [mobHp, setMobHp] = useState(null);
+  const [lastHit, setLastHit] = useState(null); // {amount, key} → damage float
+  const [dayKey, setDayKey] = useState(localDayKey);
+  const mob = useMemo(() => dailyMob(dayKey), [dayKey]);
+
   const [historyOpen, setHistoryOpen] = useState(false);
   const [history, setHistory] = useState(null); // null = not loaded
   const [historyBusy, setHistoryBusy] = useState(false);
@@ -124,7 +144,7 @@ export default function WorkoutScreen() {
   // next to the empty inputs. Guarded: if a session with logged data is in
   // progress, the first tap asks, the second replaces.
   const repeatSession = (s) => {
-    const inProgress = picked.some((p) => p.sets.some(hasSetData));
+    const inProgress = picked.some((p) => p.sets.some(hasEffort));
     if (inProgress && repeatConfirmId !== s.id) {
       setRepeatConfirmId(s.id);
       return;
@@ -137,7 +157,7 @@ export default function WorkoutScreen() {
         id: ex.exerciseId,
         name: ex.name,
         bodyParts: [],
-        sets: Array.from({ length: Math.max(1, ex.sets.length) }, () => ({ weight: '', reps: '' })),
+        sets: Array.from({ length: Math.max(1, ex.sets.length) }, () => ({ weight: '', reps: '', done: false })),
         notes: '',
       }))
     );
@@ -158,6 +178,7 @@ export default function WorkoutScreen() {
 
   // ---- program loading -------------------------------------------------------
   useFocusEffect(useCallback(() => {
+    setDayKey(localDayKey());
     let live = true;
     (async () => {
       try {
@@ -199,7 +220,7 @@ export default function WorkoutScreen() {
         name: (pe.exercise && pe.exercise.name) || pe.exerciseId.replace(/_/g, ' '),
         prescription: `${pe.sets} × ${pe.reps}`,
         bodyParts: (pe.exercise && pe.exercise.primaryBodyParts) || [],
-        sets: Array.from({ length: pe.sets }, () => ({ weight: '', reps: '' })),
+        sets: Array.from({ length: pe.sets }, () => ({ weight: '', reps: '', done: false })),
         notes: '',
         programDayId: day.id,
       }))
@@ -207,6 +228,15 @@ export default function WorkoutScreen() {
     setResult(null);
     setExpandedId(null);
   }, [program && program.id, dayNumber]);
+
+  // ---- daily mob HP (from recent session volumes) -----------------------------
+  useEffect(() => {
+    let live = true;
+    api.getWorkoutHistory(15)
+      .then((res) => { if (live) setMobHp(mobHpFrom(res.sessions)); })
+      .catch(() => { if (live) setMobHp(mobHpFrom([])); });
+    return () => { live = false; };
+  }, []);
 
   // ---- PREV column data ------------------------------------------------------
   const pickedIds = picked.map((p) => p.id).join(',');
@@ -221,6 +251,30 @@ export default function WorkoutScreen() {
       }))
       .catch(() => {});
   }, [pickedIds]);
+
+  // Prefill: the moment last-session numbers arrive, empty unconfirmed sets
+  // inherit them — a repeat week is just tapping ✓ down the list.
+  useEffect(() => {
+    if (!Object.keys(lastSets).length) return;
+    setPicked((cur) => {
+      let changed = false;
+      const next = cur.map((p) => {
+        const prev = lastSets[p.id];
+        if (!prev || !prev.sets || !prev.sets.length) return p;
+        const sets = p.sets.map((s, j) => {
+          if (s.done || s.weight !== '' || s.reps !== '') return s;
+          const ps = prev.sets[j];
+          if (!ps || (ps.weight == null && ps.reps == null)) return s;
+          changed = true;
+          // done stays explicitly false: machine-prefilled values must never
+          // count as confirmed (legacy sets lack the flag entirely).
+          return { ...s, done: s.done ?? false, weight: ps.weight != null ? String(ps.weight) : '', reps: ps.reps != null ? String(ps.reps) : '' };
+        });
+        return { ...p, sets };
+      });
+      return changed ? next : cur;
+    });
+  }, [lastSets]);
 
   // ---- draft autosave + save indicator ----------------------------------------
   useEffect(() => {
@@ -282,7 +336,7 @@ export default function WorkoutScreen() {
     if (picked.find((p) => p.id === ex.id)) return;
     setPicked([...picked, {
       id: ex.id, name: ex.name, bodyParts: ex.primaryBodyParts || ex.bodyParts || [],
-      sets: [{ weight: '', reps: '' }], notes: '',
+      sets: [{ weight: '', reps: '', done: false }], notes: '',
     }]);
     setSearch('');
     setResults([]);
@@ -309,16 +363,59 @@ export default function WorkoutScreen() {
 
   const addSet = (i) => {
     const next = [...picked];
-    next[i] = { ...next[i], sets: [...next[i].sets, { weight: '', reps: '' }] };
+    const prevSets = next[i].sets;
+    // New set starts prefilled from the one above it — repeat work is zero-typing.
+    const last = prevSets[prevSets.length - 1] || { weight: '', reps: '' };
+    next[i] = { ...next[i], sets: [...prevSets, { weight: last.weight, reps: last.reps, done: false }] };
     setPicked(next);
-    if (settings.restTimer) startTimer(settings.restSeconds);
   };
 
   const updateSet = (i, j, field, val) => {
     const next = [...picked];
-    const sets = next[i].sets.map((s, idx) => (idx === j ? { ...s, [field]: val } : s));
+    // touched: hand-entered values earn deletion protection (prefill doesn't).
+    const sets = next[i].sets.map((s, idx) => (idx === j ? { ...s, [field]: val, touched: true } : s));
     next[i] = { ...next[i], sets };
     setPicked(next);
+  };
+
+  // Stepper taps: weight moves in 5s, reps in 1s. Starts from PREV when empty.
+  const nudgeSet = (i, j, field, delta) => {
+    const p = picked[i];
+    const cur = parseFloat(p.sets[j][field]);
+    let base = Number.isFinite(cur) ? cur : NaN;
+    if (!Number.isFinite(base)) {
+      const prev = lastSets[p.id];
+      const ps = prev && prev.sets && prev.sets[j];
+      base = (ps && ps[field === 'weight' ? 'weight' : 'reps']) || 0;
+    }
+    const val = Math.max(0, base + delta);
+    updateSet(i, j, field, String(val));
+  };
+
+  // The strike: confirm a set. Empty fields inherit last session's numbers, so
+  // "same as last time" is literally one tap. Confirming deals damage to the
+  // mob and starts the rest timer; tapping again un-confirms.
+  const confirmSet = (i, j) => {
+    const next = [...picked];
+    const p = next[i];
+    const s = { ...p.sets[j] };
+    if (s.done) {
+      s.done = false;
+      next[i] = { ...p, sets: p.sets.map((x, idx) => (idx === j ? s : x)) };
+      setPicked(next);
+      return;
+    }
+    const prev = lastSets[p.id];
+    const ps = prev && prev.sets && prev.sets[j];
+    if (s.weight === '' && ps && ps.weight != null) s.weight = String(ps.weight);
+    if (s.reps === '' && ps && ps.reps != null) s.reps = String(ps.reps);
+    if (s.weight === '' && s.reps === '') return; // nothing to strike with
+    s.done = true;
+    next[i] = { ...p, sets: p.sets.map((x, idx) => (idx === j ? s : x)) };
+    setPicked(next);
+    const dmg = setVolume(s);
+    if (dmg > 0) setLastHit({ amount: dmg, key: Date.now() });
+    if (settings.restTimer) startTimer(settings.restSeconds);
   };
 
   const updateNotes = (i, notes) => {
@@ -353,10 +450,13 @@ export default function WorkoutScreen() {
 
   // ---- derived ------------------------------------------------------------------
   const completedCount = picked.filter((p) => p.sets.some(hasSetData)).length;
+  // Damage/volume counts only confirmed strikes.
   const totalVolume = useMemo(
-    () => picked.reduce((sum, p) => sum + p.sets.reduce((s, set) => s + setVolume(set), 0), 0),
+    () => picked.reduce((sum, p) => sum + p.sets.reduce((s, set) => s + (hasSetData(set) ? setVolume(set) : 0), 0), 0),
     [picked]
   );
+  const mobSlain = mobHp != null && totalVolume >= mobHp;
+  const anyLogged = picked.some((p) => p.sets.some(hasSetData));
 
   // ---- submit ---------------------------------------------------------------------
   const submit = async () => {
@@ -367,20 +467,23 @@ export default function WorkoutScreen() {
       // Attribute the session to the program day the exercises actually came
       // from (items preloaded from a day carry programDayId) — a free-built or
       // restored session must not be credited to a day the user never ran.
-      const fromDay = picked.find((p) => p.programDayId);
+      const fromDay = picked.find((p) => p.programDayId && p.sets.some(hasSetData));
       const payload = {
         programDayId: fromDay ? fromDay.programDayId : undefined,
-        exercises: picked.map((p) => ({
-          exerciseId: p.id,
-          sets: p.sets.map((s, idx) => ({
-            weight: s.weight ? Number(s.weight) : null,
-            reps: s.reps ? Number(s.reps) : null,
-            notes: idx === 0 && p.notes ? p.notes : null,
-          })),
-        })),
+        // Only confirmed strikes count — prefilled-but-unstruck sets don't log.
+        exercises: picked
+          .map((p) => ({
+            exerciseId: p.id,
+            sets: p.sets.filter(hasSetData).map((s, idx) => ({
+              weight: s.weight ? Number(s.weight) : null,
+              reps: s.reps ? Number(s.reps) : null,
+              notes: idx === 0 && p.notes ? p.notes : null,
+            })),
+          }))
+          .filter((e) => e.sets.length > 0),
       };
       const res = await api.logWorkout(payload);
-      setResult(res);
+      setResult({ ...res, mobSlain, mobName: mob.name });
       if (settings.levelUpModal && res.levelUps && res.levelUps.length) setCelebrate(res.levelUps);
       setPicked([]);
       setLastSets({});
@@ -411,12 +514,6 @@ export default function WorkoutScreen() {
     );
   }
 
-  const prevFor = (exId, setIdx) => {
-    const prev = lastSets[exId];
-    const s = prev && prev.sets && prev.sets[setIdx];
-    if (!s || (s.weight == null && s.reps == null)) return null;
-    return `${s.weight ?? '–'}×${s.reps ?? '–'}`;
-  };
 
   const timerLow = timerState === 'running' && timerSeconds <= 10;
 
@@ -430,9 +527,15 @@ export default function WorkoutScreen() {
         </Pressable>
       ) : null}
 
+      {mobHp != null ? (
+        <MobBanner mob={mob} hp={mobHp} damage={totalVolume} slain={mobSlain} lastHit={lastHit} />
+      ) : null}
+
       {result ? (
         <Pressable onPress={() => setResult(null)} style={styles.victoryPanel}>
-          <Text style={styles.victoryTitle}>⚡ VICTORY — XP CLAIMED</Text>
+          <Text style={styles.victoryTitle}>
+            {result.mobSlain ? `☠ ${result.mobName} SLAIN — THE BEAST FEEDS` : '⚡ VICTORY — XP CLAIMED'}
+          </Text>
           <View style={styles.victoryRow}>
             {Object.entries(result.tally).map(([bp, pts]) => (
               <Text key={bp} style={[styles.victoryStat, { color: colors[bp] }]}>{bp} +{pts}</Text>
@@ -460,7 +563,7 @@ export default function WorkoutScreen() {
               {program.days.map((d) => (
                 <Pressable key={d.id} onPress={() => {
                   if (d.dayNumber === dayNumber) return; // active chip — nothing to do
-                  if (picked.some((p) => p.sets.some(hasSetData))) {
+                  if (picked.some((p) => p.sets.some(hasEffort))) {
                     setError('You have logged sets in this session — FINISH it (or remove those exercises) before switching days. Protecting your data.');
                     return;
                   }
@@ -518,23 +621,44 @@ export default function WorkoutScreen() {
             {isExpanded ? (
               <View style={styles.cardBody}>
                 <View style={styles.gridHeader}>
-                  <Text style={[styles.gridHeadText, { width: 28 }]}>SET</Text>
+                  <Text style={[styles.gridHeadText, { width: 24 }]}>SET</Text>
                   <Text style={[styles.gridHeadText, { flex: 1, textAlign: 'center' }]}>{(settings.units || 'lbs').toUpperCase()}</Text>
                   <Text style={[styles.gridHeadText, { flex: 1, textAlign: 'center' }]}>REPS</Text>
-                  <Text style={[styles.gridHeadText, { width: 62, textAlign: 'right' }]}>PREV</Text>
+                  <Text style={[styles.gridHeadText, { width: 44, textAlign: 'center' }]}>HIT</Text>
                 </View>
                 {p.sets.map((s, j) => (
-                  <View key={j} style={styles.setRow}>
+                  <View key={j} style={[styles.setRow, s.done && styles.setRowDone]}>
                     <Text style={styles.setNum}>{j + 1}</Text>
-                    <TextInput style={styles.setInput} placeholder={settings.units} placeholderTextColor={colors.textDim}
-                      keyboardType="numeric" value={s.weight} onChangeText={(v) => updateSet(i, j, 'weight', v)} />
-                    <TextInput style={styles.setInput} placeholder="reps" placeholderTextColor={colors.textDim}
-                      keyboardType="numeric" value={s.reps} onChangeText={(v) => updateSet(i, j, 'reps', v)} />
-                    <Text style={styles.prevText}>{prevFor(p.id, j) || '—'}</Text>
+                    <View style={styles.stepGroup}>
+                      <Pressable onPress={() => nudgeSet(i, j, 'weight', -5)} hitSlop={4} style={styles.stepBtn}>
+                        <Text style={styles.stepText}>−</Text>
+                      </Pressable>
+                      <TextInput style={[styles.setInput, s.done && styles.setInputDone]} placeholder={settings.units}
+                        placeholderTextColor={colors.textDim} keyboardType="numeric" value={s.weight}
+                        onChangeText={(v) => updateSet(i, j, 'weight', v)} />
+                      <Pressable onPress={() => nudgeSet(i, j, 'weight', 5)} hitSlop={4} style={styles.stepBtn}>
+                        <Text style={styles.stepText}>+</Text>
+                      </Pressable>
+                    </View>
+                    <View style={styles.stepGroup}>
+                      <Pressable onPress={() => nudgeSet(i, j, 'reps', -1)} hitSlop={4} style={styles.stepBtn}>
+                        <Text style={styles.stepText}>−</Text>
+                      </Pressable>
+                      <TextInput style={[styles.setInput, s.done && styles.setInputDone]} placeholder="reps"
+                        placeholderTextColor={colors.textDim} keyboardType="numeric" value={s.reps}
+                        onChangeText={(v) => updateSet(i, j, 'reps', v)} />
+                      <Pressable onPress={() => nudgeSet(i, j, 'reps', 1)} hitSlop={4} style={styles.stepBtn}>
+                        <Text style={styles.stepText}>+</Text>
+                      </Pressable>
+                    </View>
+                    <Pressable onPress={() => confirmSet(i, j)} hitSlop={6}
+                      style={[styles.strikeBtn, s.done && styles.strikeBtnDone]}>
+                      <Text style={[styles.strikeText, s.done && styles.strikeTextDone]}>✓</Text>
+                    </Pressable>
                   </View>
                 ))}
                 <View style={styles.cardActions}>
-                  <Pressable onPress={() => addSet(i)}><Text style={styles.addSet}>+ set{settings.restTimer ? ` (rest ${settings.restSeconds}s)` : ''}</Text></Pressable>
+                  <Pressable onPress={() => addSet(i)}><Text style={styles.addSet}>+ set</Text></Pressable>
                   {i < picked.length - 1 ? (
                     <Pressable onPress={() => toggleSuperset(i)}>
                       <Text style={[styles.ssToggle, p.supersetWithNext && styles.ssToggleOn]}>
@@ -741,9 +865,11 @@ export default function WorkoutScreen() {
           </View>
         )}
       </View>
-      <Pressable disabled={submitting || picked.length === 0} onPress={submit}
-        style={[styles.finishBtn, (submitting || picked.length === 0) && { opacity: 0.4 }]}>
-        <Text style={styles.finishText}>{submitting ? '…' : 'FINISH'}</Text>
+      <Pressable disabled={submitting || !anyLogged} onPress={submit}
+        style={[styles.finishBtn, (submitting || !anyLogged) && { opacity: 0.4 }]}>
+        <Text style={styles.finishText}>
+          {submitting ? '…' : anyLogged ? 'FINISH' : picked.length ? 'STRIKE ✓' : 'FINISH'}
+        </Text>
       </Pressable>
     </View>
 
@@ -825,13 +951,27 @@ const styles = StyleSheet.create({
   cardBody: { paddingHorizontal: 12, paddingBottom: 12, borderTopWidth: 1, borderTopColor: colors.border },
   gridHeader: { flexDirection: 'row', gap: 8, marginTop: 10, marginBottom: 4, alignItems: 'center' },
   gridHeadText: { fontFamily: fonts.body, color: colors.textDim, fontSize: 8, fontWeight: '700', letterSpacing: 1 },
-  setRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 6 },
-  setNum: { width: 28, color: colors.accent, fontFamily: fonts.body, fontWeight: '700' },
-  setInput: {
-    flex: 1, backgroundColor: colors.bgPanelAlt, color: colors.text, fontFamily: fonts.body,
-    borderRadius: 6, borderWidth: 2, borderColor: colors.border, paddingHorizontal: 8, paddingVertical: 8, textAlign: 'center',
+  setRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 6 },
+  setRowDone: { opacity: 0.75 },
+  setNum: { width: 24, color: colors.accent, fontFamily: fonts.body, fontWeight: '700' },
+  stepGroup: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 3 },
+  stepBtn: {
+    width: 26, height: 34, alignItems: 'center', justifyContent: 'center',
+    backgroundColor: colors.bgPanelAlt, borderRadius: 6, borderWidth: 1, borderColor: colors.border,
   },
-  prevText: { width: 62, textAlign: 'right', fontFamily: fonts.body, color: colors.textDim, fontSize: 11 },
+  stepText: { color: colors.accentAlt, fontSize: 16, fontWeight: '700', lineHeight: 18 },
+  setInput: {
+    flex: 1, minWidth: 0, backgroundColor: colors.bgPanelAlt, color: colors.text, fontFamily: fonts.body,
+    borderRadius: 6, borderWidth: 2, borderColor: colors.border, paddingHorizontal: 4, paddingVertical: 7, textAlign: 'center',
+  },
+  setInputDone: { borderColor: colors.success, color: colors.success },
+  strikeBtn: {
+    width: 44, height: 34, alignItems: 'center', justifyContent: 'center',
+    backgroundColor: colors.bgPanelAlt, borderRadius: 8, borderWidth: 1, borderColor: colors.border,
+  },
+  strikeBtnDone: { backgroundColor: colors.success, borderColor: colors.success },
+  strikeText: { color: colors.textDim, fontSize: 16, fontWeight: '700' },
+  strikeTextDone: { color: colors.ink },
   cardActions: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 4 },
   addSet: { color: colors.accent, fontFamily: fonts.body, fontSize: 12, paddingVertical: 4 },
   removeText: { color: colors.danger, fontFamily: fonts.body, fontSize: 11, paddingVertical: 4 },

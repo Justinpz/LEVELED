@@ -16,9 +16,17 @@ const MAX_AGE_MS = 18 * 60 * 60 * 1000;
 const canStore =
   Platform.OS === 'web' && typeof window !== 'undefined' && !!window.localStorage;
 
+// Protected = the user confirmed the set (✓ strike) OR typed/stepped values by
+// hand (touched). Machine-prefilled values are neither. Legacy drafts predate
+// both flags — for those, any numbers count.
 const hasLoggedData = (list) =>
   Array.isArray(list) &&
-  list.some((p) => (p.sets || []).some((s) => (s.weight ?? '') !== '' || (s.reps ?? '') !== ''));
+  list.some((p) => (p.sets || []).some(
+    (s) =>
+      s.done === true ||
+      (s.touched === true && ((s.weight ?? '') !== '' || (s.reps ?? '') !== '')) ||
+      (s.done === undefined && ((s.weight ?? '') !== '' || (s.reps ?? '') !== ''))
+  ));
 
 // Returns true when the draft was actually written/cleared, false when the
 // write was refused to protect stored data (callers keep the UI honest).

@@ -9,7 +9,6 @@ import { Rajdhani_600SemiBold, Rajdhani_700Bold } from '@expo-google-fonts/rajdh
 import { colors, fonts, glass } from './src/theme';
 import HomeScreen from './src/screens/HomeScreen';
 import WorkoutScreen from './src/screens/WorkoutScreen';
-import ShopScreen from './src/screens/ShopScreen';
 import QuestsScreen from './src/screens/QuestsScreen';
 import FoodScreen from './src/screens/FoodScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
@@ -34,8 +33,8 @@ const navTheme = {
   },
 };
 
-const SCREENS = ['Home', 'Workout', 'Shop', 'Quests', 'Food', 'Settings'];
-const ICONS = { Home: '⚔', Workout: '🏋', Shop: '🛡', Quests: '★', Food: '🍖', Settings: '⚙' };
+const SCREENS = ['Home', 'Workout', 'Quests', 'Food', 'Settings'];
+const ICONS = { Home: '🐉', Workout: '⚔', Quests: '★', Food: '🍖', Settings: '⚙' };
 
 // Top-left navigation dropdown — replaces the bottom tab bar entirely.
 // The button opens a menu of every screen; the centered header title shows
@@ -99,7 +98,6 @@ export default function App() {
       >
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Workout" component={WorkoutScreen} />
-        <Tab.Screen name="Shop" component={ShopScreen} />
         <Tab.Screen name="Quests" component={QuestsScreen} />
         <Tab.Screen name="Food" component={FoodScreen} />
         <Tab.Screen name="Settings" component={SettingsScreen} />
