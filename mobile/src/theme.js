@@ -1,21 +1,22 @@
-// LEVELED vibrant-shonen theme. Single source of truth for colors/spacing/fonts.
-// Deep ink-navy grounds, ember orange-red primary accent, electric cyan secondary,
-// saturated body-part accents matching the five progression tracks.
+// LEVELED neutral theme — the clean-premium system (reference-app language):
+// pure black ground, soft rounded graphite cards, white/gray Inter type, blue
+// primary CTA, difficulty accents. The game lives in the art (beast, mobs),
+// not in neon chrome.
 
 export const colors = {
-  bg: '#0b0e1a',
-  bgPanel: '#131a2e',
-  bgPanelAlt: '#1c2440',
-  border: '#2c3a63',
-  text: '#eef2ff',
-  textDim: '#8f9bc0',
-  ink: '#070a14', // darkest solid — image wells, text on bright fills
-  accent: '#ff5a2e', // ember orange-red
-  accentAlt: '#35e0ff', // electric cyan
-  danger: '#ff3b5c',
-  success: '#3ddc84',
-  xp: '#35e0ff',
-  // Body-part accents
+  bg: '#000000',
+  bgPanel: '#15171B', // card surface
+  bgPanelAlt: '#23262C', // nested surfaces: inputs, chips, tiles
+  border: 'rgba(255,255,255,0.08)',
+  text: '#FFFFFF',
+  textDim: '#9AA0A8',
+  ink: '#000000', // text on bright fills
+  accent: '#3D6DFF', // primary CTA blue
+  accentAlt: '#6E9BFF', // lighter blue for secondary emphasis
+  danger: '#FF5A5A',
+  success: '#35D07F',
+  xp: '#3D6DFF',
+  // Body-part accents (balance hex, tags)
   Arms: '#ff7a45',
   Legs: '#3ddc84',
   Chest: '#ffc93c',
@@ -24,16 +25,22 @@ export const colors = {
   Shoulders: '#ff5fa2',
 };
 
-// Translucent fills layered over the screen background art.
-export const glass = {
-  panel: 'rgba(15, 21, 40, 0.72)',
-  panelStrong: 'rgba(15, 21, 40, 0.92)',
-  deep: 'rgba(7, 10, 20, 0.6)',
-  scrim: (a) => `rgba(7,10,20,${a})`,
+// Difficulty accents, reference-style: green / yellow / purple.
+export const levels = {
+  beginner: '#35D07F',
+  intermediate: '#D6E34D',
+  advanced: '#B06CFF',
 };
 
-// Gear tier colors — shonen energy language: ember rookie → crimson enchanted →
-// azure starlight → void-purple demonic → white-gold ascendant.
+// Card fills are opaque now — screens sit on flat black, art lives in cards.
+export const glass = {
+  panel: '#15171B',
+  panelStrong: '#1A1D22',
+  deep: '#0C0D10',
+  scrim: (a) => `rgba(0,0,0,${a})`,
+};
+
+// Legacy gear-tier colors (history rows may still reference them).
 export const tierColors = {
   iron: '#ff8a3d',
   mythic: '#ff4d6d',
@@ -44,14 +51,13 @@ export const tierColors = {
 
 export const spacing = { xs: 4, sm: 8, md: 16, lg: 24, xl: 32 };
 
-export const radius = { sm: 6, md: 10, lg: 14 };
+export const radius = { sm: 12, md: 18, lg: 26 };
 
-// Loaded in App.js via expo-font (@expo-google-fonts); the family strings below
-// are the registered names. Until the fonts resolve, platforms fall back safely.
+// Loaded in App.js via expo-font (@expo-google-fonts/inter).
 export const fonts = {
-  body: 'Rajdhani_600SemiBold',
-  bodyBold: 'Rajdhani_700Bold',
-  heading: 'Teko_600SemiBold',
+  body: 'Inter_400Regular',
+  bodyBold: 'Inter_700Bold',
+  heading: 'Inter_700Bold',
 };
 
 export const bodyParts = ['Arms', 'Legs', 'Chest', 'Back', 'Core', 'Shoulders'];

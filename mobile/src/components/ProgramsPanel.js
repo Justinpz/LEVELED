@@ -89,22 +89,35 @@ export default function ProgramsPanel() {
   const oneOffs = programs.filter((p) => p.name.startsWith('⚡'));
   const regular = programs.filter((p) => !p.name.startsWith('⚡'));
 
-  const renderProgram = (p) => (
-    <View key={p.id} style={styles.progRow}>
-      <Pressable style={{ flex: 1 }} onLongPress={() => openPreview(p)} delayLongPress={350}>
-        <Text style={styles.progName}>{p.id === activeId ? '▶ ' : ''}{p.name}</Text>
-        <Text style={styles.cMeta}>
-          {p.daysPerWeek} days/wk · {p.durationWeeks} wks{p.isStarter ? ' · starter' : ''}
-          {p.description ? `\n${p.description}` : ''}
+  // On-Demand-style card: title, body-part pill tags, meta line, select pill.
+  const renderProgram = (p) => {
+    const tags = [...new Set((p.days || []).flatMap((d) => d.bodyParts || []))].slice(0, 4);
+    const isActive = p.id === activeId;
+    return (
+      <Pressable key={p.id} onLongPress={() => openPreview(p)} delayLongPress={350}
+        style={[styles.progCard, isActive && styles.progCardActive]}>
+        <View style={styles.progTop}>
+          <Text style={styles.progName} numberOfLines={1}>{p.name}</Text>
+          <Pressable disabled={busy} onPress={() => select(p.id)}
+            style={[styles.selectPill, isActive && styles.selectPillActive]}>
+            <Text style={[styles.selectText, isActive && styles.selectTextActive]}>
+              {isActive ? 'Active ✓' : 'Select'}
+            </Text>
+          </Pressable>
+        </View>
+        {tags.length ? (
+          <View style={styles.tagRow}>
+            {tags.map((t) => (
+              <View key={t} style={styles.tag}><Text style={styles.tagText}>{t}</Text></View>
+            ))}
+          </View>
+        ) : null}
+        <Text style={styles.progMeta}>
+          {p.daysPerWeek} day{p.daysPerWeek === 1 ? '' : 's'}/wk · {p.durationWeeks} wk{p.durationWeeks === 1 ? '' : 's'} · hold to preview
         </Text>
       </Pressable>
-      <Pressable disabled={busy} onPress={() => select(p.id)}>
-        <Text style={[styles.selectBtn, p.id === activeId && styles.selectedBtn]}>
-          {p.id === activeId ? 'Active' : 'Select'}
-        </Text>
-      </Pressable>
-    </View>
-  );
+    );
+  };
 
   return (
     <View>
@@ -388,11 +401,21 @@ const styles = StyleSheet.create({
   exLine: { fontFamily: fonts.body, color: colors.textDim, fontSize: 11 },
   saveRow: { flexDirection: 'row', alignItems: 'center', marginTop: 12, gap: 12 },
   saveOnly: { fontFamily: fonts.body, color: colors.textDim, fontSize: 12, padding: 8 },
-  progRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: colors.border },
-  progName: { fontFamily: fonts.body, color: colors.text, fontWeight: '700' },
+  progCard: {
+    backgroundColor: colors.bgPanelAlt, borderRadius: 18, padding: 14, marginTop: 10,
+  },
+  progCardActive: { backgroundColor: '#1B2436' },
+  progTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 },
+  progName: { flex: 1, fontFamily: fonts.body, color: colors.text, fontWeight: '700', fontSize: 16 },
   cMeta: { fontFamily: fonts.body, color: colors.textDim, fontSize: 12, marginTop: 2 },
-  selectBtn: { fontFamily: fonts.body, color: colors.accent, fontWeight: '700', paddingLeft: 12 },
-  selectedBtn: { color: colors.success },
+  progMeta: { fontFamily: fonts.body, color: colors.textDim, fontSize: 11, marginTop: 8 },
+  tagRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 10 },
+  tag: { backgroundColor: 'rgba(255,255,255,0.09)', borderRadius: 999, paddingVertical: 5, paddingHorizontal: 11 },
+  tagText: { fontFamily: fonts.body, color: colors.text, fontSize: 12, fontWeight: '500' },
+  selectPill: { backgroundColor: colors.accent, borderRadius: 999, paddingVertical: 8, paddingHorizontal: 14 },
+  selectPillActive: { backgroundColor: colors.success },
+  selectText: { fontFamily: fonts.body, color: colors.text, fontWeight: '700', fontSize: 12 },
+  selectTextActive: { color: colors.ink },
   dayTabs: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 8, marginBottom: 4 },
   dayChip: {
     minWidth: 36, alignItems: 'center', paddingVertical: 6, paddingHorizontal: 10,

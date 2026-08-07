@@ -12,6 +12,7 @@
     "export:web": "expo export --platform web --output-dir dist"
   },
   "dependencies": {
+    "@expo-google-fonts/inter": "^0.4.1",
     "@expo-google-fonts/rajdhani": "^0.4.1",
     "@expo-google-fonts/teko": "^0.4.1",
     "@expo/metro-runtime": "~3.2.3",
