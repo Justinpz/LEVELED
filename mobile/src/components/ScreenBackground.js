@@ -1,23 +1,13 @@
 import React from 'react';
-import { ImageBackground, View, StyleSheet } from 'react-native';
-import { colors, glass } from '../theme';
-import { bgImage } from '../assets';
+import { View, StyleSheet } from 'react-native';
+import { colors } from '../theme';
 
-// Wraps a screen in its dark-fantasy background plate with a legibility scrim
-// so foreground panels/text stay readable. Falls back to the flat bg color.
-export default function ScreenBackground({ name, children, scrim = 0.55 }) {
-  const src = bgImage(name);
-  if (!src) return <View style={styles.flat}>{children}</View>;
-  return (
-    <ImageBackground source={src} style={styles.flat} resizeMode="cover">
-      <View style={[styles.scrim, { backgroundColor: glass.scrim(scrim) }]}>
-        {children}
-      </View>
-    </ImageBackground>
-  );
+// Flat black ground — the reference layout puts art inside cards, not behind
+// the whole screen. `name` is kept for call-site compatibility.
+export default function ScreenBackground({ name, children }) {
+  return <View style={styles.flat}>{children}</View>;
 }
 
 const styles = StyleSheet.create({
   flat: { flex: 1, backgroundColor: colors.bg },
-  scrim: { flex: 1 },
 });

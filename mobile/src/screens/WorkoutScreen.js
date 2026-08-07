@@ -907,12 +907,12 @@ const styles = StyleSheet.create({
   hint: { fontFamily: fonts.body, color: colors.textDim, fontSize: 10, marginTop: 8 },
   dayRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   dayChip: {
-    minWidth: 40, alignItems: 'center', paddingVertical: 6, paddingHorizontal: 10,
-    backgroundColor: colors.bgPanelAlt, borderRadius: 6, borderWidth: 2, borderColor: colors.border,
+    minWidth: 42, alignItems: 'center', paddingVertical: 8, paddingHorizontal: 12,
+    backgroundColor: colors.bgPanelAlt, borderRadius: 999,
   },
-  dayChipActive: { borderColor: colors.accent, backgroundColor: colors.bgPanelAlt },
+  dayChipActive: { backgroundColor: colors.text },
   dayChipText: { fontFamily: fonts.body, color: colors.textDim, fontWeight: '700' },
-  dayChipTextActive: { color: colors.accent },
+  dayChipTextActive: { color: colors.ink },
   dayName: { fontFamily: fonts.body, color: colors.text, marginTop: 8, fontWeight: '700' },
   restoredChip: {
     backgroundColor: glass.panelStrong, borderColor: colors.success, borderWidth: 1,
@@ -921,10 +921,10 @@ const styles = StyleSheet.create({
   restoredText: { fontFamily: fonts.body, color: colors.success, fontSize: 11, textAlign: 'center' },
   // cards
   card: {
-    backgroundColor: glass.panel, borderColor: colors.border, borderWidth: 1,
-    borderRadius: 8, marginBottom: spacing.sm, overflow: 'hidden',
+    backgroundColor: colors.bgPanel,
+    borderRadius: 18, marginBottom: spacing.sm, overflow: 'hidden',
   },
-  cardExpanded: { borderColor: colors.accent },
+  cardExpanded: { backgroundColor: '#191C21' },
   cardSuperset: { borderLeftWidth: 3, borderLeftColor: colors.accentAlt },
   moveCol: { justifyContent: 'center', gap: 2 },
   moveBtn: { color: colors.textDim, fontSize: 11, lineHeight: 13, paddingHorizontal: 4 },
@@ -957,17 +957,17 @@ const styles = StyleSheet.create({
   stepGroup: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 3 },
   stepBtn: {
     width: 26, height: 34, alignItems: 'center', justifyContent: 'center',
-    backgroundColor: colors.bgPanelAlt, borderRadius: 6, borderWidth: 1, borderColor: colors.border,
+    backgroundColor: colors.bgPanelAlt, borderRadius: 10,
   },
   stepText: { color: colors.accentAlt, fontSize: 16, fontWeight: '700', lineHeight: 18 },
   setInput: {
     flex: 1, minWidth: 0, backgroundColor: colors.bgPanelAlt, color: colors.text, fontFamily: fonts.body,
-    borderRadius: 6, borderWidth: 2, borderColor: colors.border, paddingHorizontal: 4, paddingVertical: 7, textAlign: 'center',
+    borderRadius: 10, borderWidth: 0, paddingHorizontal: 4, paddingVertical: 9, textAlign: 'center',
   },
   setInputDone: { borderColor: colors.success, color: colors.success },
   strikeBtn: {
     width: 44, height: 34, alignItems: 'center', justifyContent: 'center',
-    backgroundColor: colors.bgPanelAlt, borderRadius: 8, borderWidth: 1, borderColor: colors.border,
+    backgroundColor: colors.bgPanelAlt, borderRadius: 12,
   },
   strikeBtnDone: { backgroundColor: colors.success, borderColor: colors.success },
   strikeText: { color: colors.textDim, fontSize: 16, fontWeight: '700' },
@@ -989,7 +989,7 @@ const styles = StyleSheet.create({
   // search
   input: {
     backgroundColor: colors.bgPanelAlt, color: colors.text, fontFamily: fonts.body,
-    borderRadius: 6, borderWidth: 2, borderColor: colors.border, paddingHorizontal: 10, paddingVertical: 8,
+    borderRadius: 14, borderWidth: 0, paddingHorizontal: 14, paddingVertical: 12,
   },
   resultRow: { paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: colors.border },
   resultName: { fontFamily: fonts.body, color: colors.text },
@@ -1009,18 +1009,17 @@ const styles = StyleSheet.create({
   bpChipText: { fontFamily: fonts.body, color: colors.textDim, fontWeight: '700', fontSize: 12 },
   customActions: { flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 10 },
   customCreateBtn: {
-    backgroundColor: colors.accent, borderRadius: 6, paddingHorizontal: 12, paddingVertical: 8,
-    borderWidth: 1, borderColor: colors.ink,
+    backgroundColor: colors.accent, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 9,
   },
-  customCreateText: { fontFamily: fonts.body, color: colors.ink, fontWeight: '700', fontSize: 11, letterSpacing: 0.5 },
+  customCreateText: { fontFamily: fonts.body, color: colors.text, fontWeight: '700', fontSize: 11, letterSpacing: 0.5 },
   customCancel: { fontFamily: fonts.body, color: colors.textDim, fontSize: 12 },
   err: { color: colors.danger, fontFamily: fonts.body, marginBottom: 8, textAlign: 'center' },
   levelUp: { fontFamily: fonts.body, color: colors.accent, marginBottom: 2 },
   victoryPanel: {
-    backgroundColor: glass.panelStrong, borderColor: colors.accent, borderWidth: 1,
-    borderRadius: 10, padding: 14, marginBottom: spacing.sm, alignItems: 'center',
+    backgroundColor: colors.bgPanel,
+    borderRadius: 20, padding: 16, marginBottom: spacing.sm, alignItems: 'center',
   },
-  victoryTitle: { fontFamily: fonts.heading, color: colors.accent, fontWeight: '700', fontSize: 16, letterSpacing: 2 },
+  victoryTitle: { fontFamily: fonts.heading, color: colors.success, fontWeight: '700', fontSize: 16, letterSpacing: 1 },
   victoryRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginTop: 8, justifyContent: 'center' },
   victoryStat: { fontFamily: fonts.heading, fontSize: 18, fontWeight: '700' },
   victoryHint: { fontFamily: fonts.body, color: colors.textDim, fontSize: 9, marginTop: 8 },
@@ -1043,7 +1042,7 @@ const styles = StyleSheet.create({
   bottomBar: {
     position: 'absolute', bottom: 0, left: 0, right: 0,
     flexDirection: 'row', alignItems: 'center', gap: 14,
-    backgroundColor: 'rgba(11, 14, 26, 0.97)', borderTopWidth: 1, borderTopColor: colors.border,
+    backgroundColor: 'rgba(12,13,16,0.98)', borderTopWidth: 0,
     paddingHorizontal: 14, paddingVertical: 10,
   },
   timerProgress: { position: 'absolute', top: 0, left: 0, height: 3 },
@@ -1055,10 +1054,9 @@ const styles = StyleSheet.create({
   timerRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 1 },
   timerCtl: { color: colors.textDim, fontSize: 13, padding: 2 },
   finishBtn: {
-    backgroundColor: colors.accent, borderRadius: 6, paddingHorizontal: 16, paddingVertical: 10,
-    borderWidth: 1, borderColor: colors.ink,
+    backgroundColor: colors.accent, borderRadius: 999, paddingHorizontal: 20, paddingVertical: 12,
   },
-  finishText: { fontFamily: fonts.body, color: colors.ink, fontWeight: '700', letterSpacing: 1 },
+  finishText: { fontFamily: fonts.body, color: colors.text, fontWeight: '700', letterSpacing: 0.5 },
   // sheet
   sheetBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.8)', justifyContent: 'flex-end' },
   sheet: {

@@ -4,9 +4,8 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer, DefaultTheme, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useFonts } from 'expo-font';
-import { Teko_600SemiBold } from '@expo-google-fonts/teko';
-import { Rajdhani_600SemiBold, Rajdhani_700Bold } from '@expo-google-fonts/rajdhani';
-import { colors, fonts, glass } from './src/theme';
+import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold } from '@expo-google-fonts/inter';
+import { colors, fonts } from './src/theme';
 import HomeScreen from './src/screens/HomeScreen';
 import WorkoutScreen from './src/screens/WorkoutScreen';
 import QuestsScreen from './src/screens/QuestsScreen';
@@ -72,9 +71,10 @@ function NavMenu({ current }) {
 export default function App() {
   const [started, setStarted] = useState(false);
   const [fontsLoaded] = useFonts({
-    Teko_600SemiBold,
-    Rajdhani_600SemiBold,
-    Rajdhani_700Bold,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
   });
   if (!fontsLoaded) return null;
   if (!started) return <OnboardingSplash onBegin={() => setStarted(true)} />;
@@ -83,14 +83,10 @@ export default function App() {
       <StatusBar style="light" />
       <Tab.Navigator
         screenOptions={({ route }) => ({
-          headerStyle: {
-            backgroundColor: colors.bg,
-            borderBottomWidth: 1,
-            borderBottomColor: colors.border,
-          },
+          headerStyle: { backgroundColor: colors.bg, borderBottomWidth: 0, shadowOpacity: 0, elevation: 0 },
           headerTitleAlign: 'center',
           headerTitleStyle: {
-            fontFamily: fonts.heading, color: colors.accent, fontSize: 26, letterSpacing: 3,
+            fontFamily: 'Inter_600SemiBold', color: colors.text, fontSize: 17,
           },
           headerLeft: () => <NavMenu current={route.name} />,
           tabBarStyle: { display: 'none' },
@@ -109,31 +105,26 @@ export default function App() {
 const styles = StyleSheet.create({
   menuBtn: {
     flexDirection: 'row', alignItems: 'center', gap: 4,
-    marginLeft: 14, paddingVertical: 6, paddingHorizontal: 10,
-    borderWidth: 1, borderColor: colors.border, borderRadius: 8,
-    backgroundColor: colors.bgPanelAlt,
+    marginLeft: 14, paddingVertical: 8, paddingHorizontal: 12,
+    borderRadius: 999, backgroundColor: colors.bgPanel,
   },
-  menuIcon: { color: colors.accent, fontSize: 16 },
+  menuIcon: { color: colors.text, fontSize: 15 },
   menuCaret: { color: colors.textDim, fontSize: 10 },
-  menuBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)' },
+  menuBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)' },
   menuCard: {
-    position: 'absolute', top: 54, left: 10, minWidth: 190,
-    backgroundColor: colors.bgPanel, borderRadius: 12,
-    borderWidth: 1, borderColor: colors.accent, overflow: 'hidden',
-    shadowColor: colors.accent, shadowOpacity: 0.35, shadowRadius: 14,
-    shadowOffset: { width: 0, height: 0 }, elevation: 8,
+    position: 'absolute', top: 54, left: 10, minWidth: 200,
+    backgroundColor: colors.bgPanel, borderRadius: 20, overflow: 'hidden',
   },
   menuRow: {
     flexDirection: 'row', alignItems: 'center', gap: 10,
-    paddingVertical: 12, paddingHorizontal: 14,
-    borderBottomWidth: 1, borderBottomColor: colors.border,
+    paddingVertical: 13, paddingHorizontal: 16,
   },
-  menuRowActive: { backgroundColor: glass.deep },
+  menuRowActive: { backgroundColor: colors.bgPanelAlt },
   menuRowIcon: { fontSize: 15, color: colors.textDim, width: 20, textAlign: 'center' },
   menuRowText: {
     fontFamily: fonts.body, color: colors.text, fontSize: 15,
-    fontWeight: '700', letterSpacing: 1, flex: 1,
+    fontWeight: '600', flex: 1,
   },
-  menuRowTextActive: { color: colors.accent },
-  menuRowMark: { color: colors.accent, fontSize: 12 },
+  menuRowTextActive: { color: colors.accentAlt },
+  menuRowMark: { color: colors.accentAlt, fontSize: 12 },
 });

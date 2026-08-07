@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
   img: { width: '100%', height: '100%' },
   glow: {
     position: 'absolute',
-    backgroundColor: colors.accent,
-    shadowColor: colors.accent,
+    backgroundColor: '#FF8A3D',
+    shadowColor: '#FF8A3D',
     shadowOpacity: 1,
     shadowRadius: 34,
     shadowOffset: { width: 0, height: 0 },
